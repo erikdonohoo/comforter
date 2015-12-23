@@ -97,7 +97,7 @@
 		"!=",
 		"!=="
 	],
-	"requireCamelCaseOrUpperCaseIdentifiers": true,
+	"requireCamelCaseOrUpperCaseIdentifiers": false,
 	"disallowMultipleLineStrings": true,
 	"disallowMultipleLineBreaks": true,
 	"disallowMixedSpacesAndTabs": "smart",

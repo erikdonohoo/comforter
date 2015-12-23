@@ -1,0 +1,21 @@
+{
+  "name": "comforter",
+  "version": "0.1.0-alpha.1",
+  "description": "when your code is covered you feel warm and toasty inside",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.goreact.com:qa/comforter.git"
+  },
+  "keywords": [
+    "coverage",
+    "qa",
+    "testing",
+    "express",
+    "node"
+  ],
+  "author": "Erik Donohoo",
+  "license": "MIT"
+}

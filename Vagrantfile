@@ -20,4 +20,11 @@ Vagrant.configure(2) do |config|
         db.vm.provision :shell, path: "vagrant/db.sh", privileged: false
     end
 
+    config.vm.define "web" do |web|
+        web.ssh.forward_agent = true
+        web.vm.box = "ubuntu/trusty64"
+        web.vm.network "private_network", ip: "192.168.33.50"
+        web.vm.provision :shell, path: "vagrant/web.sh", privileged: false
+    end
+
 end

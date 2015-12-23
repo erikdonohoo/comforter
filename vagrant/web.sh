@@ -14,4 +14,9 @@ nvm alias default stable
 npm install -g forever
 cd /vagrant
 npm install
-forever start bin/www
+
+echo "app is ready to go"
+echo "To start the app, inside of \\`vagrant ssh web\\`, run the following:"
+echo "cd /vagrant"
+echo "npm start"
+echo "On your host machine, run \\`gulp serve\\`"

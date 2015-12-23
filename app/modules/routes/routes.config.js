@@ -1,9 +1,13 @@
 angular.module('comforter.routes')
 
 .config([
-	'$urlRouterProvider',
-function ($urlRouterProvider) {
+	'$routeProvider',
+	'$locationProvider',
+function ($routeProvider, $locationProvider) {
 	'use strict';
 
-	$urlRouterProvider.otherwise('/');
+	$routeProvider.otherwise('/');
+	$locationProvider.html5Mode({
+		enabled: true
+	});
 }]);

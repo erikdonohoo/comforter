@@ -3,7 +3,7 @@
     "appName": "comforter",
     "router": {
       "useRouter": true,
-      "routerName": "ui-router"
+      "routerName": "ng-route"
     },
     "useLess": true
   }

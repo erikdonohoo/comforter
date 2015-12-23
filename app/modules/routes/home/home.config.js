@@ -1,18 +1,15 @@
 'use strict';
 
-function homeRouteConfig ($stateProvider) {
-	$stateProvider
-		.state('home', {
-			url: '/',
+function homeRouteConfig ($routeProvider) {
+	$routeProvider
+		.when('/', {
 			templateUrl: 'modules/routes/home/home.route.html',
-			controller: ['$scope', '$stateParams',
-				function ($scope, $stateParams) {
-					$scope.$stateParams = $stateParams;
-				}
-			]
+			controller: ['$scope', '$routeParams',
+				function ($scope, $routeParams) {
+					$scope.$routeParams = $routeParams;
+				}]
 		});
-
 }
 
 angular.module('comforter.routes.home')
-.config(['$stateProvider', homeRouteConfig]);
+.config(['$routeProvider', homeRouteConfig]);

@@ -3,11 +3,12 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Comforter</title>
+		<base href="/">
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
 		<!-- build:css styles/vendor.css -->
 		<!-- bower:css -->
-		<link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+		<link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
 		<!-- endbower -->
 		<!-- endbuild -->
 		<!-- build:localcss styles/main.css -->
@@ -18,7 +19,7 @@
 
 		<!-- Add your site or application content here -->
 
-		<main ui-view="" flex="">
+		<main ng-view="" flex="">
 		</main>
 
 		<footer>
@@ -32,11 +33,11 @@
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
 		<script src="bower_components/angular-touch/angular-touch.js"></script>
-		<script src="bower_components/ui-router/release/angular-ui-router.js"></script>
 		<script src="bower_components/angular-animate/angular-animate.js"></script>
 		<script src="bower_components/angular-aria/angular-aria.js"></script>
 		<script src="bower_components/angular-messages/angular-messages.js"></script>
 		<script src="bower_components/angular-material/angular-material.js"></script>
+		<script src="bower_components/angular-route/angular-route.js"></script>
 		<!-- endbower -->
 		<!-- endbuild -->
 
@@ -46,6 +47,8 @@
 		<script src="routes/routes.config.js"></script>
 		<script src="routes/home/home.module.js"></script>
 		<script src="routes/home/home.config.js"></script>
+		<script src="routes/apps/apps.module.js"></script>
+		<script src="routes/apps/apps.config.js"></script>
 		<!-- endbuild -->
 	</body>
 </html>

@@ -251,10 +251,7 @@ gulp.task('reload', function () {
 });
 gulp.task('serve', ['css', 'js', 'bower'], function () {
 	browserSync.init({
-		server: {
-			baseDir: ['.generated', 'app']
-		},
-		port: 9000
+		proxy: 'localhost:3000'
 	});
 
 	// Reload on js/css/html changes

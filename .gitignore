@@ -5,3 +5,4 @@ npm-debug.log
 app/main.css
 coverage/
 app/bower_components/
+.generated

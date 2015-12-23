@@ -7,12 +7,15 @@ Comforter helps you feel good that the changes you made to a project didn't caus
 ### Setup Dev Environment
 Make sure you have `npm` and `node` installed, as well as `vagrant` and virtual box.
 
-`vagrant up`  
-`npm install -g generator-ng-gulp` (used for generating front-end components)  
-`npm install`  
-`npm start`  
+```shell
+vagrant up
+npm install -g generator-ng-gulp gulp-cli yo
+npm install
+npm start # This command will stay running and watching your server components
+```
 
-In some other terminal window  
-`gulp serve`
+Then you can spin up the site with `gulp serve`
 
-Start deving away
+Start deving away.
+
+Follow the documentation for [generator-ng-gulp](https://github.com/erikdonohoo/generator-ng-gulp) to add front-end components.

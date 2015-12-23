@@ -1,3 +1,7 @@
+node_modules
+/dist/
 .DS_Store
-.vagrant/
-node_modules/
+npm-debug.log
+app/main.css
+coverage/
+app/bower_components/

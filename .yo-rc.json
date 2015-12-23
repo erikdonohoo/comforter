@@ -1,0 +1,10 @@
+{
+  "generator-ng-gulp": {
+    "appName": "comforter",
+    "router": {
+      "useRouter": true,
+      "routerName": "ui-router"
+    },
+    "useLess": true
+  }
+}

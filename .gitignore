@@ -7,3 +7,4 @@ coverage/
 app/bower_components/
 .generated
 .vagrant
+uploads

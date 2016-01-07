@@ -4,9 +4,7 @@ var express = require('express');
 var router = express.Router();
 var App = require('../models/app');
 var multer = require('multer');
-var storage = multer.diskStorage({});
-var limits = {fileSize: 10 * 1024 * 1024};
-var upload = multer({storage: storage, limits: limits});
+var upload = multer({dest: './uploads'});
 var parse = require('lcov-parse');
 var math = require('mathjs');
 
@@ -17,8 +15,8 @@ router.get('/', function (req, res) {
     });
 });
 
-router.post('/:id/coverage', function (req, res) {
-    parse('./lcov.info', function (err, data) {
+router.post('/:id/coverage', upload.single('lcov'), function (req, res) {
+    parse(req.file.destination + req.file.filename, function (err, data) {
         res.json({coverage: coverageFromData(data)});
     });
 });

@@ -7,5 +7,6 @@
             "port": 27017
         },
         "database" : "comforter_dev"
-    }
+    },
+    "port": 3333
 }

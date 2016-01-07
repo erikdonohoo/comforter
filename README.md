@@ -21,3 +21,6 @@ Start deving away.
 Follow the documentation for [generator-ng-gulp](https://github.com/erikdonohoo/generator-ng-gulp) to add front-end components.
 
 ### TODOs
+
+* [ ] handle uploading lcov and zipped html coverage
+* [ ] npm tool for sending lcov and zipped html after tests run

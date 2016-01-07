@@ -27,7 +27,8 @@ app.use('/api/apps', apps);
 if (app.get('env') === 'development') {
 	app.use(function (err, req, res, next) {
 		res.status(err.status || 500);
-		res.send('uhoh');
+		console.error(err.stack);
+		res.json({error: 'oops'});
 	});
 }
 
@@ -35,10 +36,10 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
 	res.status(err.status || 500);
-	res.send('uhoh');
+	res.send(err);
 });
 
-app.all('/*', function (req, res, next) {
+app.get('/*', function (req, res, next) {
 	// Just send the index.html for other files to support HTML5Mode
 	res.sendFile(__dirname + '/app/index.html');
 });

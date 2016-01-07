@@ -28,5 +28,6 @@
 		"xit": false,
 		"xdescribe": false,
 		"$": false
-	}
+	},
+	"-W003": true
 }

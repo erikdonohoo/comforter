@@ -2,7 +2,7 @@
   "name": "comforter",
   "version": "0.0.0",
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js ./bin/www"
+    "start": "./node_modules/nodemon/bin/nodemon.js --watch app.js --watch api --watch models ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.14.2",
@@ -11,9 +11,12 @@
     "express": "~4.13.1",
     "jade": "~1.11.0",
     "karma": "~0.13.15",
+    "lcov-parse": "0.0.10",
     "less-middleware": "2.0.x",
+    "mathjs": "^2.5.0",
     "mongoose": "^4.3.3",
     "morgan": "~1.6.1",
+    "multer": "^1.1.0",
     "nodemon": "^1.8.1",
     "serve-favicon": "~2.3.0"
   },

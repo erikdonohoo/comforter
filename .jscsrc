@@ -112,6 +112,5 @@
 	"requireSpaceAfterLineComment": "allowSlash",
 	"disallowNewlineBeforeBlockStatements": true,
 	"validateQuoteMarks": { "mark": "'", "escape": true },
-	"validateIndentation": "\t",
 	"validateParameterSeparator": ", "
 }

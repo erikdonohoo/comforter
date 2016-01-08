@@ -22,5 +22,8 @@ Follow the documentation for [generator-ng-gulp](https://github.com/erikdonohoo/
 
 ### TODOs
 
-* [ ] handle uploading lcov and zipped html coverage
-* [ ] npm tool for sending lcov and zipped html after tests run
+* [x] handle uploading lcov and zipped html coverage
+* [x] npm tool for sending lcov and zipped html after tests run
+* [ ] connect to gitlab api and update commit statuses through process
+* [ ] save unzipped html coverage to folder for a repo on branch basis
+* [ ] add endpoints and collection in mongo for branch coverage

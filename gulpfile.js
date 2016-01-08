@@ -32,6 +32,7 @@ var express = require('express');
 var sync = require('gulp-sync')(gulp);
 var server = http.createServer(express().use(express.static(__dirname + '/dist/')));
 var watch = require('gulp-watch');
+var settings = require('./settings.json');
 
 // Add js/css files to bower:css and bower:js blocks in index.html
 gulp.task('bower', function () {
@@ -251,7 +252,7 @@ gulp.task('reload', function () {
 });
 gulp.task('serve', ['css', 'js', 'bower'], function () {
 	browserSync.init({
-		proxy: 'localhost:3000'
+		proxy: 'localhost:' + settings.port
 	});
 
 	// Reload on js/css/html changes

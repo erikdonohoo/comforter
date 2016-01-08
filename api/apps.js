@@ -16,7 +16,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/:id/coverage', upload.single('lcov'), function (req, res) {
-    parse(req.file.destination + req.file.filename, function (err, data) {
+    parse(req.file.path, function (err, data) {
         res.json({coverage: coverageFromData(data)});
     });
 });

@@ -15,9 +15,24 @@ router.get('/', function (req, res) {
     });
 });
 
-router.post('/:id/coverage', upload.single('lcov'), function (req, res) {
-    parse(req.file.path, function (err, data) {
-        res.json({coverage: coverageFromData(data)});
+router.post('/:id/coverage', function (req, res) {
+    upload.fields([{name: 'lcov'}, {name: 'zip'}])(req, res, function (err) {
+
+        if (err) {
+            console.error(err);
+            res.json(500, {error: err});
+        }
+
+        if (req.files && req.files.lcov) {
+            var lcov = req.files.lcov[0];
+            parse(lcov.path, function (err, data) {
+                res.json({coverage: coverageFromLcov(data)});
+            });
+        } else if (req.body.coverage) {
+            res.json({coverage: req.body.coverage});
+        } else {
+            res.json(400, {error: 'missing lcov or coverage information'});
+        }
     });
 });
 
@@ -29,7 +44,7 @@ router.post('/', function (req, res) {
     });
 });
 
-function coverageFromData (data) {
+function coverageFromLcov (data) {
     var totalFound = 0, totalCovered = 0;
     data.forEach(function (file) {
         for (var i in file) {

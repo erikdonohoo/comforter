@@ -15,12 +15,23 @@ router.get('/', function (req, res) {
     });
 });
 
+// 1. Accept coverage % or LCOV along with optional zip
+// 2. Validate params (branch, project, commit) along with LCOV or %
+// - Respond back to waiting process and move on with task
+// 3. Tell GitLab via commit status a job has begun
+// - If any step after 3, but before X fails, update commit status with failure
+// 4. Get coverage %
+// 5. Determine via GitLab API which branch of this project is default
+// 6. Get last known coverage for that branch in this project
+// 7. If this coverage is less than last known, it is a failure.
+// 8. Report discrepancy on commit status fail with target_url to the zip of coverage (if included)
+// 9. Otherwise pass and update commit status with success and target_url to zip (if included)
 router.post('/:id/coverage', function (req, res) {
     upload.fields([{name: 'lcov'}, {name: 'zip'}])(req, res, function (err) {
 
         if (err) {
             console.error(err);
-            res.json(500, {error: err});
+            return res.json(500, {error: err});
         }
 
         if (req.files && req.files.lcov) {

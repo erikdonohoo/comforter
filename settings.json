@@ -8,5 +8,12 @@
         },
         "database" : "comforter_dev"
     },
-    "port": 3333
+    "port": 3333,
+    "gitlab": {
+        "api": "https://gitlab.goreact.com/api/v3/",
+        "commitBuildStatusName": "ci/comforter"
+    },
+    "comforter": {
+        "host": "http://localhost:3000/"
+    }
 }

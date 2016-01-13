@@ -2,7 +2,7 @@
   "name": "comforter",
   "version": "0.0.0",
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js --watch app.js --watch api --watch models ./bin/www"
+    "start": "./node_modules/nodemon/bin/nodemon.js --watch app.js --watch api --watch models --watch lib ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.14.2",

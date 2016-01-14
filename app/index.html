@@ -9,13 +9,14 @@
 		<!-- build:css styles/vendor.css -->
 		<!-- bower:css -->
 		<link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+		<link rel="stylesheet" href="bower_components/ng-auth/dist/oauth2.css" />
 		<!-- endbower -->
 		<!-- endbuild -->
 		<!-- build:localcss styles/main.css -->
 		<link rel="stylesheet" href="main.css">
 		<!-- endbuild -->
 	</head>
-	<body ng-app="comforter" layout="column">
+	<body ng-app="comforter" layout="column" oauth-hide>
 
 		<!-- Add your site or application content here -->
 
@@ -38,6 +39,7 @@
 		<script src="bower_components/angular-messages/angular-messages.js"></script>
 		<script src="bower_components/angular-material/angular-material.js"></script>
 		<script src="bower_components/angular-route/angular-route.js"></script>
+		<script src="bower_components/ng-auth/dist/ng-auth.js"></script>
 		<!-- endbower -->
 		<!-- endbuild -->
 
@@ -47,8 +49,6 @@
 		<script src="routes/routes.config.js"></script>
 		<script src="routes/home/home.module.js"></script>
 		<script src="routes/home/home.config.js"></script>
-		<script src="routes/apps/apps.module.js"></script>
-		<script src="routes/apps/apps.config.js"></script>
 		<!-- endbuild -->
 	</body>
 </html>

@@ -5,7 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var settings = require('./settings.json').mongo;
+var settings = require('./settings.json');
+var mongo = settings.mongo;
+var restler = require('restler');
 
 var apps = require('./api/apps');
 
@@ -39,14 +41,37 @@ app.use(function (err, req, res, next) {
 	res.send(err);
 });
 
+// Oauth handling
+app.get('/oauth/token', function (req, res) {
+	var url = 'https://gitlab.goreact.com/oauth/token?';
+	url += 'client_id=' + req.query.client_id;
+	url += '&client_secret=' + settings.gitlab.secret;
+	url += '&code=' + req.query.code;
+	url += '&grant_type=' + req.query.grant_type;
+	url += '&redirect_uri=' + req.query.redirect_uri;
+
+	restler.post(url, {data: {}})
+
+	.on('success', function (token) {
+		res.json(token);
+	})
+
+	.on('error', function (err) {
+		res.json(401, {error: err});
+	})
+	.on('fail', function (err) {
+		res.json(401, {error: err});
+	});
+});
+
 app.get('/*', function (req, res, next) {
 	// Just send the index.html for other files to support HTML5Mode
 	res.sendFile(__dirname + '/app/index.html');
 });
 
 // connect to mongodb
-var connectString = 'mongodb://' + settings.username + ':' + settings.password + '@' +
-	settings.connection.host + ':' + settings.connection.port + '/' + settings.database;
+var connectString = 'mongodb://' + mongo.username + ':' + mongo.password + '@' +
+	mongo.connection.host + ':' + mongo.connection.port + '/' + mongo.database;
 
 mongoose.connect(connectString);
 

@@ -8,7 +8,6 @@ var mongoose = require('mongoose');
 var settings = require('./settings.json');
 var mongo = settings.mongo;
 var restler = require('restler');
-var gitlabAuth = require('./lib/gitlab').gitlabAuth;
 
 var apps = require('./api/apps');
 
@@ -40,10 +39,6 @@ if (app.get('env') === 'development') {
 app.use(function (err, req, res, next) {
 	res.status(err.status || 500);
 	res.send(err);
-});
-
-app.get('/api/test', gitlabAuth, function (req, res) {
-	res.status(200).json({cool: 'beans'});
 });
 
 // Oauth handling

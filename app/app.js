@@ -31,10 +31,6 @@ function ($scope, $http) {
 		$scope.version = v.version;
 		$scope.appName = v.name;
 	});
-
-	$http.get('/api/test').success(function (v) {
-		console.log(v);
-	});
 }]);
 
 angular.module('comforter.templates', []);

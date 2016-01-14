@@ -8,6 +8,7 @@ var crypto = require('crypto');
 var path = require('path');
 var q = require('q');
 var build = require('../lib/build.js');
+var gitlabAuth = require('../lib/gitlab').gitlabAuth;
 
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -27,7 +28,7 @@ var parse = require('lcov-parse');
 var math = require('mathjs');
 
 /* GET users listing. */
-router.get('/', function (req, res) {
+router.get('/', gitlabAuth, function (req, res) {
 	App.find({}).then(function (apps) {
 		res.json(apps);
 	});
@@ -87,7 +88,7 @@ router.post('/:id/coverage', function (req, res) {
 	});
 });
 
-router.post('/', function (req, res) {
+router.post('/', gitlabAuth, function (req, res) {
 	var newApp = new App(req.body);
 	newApp.save(function (err) {
 		if (err) throw err;

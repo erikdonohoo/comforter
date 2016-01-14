@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var settings = require('./settings.json');
 var mongo = settings.mongo;
 var restler = require('restler');
+var gitlabAuth = require('./lib/gitlab').gitlabAuth;
 
 var apps = require('./api/apps');
 
@@ -41,6 +42,10 @@ app.use(function (err, req, res, next) {
 	res.send(err);
 });
 
+app.get('/api/test', gitlabAuth, function (req, res) {
+	res.status(200).json({cool: 'beans'});
+});
+
 // Oauth handling
 app.get('/oauth/token', function (req, res) {
 	var url = 'https://gitlab.goreact.com/oauth/token?';
@@ -53,6 +58,7 @@ app.get('/oauth/token', function (req, res) {
 	restler.post(url, {data: {}})
 
 	.on('success', function (token) {
+		token.expires_in = token.expires_in || 3600;
 		res.json(token);
 	})
 

@@ -15,7 +15,7 @@ function ($oauth2) {
 		oauth2Url: 'https://gitlab.goreact.com/oauth/authorize',
 		tokenUrl: '/oauth/token',
 		autoAuth: true,
-		contentUrls: ['http://localhost:3002/api', 'https://gitlab.goreact.com/api/v3'],
+		contentUrls: ['/api', 'https://gitlab.goreact.com/api/v3'],
 		redirectUri: true,
 		responseType: 'code',
 		pathDelimiter: '?'
@@ -30,6 +30,10 @@ function ($scope, $http) {
 	$http.get('version.json').success(function (v) {
 		$scope.version = v.version;
 		$scope.appName = v.name;
+	});
+
+	$http.get('/api/test').success(function (v) {
+		console.log(v);
 	});
 }]);
 

@@ -4,7 +4,8 @@ angular.module('comforter', [
 	'ngSanitize',
 	'comforter.routes',
 	'ngMaterial',
-	'ng-auth'
+	'ng-auth',
+	'comforter.apps'
 ])
 
 .config([

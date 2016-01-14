@@ -47,8 +47,8 @@ router.post('/:id/coverage', function (req, res) {
 		}
 
 		// check for required params
-		if (!req.body.branch || !req.body.commit || !req.body.apiKey || !req.body.project) {
-			return res.json(400, {error: 'missing required fields (branch, commit, apiKey, project)'});
+		if (!req.body.branch || !req.body.commit || !req.body.project) {
+			return res.json(400, {error: 'missing required fields (branch, commit, project)'});
 		}
 
 		var deferred = q.defer();
@@ -74,7 +74,6 @@ router.post('/:id/coverage', function (req, res) {
 				project: req.body.project,
 				commit: req.body.commit,
 				branch: req.body.branch,
-				apiKey: req.body.apiKey,
 				coverage: coverage
 			});
 

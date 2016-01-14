@@ -16,7 +16,6 @@ var appSchema = new Schema({
 	name: String,
 	created_at: Date,
 	modified_at: Date,
-	coverage: Number,
 	project_id: String,
 	commits: Schema.Types.Mixed
 });
@@ -37,7 +36,7 @@ appSchema.statics.getCoverageForBranch = function (projectId, branchName) {
 	var deferred = q.defer();
 	this.findOne({project_id: projectId}, function (err, app) {
 		if (err) { return deferred.reject(err); }
-		if (!app) { return deferred.resolve(0); }
+		if (!app || !app.commits) { return deferred.resolve(0); }
 		var matches = Object.keys(app.commits).map(function (commit) {
 			return app.commits[commit];
 		}).filter(function (commit) {

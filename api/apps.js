@@ -47,7 +47,7 @@ router.get('/:id', gitlabAuth, function (req, res) {
 // 1. Accept coverage % or LCOV along with optional zip
 // 2. Validate params (branch, project, commit, apiKey) along with LCOV or %
 // - Respond back to waiting process and move on with task
-router.post('/:id/coverage', function (req, res) {
+router.post('/:id/coverage', gitlabAuth, function (req, res) {
 	upload.fields([{name: 'lcov'}, {name: 'zip'}])(req, res, function (err) {
 
 		if (err) {
@@ -82,6 +82,8 @@ router.post('/:id/coverage', function (req, res) {
 			res.json({coverage: coverage});
 
 			build({
+				token: req.auth_token,
+				tokenType: req.token_type,
 				project: req.body.project,
 				commit: req.body.commit,
 				branch: req.body.branch,

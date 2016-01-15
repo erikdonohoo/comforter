@@ -1,7 +1,7 @@
 'use strict';
-angular.module('comforter.routes.home', [
+angular.module('comforter.routes.apps', [
 	'comforter.templates',
 	'comforter.routes',
 	'ngRoute',
-	'comforter.apps'
+	'comforter.app'
 ]);

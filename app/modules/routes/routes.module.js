@@ -1,4 +1,6 @@
 angular.module('comforter.routes', [
 	'comforter.templates',
-	'ngRoute'
+	'ngRoute',
+	'comforter.routes.home',
+	'comforter.routes.apps'
 ]);

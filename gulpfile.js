@@ -265,7 +265,7 @@ gulp.task('serve', ['css', 'js', 'bower'], function () {
 	gulp.watch([
 		'index.html',
 		'modules/**/*.html',
-		'**/*.+(controller|filter|directive|service|constant|decorator|factory|value|config|run).js'
+		'**/*.+(controller|filter|directive|service|constant|decorator|factory|value|config|run|module).js'
 	], {cwd: 'app'}, reload);
 	watch(allPageJs, function () {
 		gulp.start('js-watch');

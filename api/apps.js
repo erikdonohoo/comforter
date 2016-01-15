@@ -10,7 +10,7 @@ var q = require('q');
 var build = require('../lib/build.js');
 var gitlabAuth = require('../lib/gitlab').gitlabAuth;
 var fs = require('fs');
-var Minizip = require('node-minizip');
+var targz = require('tar.gz');
 var rimraf = require('rimraf');
 
 var storage = multer.diskStorage({
@@ -94,10 +94,10 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 			// delete lcov and zip
 			if (req.files.zip && req.files.zip.length) {
 				// move zip (if here) to location after unzipping and then remove
-				var target = __dirname + '../app-coverage-data/coverage/apps/' + req.body.project + '/' + req.body.branch;
+				var target = __dirname + '/../app-coverage-data/coverage/apps/' + req.body.project + '/' + req.body.branch;
 
 				var unzipAndRemove = function () {
-					Minizip.unizp(req.files.zip[0].path, target, function (err) {
+					targz().extract(req.files.zip[0].path, target, function (err) {
 						console.error(err);
 						fs.unlink(req.files.zip[0].path);
 					});
@@ -109,6 +109,7 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 						unzipAndRemove();
 					});
 				} catch (e) {
+					fs.mkdirSync(target);
 					unzipAndRemove();
 				}
 

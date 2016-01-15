@@ -33,6 +33,7 @@ var sync = require('gulp-sync')(gulp);
 var server = http.createServer(express().use(express.static(__dirname + '/dist/')));
 var watch = require('gulp-watch');
 var settings = require('./settings.json');
+var plumber = require('gulp-plumber');
 
 // Add js/css files to bower:css and bower:js blocks in index.html
 gulp.task('bower', function () {
@@ -47,6 +48,7 @@ gulp.task('css', function () {
 	gulp.src(cssGlob)
 		.pipe(concat('main.css'))
 		.pipe(less())
+		.pipe(plumber())
 		.pipe(autoprefixer({
 			remove: false
 		}))
@@ -59,10 +61,12 @@ gulp.task('css', function () {
 gulp.task('templates', function () {
 	return gulp.src('./app/modules/**/*.html')
 		.pipe(minifyHtml())
+		.pipe(plumber())
 		.pipe(htmlToJs({
 			moduleName: 'comforter.templates',
 			prefix: 'modules/'
 		}))
+		.pipe(plumber())
 		.pipe(concat('templates.js'))
 		.pipe(gulp.dest('./.generated'));
 });
@@ -75,7 +79,9 @@ gulp.task('js-watch', ['js'], reload);
 gulp.task('js', ['templates'], function () {
 	return gulp.src(['app/app.js', moduleJs, nonModuleJs])
 		.pipe(jscs())
+		.pipe(plumber())
 		.pipe(jshint())
+		.pipe(plumber())
 		.pipe(jshint.reporter(stylish))
 		.pipe(jshint.reporter('fail'))
 		.pipe(headerfooter('(function (angular, undefined) {\n', '})(angular);\n'))
@@ -167,12 +173,12 @@ gulp.task('test-run', function (done) {
 	});
 });
 
-gulp.task('clean', function (done) {
-	del([
+gulp.task('clean', function () {
+	return del([
 		'dist/**',
 		'.tmp/**',
 		'.generated/**'
-	], done);
+	]);
 });
 
 // Build task
@@ -252,8 +258,7 @@ gulp.task('reload', function () {
 });
 gulp.task('serve', ['css', 'js', 'bower'], function () {
 	browserSync.init({
-		proxy: 'localhost:' + settings.port,
-		tunnel: true
+		proxy: 'localhost:' + settings.port
 	});
 
 	// Reload on js/css/html changes

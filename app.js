@@ -19,20 +19,23 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(express.static(__dirname + '/.generated'));
-app.use(express.static(__dirname + '/app'));
-
-app.use('/api/apps', apps);
 
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
+	console.log('in dev mode');
+	app.use(express.static(__dirname + '/.generated'));
+	app.use(express.static(__dirname + '/app'));
 	app.use(function (err, req, res, next) {
 		res.status(err.status || 500);
 		console.error(err.stack);
 		res.json({error: 'oops'});
 	});
+} else {
+	app.use(express.static(__dirname + '/dist'));
 }
+
+app.use('/api/apps', apps);
 
 // production error handler
 // no stacktraces leaked to user

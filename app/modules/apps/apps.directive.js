@@ -5,12 +5,10 @@ function appsDirective(api) {
 	return {
 		templateUrl: 'modules/apps/apps.directive.tpl.html',
 		link: function ($scope) {
-			
-			api.getApps().then(function (response) {
-				$scope.apps = response.data;
-			});
 
-			$scope.coverageStatus = api.coverageStatus;
+			api.getApps().then(function (apps) {
+				$scope.apps = apps;
+			});
 		}
 	};
 }

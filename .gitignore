@@ -8,4 +8,5 @@ app/bower_components/
 .generated
 .vagrant
 uploads
+app-coverage-data/
 .tmp

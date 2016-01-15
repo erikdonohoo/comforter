@@ -1,3 +1,28 @@
-<div class="app-directive">
-	{{stuff}}
+<h1 class="md-display-4" layout-align="center center" layout="row"><span>{{app.name}}</span></h1>
+<div layout="row" layout-align="center center" layout-margin>
+	<div flex="66" flex-sm="100" flex-xs="100" layout="row">
+		<!-- <div class="app-info" layout="column">
+			<strong>Description:</strong>
+			<p>{{app.description}}</p>
+		</div> -->
+		<div class="commit-list" flex>
+			<md-card ng-repeat="commit in app.commitList | orderBy:modified_at:true">
+				<md-card-title>
+					<md-card-title-text><span class="md-title {{commit.diff >= 0 ? 'good' : 'bad'}}">
+						This commit {{commit.diff >= 0 ? 'improves' : 'decreases'}} coverage by {{commit.diff}}%
+					</span></md-card-title-text>
+				</md-card-title>
+				<md-card-content>
+					<div class="md-margin"><strong>Commit Date: {{commit.created_at | date}}</strong></div>
+					<div class="md-margin"><strong>Overall Coverage: {{commit.coverage}}</strong></div>
+					<md-button ng-if="commit.hasDetails" class="md-raised" target="_self" ng-href="/coverage/apps/{{app.project_id}}/{{commit.branch}}">
+						View Coverage Details
+					</md-button>
+					<md-button class="md-primary" target="_blank" ng-href="https://gitlab.goreact.com/{{app.path_with_namespace}}/commit/{{commit.commit}}">
+						View this commit on GitLab
+					</md-button>
+				</md-card-content>
+			</md-card>
+		</div>
+	</div>
 </div>

@@ -35,6 +35,9 @@ if (app.get('env') === 'development') {
 	app.use(express.static(__dirname + '/dist'));
 }
 
+// serve up coverage files
+app.use(express.static(__dirname + '/app-coverage-data'));
+
 app.use('/api/apps', apps);
 
 // production error handler

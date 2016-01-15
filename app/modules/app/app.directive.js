@@ -1,13 +1,15 @@
 'use strict';
 
-function appDirective() {
+function appDirective(api, $parse) {
 	return {
 		templateUrl: 'modules/app/app.directive.tpl.html',
-		link: function ($scope) {
-			$scope.stuff = 'This is the app directive';
+		link: function ($scope, elem, attr) {
+			api.getApp($parse(attr.appId)($scope)).then(function (app) {
+				$scope.app = app;
+			});
 		}
 	};
 }
 
 angular.module('comforter.app')
-.directive('app', [appDirective]);
+.directive('app', ['apiService', '$parse', appDirective]);

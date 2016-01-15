@@ -14,8 +14,5 @@
         "commitBuildStatusName": "ci/comforter",
         "token": "nGcKJevs77VWLj8y5yr6",
         "secret": "5a6bde22766f371f376c2c4ed66b0d086829acdd052c77de4f21d429005f5c1d"
-    },
-    "comforter": {
-        "host": "http://localhost:3000/"
     }
 }

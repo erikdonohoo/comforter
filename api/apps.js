@@ -27,10 +27,17 @@ var upload = multer({
 var parse = require('lcov-parse');
 var math = require('mathjs');
 
-/* GET users listing. */
+/* GET apps listing. */
 router.get('/', gitlabAuth, function (req, res) {
 	App.find({}).then(function (apps) {
 		res.json(apps);
+	});
+});
+
+router.get('/:id', gitlabAuth, function (req, res) {
+	App.findOne({project_id: req.params.id}, function (err, app) {
+		if (err) { return res.status(500).json(err); }
+		res.status(200).json(app);
 	});
 });
 
@@ -75,7 +82,8 @@ router.post('/:id/coverage', function (req, res) {
 				project: req.body.project,
 				commit: req.body.commit,
 				branch: req.body.branch,
-				coverage: coverage
+				coverage: coverage,
+				hasDetails: req.files.zip != null
 			});
 
 			// move zip (if here) to location after unzipping

@@ -71,10 +71,17 @@ app.get('/oauth/token', function (req, res) {
 	});
 });
 
-app.get('/*', function (req, res, next) {
-	// Just send the index.html for other files to support HTML5Mode
-	res.sendFile(__dirname + '/app/index.html');
-});
+if (app.get('env') === 'development') {
+	app.get('/*', function (req, res) {
+		// Just send the index.html for other files to support HTML5Mode
+		res.sendFile(__dirname + '/app/index.html');
+	});
+} else {
+	app.get('/*', function (req, res) {
+		// Just send the index.html for other files to support HTML5Mode
+		res.sendFile(__dirname + '/dist/index.html');
+	});
+}
 
 // connect to mongodb
 var connectString = 'mongodb://' + mongo.username + ':' + mongo.password + '@' +

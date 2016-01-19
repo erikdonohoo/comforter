@@ -94,11 +94,11 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 			// delete lcov and zip
 			if (req.files.zip && req.files.zip.length) {
 				// move zip (if here) to location after unzipping and then remove
-				var target = __dirname + '/../app-coverage-data/coverage/apps/' + req.body.project + '/' + req.body.branch;
+				var target = __dirname + '/../app-coverage-data/coverage/apps/' + req.body.project;
 
 				var unzipAndRemove = function () {
 					targz().extract(req.files.zip[0].path, target, function (err) {
-						console.error(err);
+						if (err) { console.error(err); }
 						fs.unlink(req.files.zip[0].path);
 					});
 				};
@@ -118,7 +118,7 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 			fs.unlink(req.files.lcov[0].path);
 
 		}).catch(function (err) {
-			console.error(err);
+			if (err) { console.error(err); }
 			res.json(400, {error: err});
 		});
 

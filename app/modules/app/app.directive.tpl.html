@@ -6,7 +6,7 @@
 			<p>{{app.description}}</p>
 		</div> -->
 		<div class="commit-list" flex>
-			<md-card ng-repeat="commit in app.commitList | orderBy:created_at">
+			<md-card ng-repeat="commit in app.commitList | orderBy:created_at:true">
 				<md-card-title>
 					<md-card-title-text><span class="md-title {{commit.diff >= 0 ? 'good' : 'bad'}}">
 						This commit {{commit.diff >= 0 ? 'improves' : 'decreases'}} coverage by {{commit.diff}}%

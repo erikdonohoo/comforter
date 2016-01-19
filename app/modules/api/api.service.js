@@ -17,7 +17,6 @@ var apiService = function ($http, $q) {
 var modifyApp = function (app) {
 	app.commitList = makeCommitList(app);
 	app.mostRecentCommit = app.commitList.reduce(function (mostRecent, commit) {
-		commit.created_at = new Date(commit.created_at);
 		var createdAt = new Date(commit.created_at);
 		return mostRecent < createdAt ? createdAt : mostRecent;
 	}, new Date(1900, 1, 1));
@@ -31,6 +30,7 @@ var makeCommitList = function (app) {
 	if (app.commitList && angular.isArray(app.commitList)) { return app.commitList; }
 
 	return Object.keys(app.commits).map(function (key) {
+		app.commits[key].created_at = new Date(app.commits[key].created_at);
 		return app.commits[key];
 	});
 };

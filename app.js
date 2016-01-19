@@ -33,6 +33,11 @@ if (app.get('env') === 'development') {
 	});
 } else {
 	app.use(express.static(__dirname + '/dist'));
+	// set url for prod
+	app.use(function (req, res, next) {
+		req.headers.host = 'comforter.goreact.com';
+		next();
+	});
 }
 
 // serve up coverage files

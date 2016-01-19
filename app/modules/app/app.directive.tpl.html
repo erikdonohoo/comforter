@@ -9,7 +9,7 @@
 			<md-card ng-repeat="commit in app.commitList | orderBy:created_at:true">
 				<md-card-title>
 					<md-card-title-text><span class="md-title {{commit.diff >= 0 ? 'good' : 'bad'}}">
-						This commit {{commit.diff >= 0 ? 'improves' : 'decreases'}} coverage by {{commit.diff}}%
+						This commit {{commit.diff >= 0 ? 'improves' : 'decreases'}} coverage by {{commit.diff | number:4}}%
 					</span></md-card-title-text>
 				</md-card-title>
 				<md-card-content>

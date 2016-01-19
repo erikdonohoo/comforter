@@ -35,7 +35,7 @@ appSchema.pre('save', function (next) {
 // Get coverage for a branch
 appSchema.statics.getCoverageForBranch = function (projectId, branchName) {
 	var deferred = q.defer();
-	this.findOne({project_id: projectId}, function (err, app) {
+	this.findOne({project_id: projectId.toString()}, function (err, app) {
 		if (err) { return deferred.reject(err); }
 		if (!app || !app.commits) { return deferred.resolve(0); }
 		var matches = Object.keys(app.commits).map(function (commit) {

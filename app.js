@@ -43,6 +43,7 @@ app.use('/api/apps', apps);
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
+	console.error(err.stack);
 	res.status(err.status || 500);
 	res.send(err);
 });
@@ -60,14 +61,14 @@ app.get('/oauth/token', function (req, res) {
 
 	.on('success', function (token) {
 		token.expires_in = token.expires_in || 3600;
-		res.json(token);
+		res.status(200).json(token);
 	})
 
 	.on('error', function (err) {
-		res.json(401, {error: err});
+		res.status(401).json({error: err});
 	})
 	.on('fail', function (err) {
-		res.json(401, {error: err});
+		res.status(401).json({error: err});
 	});
 });
 

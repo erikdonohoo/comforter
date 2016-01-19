@@ -43,7 +43,7 @@ appSchema.statics.getCoverageForBranch = function (projectId, branchName) {
 		}).filter(function (commit) {
 			return commit.branch === branchName;
 		}).sort(function (first, second) {
-			return first.created_at < second.created_at ? -1 : 1;
+			return first.created_at > second.created_at ? -1 : 1;
 		});
 		if (!matches.length) { return deferred.resolve(0); }
 		return deferred.resolve(matches[0].coverage);

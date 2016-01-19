@@ -105,7 +105,7 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 
 				console.log('extracting');
 				targz().extract(req.files.zip[0].path, target, function (err) {
-					if (err) { console.log(err); }
+					if (err) { console.error(err); }
 					fs.unlink(req.files.zip[0].path);
 				});
 			}
@@ -128,43 +128,32 @@ router.post('/', gitlabAuth, function (req, res) {
 	});
 });
 
+function folderExists (filePath) {
+	try {
+		return fs.statSync(filePath).isDirectory();
+	}
+	catch (err) {
+		return false;
+	}
+}
+
 function prepareDirectoryForZip (projectId, branch) {
 	// make app-coverage-data and other folders if it doesn't exist
-	console.log('making directories');
-	try {
-		fs.accessSync('./app-coverage-data', fs.F_OK);
-	} catch (e) {
+	console.log('preparing directory');
+	if (!folderExists('./app-coverage-data')) {
 		fs.mkdirSync('./app-coverage-data');
-		console.log('making directories 1');
 	}
-
-	try {
-		fs.accessSync('./app-coverage-data/coverage', fs.F_OK);
-	} catch (e) {
+	if (!folderExists('./app-coverage-data/coverage')) {
 		fs.mkdirSync('./app-coverage-data/coverage');
-		console.log('making directories 2');
 	}
-
-	try {
-		fs.accessSync('./app-coverage-data/coverage/apps', fs.F_OK);
-	} catch (e) {
+	if (!folderExists('./app-coverage-data/coverage/apps')) {
 		fs.mkdirSync('./app-coverage-data/coverage/apps');
-		console.log('making directories 3');
 	}
-
-	try {
-		fs.accessSync('./app-coverage-data/coverage/apps/' + projectId, fs.F_OK);
-	} catch (e) {
+	if (!folderExists('./app-coverage-data/coverage/apps/' + projectId)) {
 		fs.mkdirSync('./app-coverage-data/coverage/apps/' + projectId);
-		console.log('making directories 4');
 	}
-
-	try {
-		fs.accessSync('./app-coverage-data/coverage/apps/' + projectId + '/' + branch, fs.F_OK);
+	if (folderExists('./app-coverage-data/coverage/apps/' + projectId + '/' + branch)) {
 		rimraf.sync('./app-coverage-data/coverage/apps/' + projectId + '/' + branch);
-		console.log('removed branch folder');
-	} catch (e) {
-		// it wasn't there, which is good
 	}
 }
 

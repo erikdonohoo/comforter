@@ -101,12 +101,12 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 
 				// make app-coverage-data if it doesn't exist
 				try {
-					fs.accessSync('../app-coverage-data', fs.F_OK);
+					fs.accessSync('./app-coverage-data', fs.F_OK);
 				} catch (e) {
-					fs.mkdirSync('../app-coverage-data');
+					fs.mkdirSync('./app-coverage-data');
 				}
 
-				var target = __dirname + '/../app-coverage-data/coverage/apps/' + req.body.project;
+				var target = './app-coverage-data/coverage/apps/' + req.body.project;
 
 				var unzipAndRemove = function () {
 					targz().extract(req.files.zip[0].path, target, function (err) {

@@ -105,12 +105,7 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 			if (req.files.zip && req.files.zip.length) {
 				// move zip (if here) to location after unzipping and then remove
 
-				// make app-coverage-data if it doesn't exist
-				try {
-					fs.accessSync('./app-coverage-data', fs.F_OK);
-				} catch (e) {
-					fs.mkdirSync('./app-coverage-data');
-				}
+				prepareDirectoryForZip(req.body.project, req.body.branch);
 
 				var target = './app-coverage-data/coverage/apps/' + req.body.project;
 
@@ -150,6 +145,40 @@ router.post('/', gitlabAuth, function (req, res) {
 		res.json(req.body);
 	});
 });
+
+function prepareDirectoryForZip (projectId, branch) {
+	// make app-coverage-data and other folders if it doesn't exist
+	try {
+		fs.accessSync('./app-coverage-data', fs.F_OK);
+	} catch (e) {
+		fs.mkdirSync('./app-coverage-data');
+	}
+
+	try {
+		fs.accessSync('./app-coverage-data/coverage', fs.F_OK);
+	} catch (e) {
+		fs.mkdirSync('./app-coverage-data/coverage');
+	}
+
+	try {
+		fs.accessSync('./app-coverage-data/coverage/apps', fs.F_OK);
+	} catch (e) {
+		fs.mkdirSync('./app-coverage-data/coverage/apps');
+	}
+
+	try {
+		fs.accessSync('./app-coverage-data/coverage/apps/' + projectId, fs.F_OK);
+	} catch (e) {
+		fs.mkdirSync('./app-coverage-data/coverage/apps/' + projectId);
+	}
+
+	try {
+		fs.accessSync('./app-coverage-data/coverage/apps/' + projectId + '/' + branch, fs.F_OK);
+		rimraf.sync('./app-coverage-data/coverage/apps/' + projectId + '/' + branch);
+	} catch (e) {
+		// it wasn't there, which is good
+	}
+}
 
 function addProject (request) {
 	// check for project and add if necessary

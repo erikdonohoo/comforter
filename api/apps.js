@@ -3,6 +3,7 @@
 var express = require('express');
 var router = express.Router();
 var App = require('../models/app');
+var gitlab = require('../lib/gitlab');
 var multer = require('multer');
 var crypto = require('crypto');
 var path = require('path');
@@ -81,15 +82,17 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 
 			res.json({coverage: coverage});
 
-			build({
-				token: req.auth_token,
-				tokenType: req.token_type,
-				project: req.body.project,
-				commit: req.body.commit,
-				branch: req.body.branch,
-				coverage: coverage,
-				hasDetails: req.files.zip != null && req.files.zip.length,
-				host: req.headers.host
+			addProject(req).then(function () {
+				build({
+					token: req.auth_token,
+					tokenType: req.token_type,
+					project: req.body.project,
+					commit: req.body.commit,
+					branch: req.body.branch,
+					coverage: coverage,
+					hasDetails: req.files.zip != null && req.files.zip.length,
+					host: req.headers.host
+				});
 			});
 
 			// delete lcov and zip
@@ -133,6 +136,41 @@ router.post('/', gitlabAuth, function (req, res) {
 		res.json(req.body);
 	});
 });
+
+function addProject (request) {
+	// check for project and add if necessary
+	var deferred = q.defer();
+	App.findOne({
+		project_id: request.body.project
+	}, function (err, app) {
+		if (err) {
+			return deferred.reject(err);
+		}
+		if (!app || !app.project_id) {
+
+			gitlab.getProject(request.body.project, request.auth_token, request.token_type)
+			.then(function (project) {
+				var newApp = new App({
+					project_id: project.id,
+					name: project.name,
+					coverage: 0
+				});
+				newApp.save(function (err) {
+					if (err) {
+						deferred.reject(err);
+					}
+					deferred.resolve();
+				});
+			}).catch(function (err) {
+				deferred.reject(err);
+			});
+
+		} else {
+			deferred.resolve();
+		}
+	});
+	return deferred.promise;
+}
 
 function coverageFromLcov(data) {
 	var totalFound = 0,

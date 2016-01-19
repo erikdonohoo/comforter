@@ -98,6 +98,14 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 			// delete lcov and zip
 			if (req.files.zip && req.files.zip.length) {
 				// move zip (if here) to location after unzipping and then remove
+
+				// make app-coverage-data if it doesn't exist
+				try {
+					fs.accessSync('../app-coverage-data', fs.F_OK);
+				} catch (e) {
+					fs.mkdirSync('../app-coverage-data');
+				}
+
 				var target = __dirname + '/../app-coverage-data/coverage/apps/' + req.body.project;
 
 				var unzipAndRemove = function () {

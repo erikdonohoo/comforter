@@ -88,7 +88,8 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 				commit: req.body.commit,
 				branch: req.body.branch,
 				coverage: coverage,
-				hasDetails: req.files.zip != null && req.files.zip.length
+				hasDetails: req.files.zip != null && req.files.zip.length,
+				host: req.headers.host
 			});
 
 			// delete lcov and zip

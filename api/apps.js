@@ -38,6 +38,12 @@ router.get('/', gitlabAuth, function (req, res) {
 	});
 });
 
+router.get('/goo', function (req, res) {
+	App.getCoverageForBranch(3, 'master').then(function (s) {
+		res.json(s);
+	});
+});
+
 router.get('/:id', gitlabAuth, function (req, res) {
 	App.findOne({project_id: req.params.id}, function (err, app) {
 		if (err) { return res.status(500).json(err); }

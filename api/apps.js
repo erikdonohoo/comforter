@@ -34,13 +34,7 @@ var math = require('mathjs');
 /* GET apps listing. */
 router.get('/', gitlabAuth, function (req, res) {
 	App.find({}).then(function (apps) {
-		res.json(apps);
-	});
-});
-
-router.get('/goo', function (req, res) {
-	App.getCoverageForBranch(3, 'master').then(function (s) {
-		res.json(s);
+		res.status(200).json(apps);
 	});
 });
 
@@ -59,14 +53,14 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 
 		if (err) {
 			console.error(err);
-			return res.json(500, {
+			return res.status(500).json({
 				error: err
 			});
 		}
 
 		// check for required params
 		if (!req.body.branch || !req.body.commit || !req.body.project) {
-			return res.json(400, {error: 'missing required fields (branch, commit, project)'});
+			return res.status(400).json({error: 'missing required fields (branch, commit, project)'});
 		}
 
 		var deferred = q.defer();
@@ -86,7 +80,7 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 
 		deferred.promise.then(function (coverage) {
 
-			res.json({coverage: coverage});
+			res.status(200).json({coverage: coverage});
 
 			addProject(req).then(function () {
 				build({
@@ -109,30 +103,18 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 
 				var target = './app-coverage-data/coverage/apps/' + req.body.project;
 
-				var unzipAndRemove = function () {
-					targz().extract(req.files.zip[0].path, target, function (err) {
-						if (err) { console.error(err); }
-						fs.unlink(req.files.zip[0].path);
-					});
-				};
-
-				try {
-					fs.accessSync(target, fs.F_OK);
-					rimraf(target, function () {
-						unzipAndRemove();
-					});
-				} catch (e) {
-					fs.mkdirSync(target);
-					unzipAndRemove();
-				}
-
+				console.log('extracting');
+				targz().extract(req.files.zip[0].path, target, function (err) {
+					if (err) { console.log(err); }
+					fs.unlink(req.files.zip[0].path);
+				});
 			}
 
 			fs.unlink(req.files.lcov[0].path);
 
 		}).catch(function (err) {
 			if (err) { console.error(err); }
-			res.json(400, {error: err});
+			res.status(400).json({error: err});
 		});
 
 	});
@@ -142,39 +124,45 @@ router.post('/', gitlabAuth, function (req, res) {
 	var newApp = new App(req.body);
 	newApp.save(function (err) {
 		if (err) throw err;
-		res.json(req.body);
+		res.status(200).json(req.body);
 	});
 });
 
 function prepareDirectoryForZip (projectId, branch) {
 	// make app-coverage-data and other folders if it doesn't exist
+	console.log('making directories');
 	try {
 		fs.accessSync('./app-coverage-data', fs.F_OK);
 	} catch (e) {
 		fs.mkdirSync('./app-coverage-data');
+		console.log('making directories 1');
 	}
 
 	try {
 		fs.accessSync('./app-coverage-data/coverage', fs.F_OK);
 	} catch (e) {
 		fs.mkdirSync('./app-coverage-data/coverage');
+		console.log('making directories 2');
 	}
 
 	try {
 		fs.accessSync('./app-coverage-data/coverage/apps', fs.F_OK);
 	} catch (e) {
 		fs.mkdirSync('./app-coverage-data/coverage/apps');
+		console.log('making directories 3');
 	}
 
 	try {
 		fs.accessSync('./app-coverage-data/coverage/apps/' + projectId, fs.F_OK);
 	} catch (e) {
 		fs.mkdirSync('./app-coverage-data/coverage/apps/' + projectId);
+		console.log('making directories 4');
 	}
 
 	try {
 		fs.accessSync('./app-coverage-data/coverage/apps/' + projectId + '/' + branch, fs.F_OK);
 		rimraf.sync('./app-coverage-data/coverage/apps/' + projectId + '/' + branch);
+		console.log('removed branch folder');
 	} catch (e) {
 		// it wasn't there, which is good
 	}

@@ -83,6 +83,7 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 			res.status(200).json({coverage: coverage});
 
 			addProject(req).then(function () {
+				console.log(req.server_url || req.headers.host);
 				build({
 					token: req.auth_token,
 					tokenType: req.token_type,
@@ -103,7 +104,6 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 
 				var target = './app-coverage-data/coverage/apps/' + req.body.project;
 
-				console.log('extracting');
 				targz().extract(req.files.zip[0].path, target, function (err) {
 					if (err) { console.error(err); }
 					fs.unlink(req.files.zip[0].path);
@@ -139,7 +139,6 @@ function folderExists (filePath) {
 
 function prepareDirectoryForZip (projectId, branch) {
 	// make app-coverage-data and other folders if it doesn't exist
-	console.log('preparing directory');
 	if (!folderExists('./app-coverage-data')) {
 		fs.mkdirSync('./app-coverage-data');
 	}

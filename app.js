@@ -35,7 +35,7 @@ if (app.get('env') === 'development') {
 	app.use(express.static(__dirname + '/dist'));
 	// set url for prod
 	app.use(function (req, res, next) {
-		req.server_url = 'comforter.goreact.com';
+		req.server_url = 'https://comforter.goreact.com';
 		next();
 	});
 }

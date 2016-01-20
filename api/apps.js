@@ -83,7 +83,6 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 			res.status(200).json({coverage: coverage});
 
 			addProject(req).then(function () {
-				console.log(req.server_url || req.headers.host);
 				build({
 					token: req.auth_token,
 					tokenType: req.token_type,
@@ -92,7 +91,7 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 					branch: req.body.branch,
 					coverage: coverage,
 					hasDetails: req.files.zip != null && req.files.zip.length,
-					host: req.server_url || req.headers.host
+					host: req.server_url || ('http://' + req.headers.host)
 				});
 			});
 

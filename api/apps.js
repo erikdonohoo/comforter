@@ -196,7 +196,7 @@ function coverageFromLcov(data) {
 	data.forEach(function (file) {
 		for (var i in file) {
 			var prop = file[i];
-			if (!!prop && (prop.constructor === Object) && prop.hit) {
+			if (!!prop && (prop.constructor === Object) && prop.found) {
 				totalFound += prop.found;
 				totalCovered += prop.hit;
 			}

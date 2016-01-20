@@ -1,6 +1,6 @@
 {
   "name": "comforter",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "start": "./node_modules/nodemon/bin/nodemon.js --watch app.js --watch api --watch models --watch lib ./bin/www"
   },

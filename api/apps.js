@@ -91,7 +91,7 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 					branch: req.body.branch,
 					coverage: coverage,
 					hasDetails: req.files.zip != null && req.files.zip.length,
-					host: req.headers.host
+					host: req.server_url || req.headers.host
 				});
 			});
 

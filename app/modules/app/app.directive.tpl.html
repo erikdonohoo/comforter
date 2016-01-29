@@ -15,7 +15,7 @@
 				<md-card-content>
 					<div class="md-margin"><strong>Commit Date: {{commit.created_at | date}}</strong></div>
 					<div class="md-margin"><strong>Overall Coverage: {{commit.coverage}}</strong></div>
-					<md-button ng-if="commit.hasDetails" class="md-raised" target="_self" ng-href="/coverage/apps/{{app.project_id}}/{{commit.branch}}">
+					<md-button ng-if="commit.hasDetails" class="md-raised" target="_self" ng-href="/coverage/apps/{{app.project_id}}/{{commit.branchPath}}">
 						View Coverage Details
 					</md-button>
 					<md-button class="md-primary" target="_blank" ng-href="https://gitlab.goreact.com/{{app.path_with_namespace}}/commit/{{commit.commit}}">

@@ -31,6 +31,7 @@ var makeCommitList = function (app) {
 
 	return Object.keys(app.commits).map(function (key) {
 		app.commits[key].created_at = new Date(app.commits[key].created_at);
+		app.commits[key].branchPath = app.commits[key].branch.replace(/\//g, '-');
 		return app.commits[key];
 	});
 };

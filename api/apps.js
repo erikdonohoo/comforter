@@ -99,7 +99,7 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 			if (req.files.zip && req.files.zip.length) {
 				// move zip (if here) to location after unzipping and then remove
 
-				prepareDirectoryForZip(req.body.project, req.body.branch);
+				prepareDirectoryForZip(req.body.project, req.body.branch.replace(/\//g, '-'));
 
 				var target = './app-coverage-data/coverage/apps/' + req.body.project;
 

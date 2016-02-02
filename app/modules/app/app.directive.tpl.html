@@ -6,13 +6,14 @@
 			<p>{{app.description}}</p>
 		</div> -->
 		<div class="commit-list" flex>
-			<md-card ng-repeat="commit in app.commitList | orderBy:'created_at':true">
+			<md-card class="app" ng-repeat="commit in app.commitList | orderBy:'created_at':true" ng-class="{'highlight': commit.commit === $routeParams.commit}">
 				<md-card-title>
 					<md-card-title-text><span class="md-title {{commit.diff >= 0 ? 'good' : 'bad'}}">
 						This commit {{commit.diff >= 0 ? 'improves' : 'decreases'}} coverage by {{commit.diff | number:4}}%
 					</span></md-card-title-text>
 				</md-card-title>
 				<md-card-content>
+					<div class="md-margin"><button class="branch-name">{{commit.branch}}</button></div>
 					<div class="md-margin"><strong>Commit Date: {{commit.created_at | date}}</strong></div>
 					<div class="md-margin"><strong>Overall Coverage: {{commit.coverage}}</strong></div>
 					<md-button ng-if="commit.hasDetails" class="md-raised" target="_self" ng-href="/coverage/apps/{{app.project_id}}/{{commit.branchPath}}">

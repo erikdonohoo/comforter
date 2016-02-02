@@ -34,6 +34,7 @@ var math = require('mathjs');
 /* GET apps listing. */
 router.get('/', gitlabAuth, function (req, res) {
 	App.find({}).then(function (apps) {
+		apps = apps.map(reduceCommits(5));
 		res.status(200).json(apps);
 	});
 });
@@ -41,7 +42,7 @@ router.get('/', gitlabAuth, function (req, res) {
 router.get('/:id', gitlabAuth, function (req, res) {
 	App.findOne({project_id: req.params.id}, function (err, app) {
 		if (err) { return res.status(500).json(err); }
-		res.status(200).json(app);
+		res.status(200).json(reduceCommits(100)(app));
 	});
 });
 
@@ -205,5 +206,23 @@ function coverageFromLcov(data) {
 
 	return math.round((totalCovered / totalFound) * 100, 4);
 }
+
+var reduceCommits = function (commitCount) {
+	return function (app) {
+		var commits = app.commits || {};
+		var list = Object.keys(commits).map(function (key) {
+			return commits[key];
+		}).sort(function (a, b) {
+			return a.created_at > b.created_at ? -1 : 1;
+		});
+		list = list.slice(0, commitCount);
+		commits = {};
+		list.forEach(function (commit) {
+			commits[commit.commit] = commit;
+		});
+		app.commits = commits;
+		return app;
+	};
+};
 
 module.exports = router;

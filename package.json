@@ -2,7 +2,9 @@
   "name": "comforter",
   "version": "0.1.0",
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js --watch app.js --watch api --watch models --watch lib ./bin/www"
+    "start": "./node_modules/nodemon/bin/nodemon.js --watch app.js --watch api --watch models --watch lib ./bin/www",
+    "serve": "gulp serve",
+    "postinstall": "bower install"
   },
   "dependencies": {
     "body-parser": "~1.14.2",

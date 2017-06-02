@@ -9,12 +9,25 @@ Make sure you have `npm` and `node` installed, as well as `vagrant` and virtual 
 
 ```shell
 vagrant up
-npm install -g generator-ng-gulp gulp-cli yo
-npm install
-npm start # This command will stay running and watching your server components
 ```
 
-Then you can spin up the site with `gulp serve`
+Setup [gitlab runner](https://docs.gitlab.com/runner/install/linux-repository.html)
+
+Use the url `http://192.168.33.52` and the runner token found [here](http://192.168.33.52/admin/runners) after running vagrant up.
+
+### Setup Comforter In Gitlab as an App
+* Go [here](http://192.168.33.52/admin/applications/new)
+* Name = Comforter
+* Redirect URI http://192.168.33.51
+* Use **api** and **read_user** scopes
+* Grab App ID and Secret and put into `settings.json` file
+
+Now you can start the app
+```
+yarn && yarn start
+```
+
+Then you can spin up the site with `yarn serve`
 
 Start deving away.
 

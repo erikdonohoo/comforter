@@ -20,4 +20,14 @@ Vagrant.configure(2) do |config|
         db.vm.provision :shell, path: "vagrant/db.sh", privileged: false
     end
 
+    config.vm.define "gitlab" do |gitlab|
+        gitlab.vm.provider :virtualbox do |vb|
+            vb.memory = 2048
+        end
+        gitlab.ssh.forward_agent = true
+        gitlab.vm.box = "ubuntu/trusty64"
+        gitlab.vm.network "private_network", ip: "192.168.33.52"
+        gitlab.vm.provision :shell, path: "vagrant/gitlab.sh"
+    end
+
 end

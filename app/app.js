@@ -8,15 +8,18 @@ angular.module('comforter', [
 	'comforter.apps'
 ])
 
+.constant('gitlabHost', 'https://gitlab.goreact.com')
+
 .config([
 	'$oauth2Provider',
-function ($oauth2) {
+	'gitlabHost',
+function ($oauth2, gitlabHost) {
 	$oauth2.configure({
-		clientId: 'a7aadfdaaf92c048d8845c5579204356522066167e59a03e5b6278af917c82b2',
-		oauth2Url: 'https://gitlab.goreact.com/oauth/authorize',
+		clientId: '21aba965cd47dbbeb352221ad879a6944ab1409547d2036f2be6ea9f41eb8089',
+		oauth2Url: gitlabHost + '/oauth/authorize',
 		tokenUrl: '/oauth/token',
 		autoAuth: true,
-		contentUrls: ['/api', 'https://gitlab.goreact.com/api/v3'],
+		contentUrls: ['/api', gitlabHost + '/api/v3'],
 		redirectUri: true,
 		responseType: 'code',
 		pathDelimiter: '?'
@@ -28,7 +31,8 @@ function ($oauth2) {
 	'$http',
 function ($scope, $http) {
 	// Expose app version info
-	$http.get('version.json').success(function (v) {
+	$http.get('version.json').then(function (response) {
+		var v = response.data;
 		$scope.version = v.version;
 		$scope.appName = v.name;
 	});

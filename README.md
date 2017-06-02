@@ -20,7 +20,15 @@ Use the url `http://192.168.33.52` and the runner token found [here](http://192.
 * Name = Comforter
 * Redirect URI http://192.168.33.51
 * Use **api** and **read_user** scopes
-* Grab App ID and Secret and put into `settings.json` file
+* Grab App ID and Secret and put into `settings.json` file as token and secret respectively
+
+
+### Update your URLs in settings.json and app.js for app
+* Update `https://gitlab.goreact.com` to `http://192.168.33.52` in settings.json on both gitlab.host and gitlab.api.
+* Update gitlabHost constant in `app/app.js` to be `http://192.168.33.52` as well.
+
+## IMPORTANT NOTE
+* **DO NOT** commit changes to the strings you changed to `http://192.168.33.52`.  Until we have this slightly better, just be sure not to commit that.
 
 Now you can start the app
 ```
@@ -32,6 +40,9 @@ Then you can spin up the site with `yarn serve`
 Start deving away.
 
 Follow the documentation for [generator-ng-gulp](https://github.com/erikdonohoo/generator-ng-gulp) to add front-end components.
+
+You can add a project to your new gitlab instance and attach comforter to it.
+It should run
 
 ### TODOs
 

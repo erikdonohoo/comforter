@@ -9,9 +9,18 @@ Make sure you have `npm` and `node` installed, as well as `vagrant` and virtual 
 
 ```shell
 vagrant up
+vagrant ssh gitlab
+sudo nano /etc/gitlab/gitlab.rb
 ```
 
-Setup [gitlab runner](https://docs.gitlab.com/runner/install/linux-repository.html)
+Modify `external_url` to be `http://192.168.33.52` and then
+
+```shell
+sudo gitlab-ctl reconfigure
+exit
+```
+
+Setup [gitlab runner](https://docs.gitlab.com/runner/install/linux-repository.html) with ubuntu instructions.
 
 Use the url `http://192.168.33.52` and the runner token found [here](http://192.168.33.52/admin/runners) after running vagrant up.
 

@@ -4,7 +4,8 @@
   "scripts": {
     "start": "./node_modules/nodemon/bin/nodemon.js --watch app.js --watch api --watch models --watch lib ./bin/www",
     "serve": "gulp serve",
-    "postinstall": "bower install"
+    "postinstall": "bower install",
+    "test": "gulp test"
   },
   "dependencies": {
     "body-parser": "~1.14.2",

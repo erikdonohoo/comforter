@@ -8,14 +8,14 @@ angular.module('comforter', [
 	'comforter.apps'
 ])
 
-.constant('gitlabHost', 'http://192.168.33.52')
+.constant('gitlabHost', 'https://gitlab.goreact.com')
 
 .config([
 	'$oauth2Provider',
 	'gitlabHost',
 function ($oauth2, gitlabHost) {
 	$oauth2.configure({
-		clientId: '02d2f13e45d1202394e25cc0e48d8b48d93d2c63193a28051aea5892aa594ecc',
+		clientId: 'a7aadfdaaf92c048d8845c5579204356522066167e59a03e5b6278af917c82b2',
 		oauth2Url: gitlabHost + '/oauth/authorize',
 		tokenUrl: '/oauth/token',
 		autoAuth: true,

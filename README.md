@@ -46,6 +46,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | b
 ### Update your URLs in settings.json and app.js for app
 * Update `https://gitlab.goreact.com` to `http://192.168.33.52` in settings.json on both gitlab.host and gitlab.api.
 * Update gitlabHost constant in `app/app.js` to be `http://192.168.33.52` as well.
+* Update `app/app.js` and set `clientId` to be the same ID you put in as token in settins.json and update the `gitlabHost` constant to `http://192.168.33.52`.  DO NOT commit these changes.  Eventually this will be better.
 
 ### Add the test project to gitlab
 The folder in this repo called `test-project` can be moved out, git inited, and then added to your local gitlab instance.  It has a test job that runs and generates coverage and sends it to gitlab.

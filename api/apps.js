@@ -81,7 +81,9 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 
 		deferred.promise.then(function (coverage) {
 
-			res.status(200).json({coverage: coverage});
+			var percent = math.round((coverage.totalCovered / coverage.totalLines) * 100, 4);
+			coverage.percent = percent;
+			res.status(200).json({coverage: coverage.percent});
 
 			addProject(req).then(function () {
 				build({
@@ -172,7 +174,7 @@ function addProject (request) {
 				var newApp = new App({
 					project_id: project.id,
 					name: project.name,
-					coverage: 0
+					coverage: {coverage: 0}
 				});
 				newApp.save(function (err) {
 					if (err) {
@@ -204,7 +206,10 @@ function coverageFromLcov(data) {
 		}
 	});
 
-	return math.round((totalCovered / totalFound) * 100, 4);
+	return {
+		totalLines: totalFound,
+		totalCovered: totalCovered
+	};
 }
 
 var reduceCommits = function (commitCount) {

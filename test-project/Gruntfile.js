@@ -156,7 +156,7 @@ module.exports = function (grunt) {
   grunt.registerTask('coverage', ['connect:test', 'karma:coverage', 'connect:coverage']);
   grunt.registerTask('default', ['test', 'build']);
   grunt.registerTask('debug', ['connect:test', 'karma:debug']);
-  grunt.registerTask('test-ci', ['clean', 'jshint:all', 'jshint:test', 'connect:test', 'karma:ci-test', 'karma:ci-coverage']);
+  grunt.registerTask('test-ci', ['clean', 'connect:test', 'karma:ci-test', 'karma:ci-coverage']);
 
   // When version bump is occurring, test, bump version, build and update changelog
   grunt.registerTask('bump', function (version) {

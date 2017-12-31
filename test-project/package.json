@@ -5,7 +5,8 @@
   "main": "Gruntfile.js",
   "scripts": {
 		"test": "grunt test-ci",
-		"comforter:main": "comforter-cli --path .coverage/lcov/lcov.info --branch $CI_BUILD_REF_NAME --commit $CI_BUILD_REF --project $CI_PROJECT_ID --apiKey $GITLAB_API_KEY --zip .coverage/lcov/lcov-report/ --host https://comforterdev.localtunnel.me"
+		"bower": "bower install",
+		"comforter:main": "comforter-cli --path coverage/lcov/lcov.info --branch $CI_COMMIT_REF_NAME --commit $CI_COMMIT_SHA --project $CI_PROJECT_ID --apiKey $GITLAB_API_KEY --zip coverage/lcov/lcov-report/ --host https://comforterdev.localtunnel.me"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,8 @@
   "author": "Erik Donohoo",
   "license": "MIT",
   "devDependencies": {
-    "codeclimate-test-reporter": "0.0.4",
+		"codeclimate-test-reporter": "0.0.4",
+		"grunt-cli": "0.1.13",
     "grunt": "^0.4.5",
     "grunt-bumpup": "^0.6.0",
     "grunt-contrib-clean": "^0.6.0",
@@ -32,14 +34,16 @@
     "grunt-karma": "^0.8.3",
     "grunt-text-replace": "^0.3.12",
     "jshint-stylish": "^0.2.0",
-    "karma": "^0.12.16",
+		"karma": "^1.7.1",
+		"jasmine-core": "2.8.0",
     "karma-chrome-launcher": "^0.1.5",
-    "karma-coverage": "^0.2.7",
-    "karma-jasmine": "^0.3.2",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
     "karma-ng-html2js-preprocessor": "^0.1.0",
     "karma-ng-scenario": "^0.1.0",
-    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-phantomjs-launcher": "^1.0.4",
 		"load-grunt-tasks": "^0.6.0",
-		"comforter-cli": "0.3.4"
+		"comforter-cli": "0.3.4",
+		"bower": "1.8.2"
   }
 }

@@ -13,7 +13,7 @@
         "host": "http://192.168.33.52",
         "api": "http://192.168.33.52/api/v4/",
         "commitBuildStatusName": "ci/comforter",
-        "token": "718feddfcb4c5a8417df78ba87da72c108ec78bf4da92e2a4a42728256aa89cf",
-        "secret": "bdbaf7d66b247d0a173300dbbf847de510e5ae60b5c74560d24cab4565ddf9ea"
+        "token": "02d2f13e45d1202394e25cc0e48d8b48d93d2c63193a28051aea5892aa594ecc",
+        "secret": "682826a13a423b6884abf5d7a4ba25d78eec08a130976146d689f2aec4d2f0d4"
     }
 }

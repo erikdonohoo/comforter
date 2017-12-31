@@ -18,7 +18,7 @@ var appSchema = new Schema({
 	modified_at: Date,
 	project_id: String,
 	commits: Schema.Types.Mixed,
-	coverage: Number
+	coverage: Schema.Types.Mixed
 });
 
 appSchema.pre('save', function (next) {

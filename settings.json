@@ -11,9 +11,9 @@
     "port": 3333,
     "gitlab": {
         "host": "http://192.168.33.52",
-        "api": "http://192.168.33.52/api/v3/",
+        "api": "http://192.168.33.52/api/v4/",
         "commitBuildStatusName": "ci/comforter",
-        "token": "21aba965cd47dbbeb352221ad879a6944ab1409547d2036f2be6ea9f41eb8089",
-        "secret": "c7b6a92c60b6fcd803b076318d81cd145067516bad27429a556bc8ec94bdbba7"
+        "token": "718feddfcb4c5a8417df78ba87da72c108ec78bf4da92e2a4a42728256aa89cf",
+        "secret": "bdbaf7d66b247d0a173300dbbf847de510e5ae60b5c74560d24cab4565ddf9ea"
     }
 }

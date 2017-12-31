@@ -22,12 +22,23 @@ Vagrant.configure(2) do |config|
 
     config.vm.define "gitlab" do |gitlab|
         gitlab.vm.provider :virtualbox do |vb|
-            vb.memory = 2048
+            vb.memory = 4096
         end
         gitlab.ssh.forward_agent = true
         gitlab.vm.box = "ubuntu/trusty64"
         gitlab.vm.network "private_network", ip: "192.168.33.52"
         gitlab.vm.provision :shell, path: "vagrant/gitlab.sh"
+    end
+
+    config.vm.define "runner" do |runner|
+        runner.vm.provider :virtualbox do |vb|
+            vb.memory = 1024
+        end
+        runner.ssh.forward_agent = true
+        runner.vm.box = "ubuntu/trusty64"
+        runner.vm.network "private_network", ip: "192.168.33.53"
+        runner.vm.provision :shell, path: "vagrant/runner.sh"
+		runner.vm.provision :shell, path: "vagrant/runner2.sh"
     end
 
 end

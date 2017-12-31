@@ -15,11 +15,11 @@ angular.module('comforter', [
 	'gitlabHost',
 function ($oauth2, gitlabHost) {
 	$oauth2.configure({
-		clientId: '21aba965cd47dbbeb352221ad879a6944ab1409547d2036f2be6ea9f41eb8089',
+		clientId: '718feddfcb4c5a8417df78ba87da72c108ec78bf4da92e2a4a42728256aa89cf',
 		oauth2Url: gitlabHost + '/oauth/authorize',
 		tokenUrl: '/oauth/token',
 		autoAuth: true,
-		contentUrls: ['/api', gitlabHost + '/api/v3'],
+		contentUrls: ['/api', gitlabHost + '/api/v4'],
 		redirectUri: true,
 		responseType: 'code',
 		pathDelimiter: '?'

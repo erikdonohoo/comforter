@@ -9,7 +9,7 @@ var apiService = function ($http, $q, gitlabHost) {
 	this.$http = $http;
 	this.$q = $q;
 	this.appCache = {};
-	this.gitlabApi = gitlabHost + '/api/v3';
+	this.gitlabApi = gitlabHost + '/api/v4';
 };
 
 // add status, most recent commit and list of commits for ease of use

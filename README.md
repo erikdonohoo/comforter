@@ -20,21 +20,30 @@ sudo gitlab-ctl reconfigure
 exit
 ```
 
-Setup [gitlab runner](https://docs.gitlab.com/runner/install/linux-repository.html) with ubuntu instructions.
+### Visit GitLab and update admin password
+Visit `http://192.168.33.52` and you will be prompted to modify password.  Choose anything.  Then signin as username `root` and your password.
+
+### Register the runner
+
+Follow [these](https://docs.gitlab.com/runner/register/index.html) steps.
+Choose shell as executor and use `http://192.168.33.52` as the URL.  To get a token,
+visit `http://192.168.33.52/admin/runners` and grab the registration token off the page.
 
 Use the url `http://192.168.33.52` and the runner token found [here](http://192.168.33.52/admin/runners) after running vagrant up.
 
 ### Setup Comforter In Gitlab as an App
 * Go [here](http://192.168.33.52/admin/applications/new)
 * Name = Comforter
-* Redirect URI http://192.168.33.51
+* Redirect URI http://192.168.33.51, http://192.168.33.51/, http://localhost:3000/, http://localhost:3000
 * Use **api** and **read_user** scopes
 * Grab App ID and Secret and put into `settings.json` file as token and secret respectively
-
 
 ### Update your URLs in settings.json and app.js for app
 * Update `https://gitlab.goreact.com` to `http://192.168.33.52` in settings.json on both gitlab.host and gitlab.api.
 * Update gitlabHost constant in `app/app.js` to be `http://192.168.33.52` as well.
+
+### Add the test project to gitlab
+The folder in this repo called `test-project` can be moved out, git inited, and then added to your local gitlab instance.  It has a test job that runs and generates coverage and sends it to gitlab.
 
 ## IMPORTANT NOTE
 * **DO NOT** commit changes to the strings you changed to `http://192.168.33.52`.  Until we have this slightly better, just be sure not to commit that.

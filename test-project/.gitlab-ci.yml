@@ -1,0 +1,12 @@
+before_script:
+    - . /home/gitlab-runner/.nvm/nvm.sh
+    - nvm install v6.10.3
+    - nvm use v6.10.3
+    - set -e
+    - set -o pipefail
+stages:
+    - test
+test:
+    stage: test
+    script:
+        - npm i && npm run test && npm run comforter:main

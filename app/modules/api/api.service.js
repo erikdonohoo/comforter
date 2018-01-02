@@ -5,12 +5,11 @@ var statusMap = {
 	failed: 'bad'
 };
 
-var gitlabApi = 'https://gitlab.goreact.com/api/v3';
-
-var apiService = function ($http, $q) {
+var apiService = function ($http, $q, gitlabHost) {
 	this.$http = $http;
 	this.$q = $q;
 	this.appCache = {};
+	this.gitlabApi = gitlabHost + '/api/v4';
 };
 
 // add status, most recent commit and list of commits for ease of use
@@ -48,7 +47,7 @@ apiService.prototype.getApp = function (appId) {
 	var cache = this.appCache;
 
 	return cache[appId] ? $q.when(cache[appId]) : $q.all({
-		gitlab: $http.get(gitlabApi + '/projects/' + appId),
+		gitlab: $http.get(this.gitlabApi + '/projects/' + appId),
 		comforter: $http.get('/api/apps/' + appId)
 	}).then(function (appInfo) {
 		return $q.when(cache[appId] = modifyApp(angular.merge(appInfo.gitlab.data, appInfo.comforter.data)));
@@ -56,4 +55,4 @@ apiService.prototype.getApp = function (appId) {
 };
 
 angular.module('comforter.api')
-.service('apiService', ['$http', '$q', apiService]);
+.service('apiService', ['$http', '$q', 'gitlabHost', apiService]);

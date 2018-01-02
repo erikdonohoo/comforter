@@ -10,7 +10,8 @@
     },
     "port": 3333,
     "gitlab": {
-        "api": "https://gitlab.goreact.com/api/v3/",
+        "host": "https://gitlab.goreact.com",
+        "api": "https://gitlab.goreact.com/api/v4/",
         "commitBuildStatusName": "ci/comforter",
         "token": "nGcKJevs77VWLj8y5yr6",
         "secret": "5a6bde22766f371f376c2c4ed66b0d086829acdd052c77de4f21d429005f5c1d"

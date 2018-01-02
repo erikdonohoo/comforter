@@ -55,7 +55,7 @@ app.use(function (err, req, res, next) {
 
 // Oauth handling
 app.get('/oauth/token', function (req, res) {
-	var url = 'https://gitlab.goreact.com/oauth/token?';
+	var url = settings.gitlab.host + '/oauth/token?';
 	url += 'client_id=' + req.query.client_id;
 	url += '&client_secret=' + settings.gitlab.secret;
 	url += '&code=' + req.query.code;

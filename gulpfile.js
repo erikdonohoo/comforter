@@ -258,7 +258,8 @@ gulp.task('reload', function () {
 });
 gulp.task('serve', ['css', 'js', 'bower'], function () {
 	browserSync.init({
-		proxy: 'localhost:' + settings.port
+		proxy: 'localhost:' + settings.port,
+		tunnel: 'comforterdev'
 	});
 
 	// Reload on js/css/html changes

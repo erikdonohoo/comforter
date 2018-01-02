@@ -174,7 +174,7 @@ function addProject (request) {
 				var newApp = new App({
 					project_id: project.id,
 					name: project.name,
-					coverage: {coverage: 0}
+					coverage: {percent: 0}
 				});
 				newApp.save(function (err) {
 					if (err) {

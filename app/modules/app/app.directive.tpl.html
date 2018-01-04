@@ -15,7 +15,9 @@
 				<md-card-content>
 					<div class="md-margin"><button class="branch-name">{{commit.branch}}</button></div>
 					<div class="md-margin"><strong>Commit Date: {{commit.created_at | date}}</strong></div>
-					<div class="md-margin"><strong>Overall Coverage: {{commit.coverage}}</strong></div>
+					<div class="md-margin"><strong>Overall Coverage: {{commit.coverage.percent || commit.coverage}}</strong></div>
+					<div class="md-margin" ng-if="commit.coverage.totalLines"><strong>Total Lines: {{commit.coverage.totalLines}}</strong></div>
+					<div class="md-margin" ng-if="commit.coverage.totalCovered"><strong>Lines Covered: {{commit.coverage.totalCovered}}</strong></div>
 					<md-button ng-if="commit.hasDetails" class="md-raised" target="_self" ng-href="/coverage/apps/{{app.project_id}}/{{commit.branchPath}}">
 						View Coverage Details
 					</md-button>

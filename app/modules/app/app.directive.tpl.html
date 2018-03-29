@@ -1,4 +1,4 @@
-<h1 class="md-display-4" layout-align="center center" layout="row"><span>{{app.name}}</span></h1>
+<h1 class="md-display-4" layout-align="center center" layout="row"><span>{{app.name}}:{{app.project_name}}</span></h1>
 <div layout="row" layout-align="center center" layout-margin>
 	<div flex="66" flex-sm="100" flex-xs="100" layout="row">
 		<!-- <div class="app-info" layout="column">
@@ -18,7 +18,7 @@
 					<div class="md-margin"><strong>Overall Coverage: {{commit.coverage.percent || commit.coverage}}</strong></div>
 					<div class="md-margin" ng-if="commit.coverage.totalLines"><strong>Total Lines: {{commit.coverage.totalLines}}</strong></div>
 					<div class="md-margin" ng-if="commit.coverage.totalCovered"><strong>Lines Covered: {{commit.coverage.totalCovered}}</strong></div>
-					<md-button ng-if="commit.hasDetails" class="md-raised" target="_self" ng-href="/coverage/apps/{{app.project_id}}/{{commit.branchPath}}">
+					<md-button ng-if="commit.hasDetails" class="md-raised" target="_self" ng-href="/coverage/apps/{{app.project_id}}/{{app.project_name}}/{{commit.branchPath}}">
 						View Coverage Details
 					</md-button>
 					<md-button class="md-primary" target="_blank" ng-href="https://gitlab.goreact.com/{{app.path_with_namespace}}/commit/{{commit.commit}}">

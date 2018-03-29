@@ -2,7 +2,7 @@
 
 function appsRouteConfig ($routeProvider) {
 		$routeProvider
-		.when('/apps/:id', {
+		.when('/apps/:id/:name', {
 			templateUrl: 'modules/routes/apps/apps.route.html',
 			controller: ['$scope', '$routeParams',
 				function ($scope, $routeParams) {

@@ -41,14 +41,14 @@ apiService.prototype.getApps = function () {
 	}.bind(this));
 };
 
-apiService.prototype.getApp = function (appId) {
+apiService.prototype.getApp = function (appId, name) {
 	var $q = this.$q;
 	var $http = this.$http;
 	var cache = this.appCache;
 
 	return cache[appId] ? $q.when(cache[appId]) : $q.all({
 		gitlab: $http.get(this.gitlabApi + '/projects/' + appId),
-		comforter: $http.get('/api/apps/' + appId)
+		comforter: $http.get('/api/apps/' + appId + '/' + name)
 	}).then(function (appInfo) {
 		return $q.when(cache[appId] = modifyApp(angular.merge(appInfo.gitlab.data, appInfo.comforter.data)));
 	});

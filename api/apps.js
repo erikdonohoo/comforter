@@ -34,13 +34,15 @@ var math = require('mathjs');
 /* GET apps listing. */
 router.get('/', gitlabAuth, function (req, res) {
 	App.find({}).then(function (apps) {
-		apps = apps.map(reduceCommits(5));
+		apps = apps.map(reduceCommits(5)).filter(function (app) {
+			return !!app.project_name;
+		});
 		res.status(200).json(apps);
 	});
 });
 
-router.get('/:id', gitlabAuth, function (req, res) {
-	App.findOne({project_id: req.params.id}, function (err, app) {
+router.get('/:id/:name', gitlabAuth, function (req, res) {
+	App.findOne({project_id: req.params.id, project_name: req.params.name}, function (err, app) {
 		if (err) { return res.status(500).json(err); }
 		res.status(200).json(reduceCommits(100)(app));
 	});
@@ -92,6 +94,7 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 					project: req.body.project,
 					commit: req.body.commit,
 					branch: req.body.branch,
+					projectName: req.body.name,
 					coverage: coverage,
 					hasDetails: req.files.zip != null && req.files.zip.length,
 					host: req.server_url || ('http://' + req.headers.host)
@@ -102,9 +105,9 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 			if (req.files.zip && req.files.zip.length) {
 				// move zip (if here) to location after unzipping and then remove
 
-				prepareDirectoryForZip(req.body.project, req.body.branch.replace(/\//g, '-'));
+				prepareDirectoryForZip(req.body.project, req.body.branch.replace(/\//g, '-'), req.body.name);
 
-				var target = './app-coverage-data/coverage/apps/' + req.body.project;
+				var target = './app-coverage-data/coverage/apps/' + req.body.project + '/' + req.body.name;
 
 				targz().extract(req.files.zip[0].path, target, function (err) {
 					if (err) { console.error(err); }
@@ -139,7 +142,7 @@ function folderExists (filePath) {
 	}
 }
 
-function prepareDirectoryForZip (projectId, branch) {
+function prepareDirectoryForZip (projectId, branch, projectName) {
 	// make app-coverage-data and other folders if it doesn't exist
 	if (!folderExists('./app-coverage-data')) {
 		fs.mkdirSync('./app-coverage-data');
@@ -153,8 +156,11 @@ function prepareDirectoryForZip (projectId, branch) {
 	if (!folderExists('./app-coverage-data/coverage/apps/' + projectId)) {
 		fs.mkdirSync('./app-coverage-data/coverage/apps/' + projectId);
 	}
-	if (folderExists('./app-coverage-data/coverage/apps/' + projectId + '/' + branch)) {
-		rimraf.sync('./app-coverage-data/coverage/apps/' + projectId + '/' + branch);
+	if (!folderExists('./app-coverage-data/coverage/apps/' + projectId + '/' + projectName)) {
+		fs.mkdirSync('./app-coverage-data/coverage/apps/' + projectId + '/' + projectName);
+	}
+	if (folderExists('./app-coverage-data/coverage/apps/' + projectId + '/' + projectName + '/' + branch)) {
+		rimraf.sync('./app-coverage-data/coverage/apps/' + projectId + '/' + projectName + '/' + branch);
 	}
 }
 
@@ -162,17 +168,19 @@ function addProject (request) {
 	// check for project and add if necessary
 	var deferred = q.defer();
 	App.findOne({
-		project_id: request.body.project
+		project_id: request.body.project,
+		project_name: request.body.name
 	}, function (err, app) {
 		if (err) {
 			return deferred.reject(err);
 		}
-		if (!app || !app.project_id) {
+		if (!app || !app.project_id || !app.project_name) {
 
 			gitlab.getProject(request.body.project, request.auth_token, request.token_type)
 			.then(function (project) {
 				var newApp = new App({
 					project_id: project.id,
+					project_name: request.body.name,
 					name: project.name,
 					coverage: {percent: 0}
 				});

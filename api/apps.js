@@ -73,8 +73,12 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 			parse(lcov.path, function (err, data) {
 				deferred.resolve(coverageFromLcov(data));
 			});
-		} else if (req.body.coverage) {
-			deferred.resolve(req.body.coverage);
+		} else if (req.body.totalLines) {
+			var coverage = {
+				totalLines: parseInt(req.body.totalLines, 10),
+				totalCovered: parseInt(req.body.totalCovered, 10)
+			};
+			deferred.resolve(coverage);
 		} else {
 			deferred.reject('missing lcov or coverage information');
 		}
@@ -115,7 +119,9 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 				});
 			}
 
-			fs.unlink(req.files.lcov[0].path);
+			if (req.files && req.files.lcov) {
+				fs.unlink(req.files.lcov[0].path);
+			}
 
 		}).catch(function (err) {
 			if (err) { console.error(err); }

@@ -52,6 +52,16 @@ appSchema.statics.getCoverageForBranch = function (projectId, branchName, projec
 	return deferred.promise;
 };
 
+appSchema.statics.getCoverageForCommit = function (projectId, commitHash, projectName) {
+	var deferred = q.defer();
+	this.findOne({project_id: projectId.toString(), project_name: projectName}, function (err, app) {
+		if (err) { return deferred.reject(err); }
+		if (!app || !app.commits || !app.commits[commitHash]) { return deferred.reject(); }
+		return deferred.resolve(app.commits[commitHash].coverage);
+	});
+	return deferred.promise;
+};
+
 var App = mongoose.model('App', appSchema);
 
 module.exports = App;

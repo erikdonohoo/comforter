@@ -98,6 +98,8 @@ router.post('/:id/coverage', gitlabAuth, function (req, res) {
 					project: req.body.project,
 					commit: req.body.commit,
 					branch: req.body.branch,
+					mergeBase: req.body.mergeBase,
+					targetBranch: req.body.targetBranch,
 					projectName: req.body.name,
 					coverage: coverage,
 					hasDetails: req.files.zip != null && req.files.zip.length,

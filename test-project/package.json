@@ -6,7 +6,7 @@
   "scripts": {
 		"test": "grunt test-ci",
 		"bower": "bower install",
-		"comforter:main": "comforter-cli --path coverage/lcov/lcov.info --branch $CI_COMMIT_REF_NAME --commit $CI_COMMIT_SHA --project $CI_PROJECT_ID --apiKey $GITLAB_API_KEY --zip coverage/lcov/lcov-report/ --host https://comforterdev.localtunnel.me"
+		"comforter:main": "comforter-cli --path coverage/lcov/lcov.info --branch $CI_COMMIT_REF_NAME --commit $CI_COMMIT_SHA --merge-base $CI_COMMIT_BEFORE_SHA --target-branch $CI_MERGE_REQUEST_TARGET_BRANCH_NAME --project $CI_PROJECT_ID --apiKey $GITLAB_API_KEY --zip coverage/lcov/lcov-report/ --host https://comforterdev.localtunnel.me --name Resourcify"
   },
   "repository": {
     "type": "git",
@@ -43,7 +43,7 @@
     "karma-ng-scenario": "^0.1.0",
     "karma-phantomjs-launcher": "^1.0.4",
 		"load-grunt-tasks": "^0.6.0",
-		"comforter-cli": "0.3.4",
+		"comforter-cli": "0.4.4",
 		"bower": "1.8.2"
   }
 }

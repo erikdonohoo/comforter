@@ -9,4 +9,11 @@ stages:
 test:
     stage: test
     script:
-        - npm i && npm run bower && npm run test && npm run comforter:main
+        - npm i
+        - npm run bower
+        - npm run test
+        - npm run comforter:main
+    only:
+        - branches
+        - tags
+        - merge_request

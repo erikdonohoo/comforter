@@ -8,8 +8,19 @@
 		<div class="commit-list" flex>
 			<md-card class="app" ng-repeat="commit in app.commitList | orderBy:'created_at':true" ng-class="{'highlight': commit.commit === $routeParams.commit}">
 				<md-card-title>
-					<md-card-title-text><span class="md-title {{commit.diff >= 0 ? 'good' : 'bad'}}">
-						This commit ({{commit.commit | limitTo:7}}) {{commit.diff >= 0 ? 'improves' : 'decreases'}} coverage by {{commit.diff | number:4}}%
+					<md-card-title-text ng-if="!commit.diff.comparedCommit"><span class="md-title {{commit.diff >= 0 ? 'good' : 'bad'}}">
+						This commit
+						(<a ng-href="{{gitlabHost}}/{{app.path_with_namespace}}/commit/{{commit.commit}}">#{{commit.commit | limitTo:7}}</a>)
+						{{commit.diff >= 0 ? 'improves' : 'decreases'}} coverage by
+						{{commit.diff | number:4}}%
+					</span></md-card-title-text>
+					<md-card-title-text ng-if="commit.diff.comparedCommit"><span class="md-title {{commit.diff.change >= 0 ? 'good' : 'bad'}}">
+						This commit
+						(<a ng-href="{{gitlabHost}}/{{app.path_with_namespace}}/commit/{{commit.commit}}">#{{commit.commit | limitTo:7}}</a>)
+						{{commit.diff.change >= 0 ? 'improves' : 'decreases'}} coverage by
+						{{commit.diff.change | number:4}}%
+						compared to <a ng-href="/coverage/apps/{{app.project_id}}/{{app.project_name}}/{{commit.diff.comparedBranch}}">{{commit.diff.comparedBranch}}</a>
+						(<a ng-href="{{gitlabHost}}/{{app.path_with_namespace}}/commit/{{commit.diff.comparedCommit}}">#{{commit.diff.comparedCommit | limitTo:7}}</a>)
 					</span></md-card-title-text>
 				</md-card-title>
 				<md-card-content>

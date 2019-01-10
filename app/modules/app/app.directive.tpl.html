@@ -21,7 +21,7 @@
 					<md-button ng-if="commit.hasDetails" class="md-raised" target="_self" ng-href="/coverage/apps/{{app.project_id}}/{{app.project_name}}/{{commit.branchPath}}">
 						View Coverage Details
 					</md-button>
-					<md-button class="md-primary" target="_blank" ng-href="https://gitlab.goreact.com/{{app.path_with_namespace}}/commit/{{commit.commit}}">
+					<md-button class="md-primary" target="_blank" ng-href="{{gitlabHost}}/{{app.path_with_namespace}}/commit/{{commit.commit}}">
 						View this commit on GitLab
 					</md-button>
 				</md-card-content>

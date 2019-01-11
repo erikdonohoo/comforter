@@ -34,7 +34,7 @@ appSchema.pre('save', function (next) {
 });
 
 // Get coverage for a branch
-appSchema.statics.getCoverageForBranch = function (projectId, branchName, projectName) {
+appSchema.statics.getInfoForBranch = function (projectId, branchName, projectName) {
 	var deferred = q.defer();
 	this.findOne({project_id: projectId.toString(), project_name: projectName}, function (err, app) {
 		if (err) { return deferred.reject(err); }
@@ -47,17 +47,17 @@ appSchema.statics.getCoverageForBranch = function (projectId, branchName, projec
 			return first.created_at > second.created_at ? -1 : 1;
 		});
 		if (!matches.length) { return deferred.resolve(0); }
-		return deferred.resolve(matches[0].coverage);
+		return deferred.resolve(matches[0]);
 	});
 	return deferred.promise;
 };
 
-appSchema.statics.getCoverageForCommit = function (projectId, commitHash, projectName) {
+appSchema.statics.getInfoForCommit = function (projectId, commitHash, projectName) {
 	var deferred = q.defer();
 	this.findOne({project_id: projectId.toString(), project_name: projectName}, function (err, app) {
 		if (err) { return deferred.reject(err); }
 		if (!app || !app.commits || !app.commits[commitHash]) { return deferred.reject(); }
-		return deferred.resolve(app.commits[commitHash].coverage);
+		return deferred.resolve(app.commits[commitHash]);
 	});
 	return deferred.promise;
 };

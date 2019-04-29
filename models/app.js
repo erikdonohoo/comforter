@@ -38,7 +38,7 @@ appSchema.statics.getInfoForBranch = function (projectId, branchName, projectNam
 	var deferred = q.defer();
 	this.findOne({project_id: projectId.toString(), project_name: projectName}, function (err, app) {
 		if (err) { return deferred.reject(err); }
-		if (!app || !app.commits) { return deferred.resolve(0); }
+		if (!app || !app.commits) { return deferred.resolve({coverage: 0}); }
 		var matches = Object.keys(app.commits).map(function (commit) {
 			return app.commits[commit];
 		}).filter(function (commit) {
@@ -46,7 +46,7 @@ appSchema.statics.getInfoForBranch = function (projectId, branchName, projectNam
 		}).sort(function (first, second) {
 			return first.created_at > second.created_at ? -1 : 1;
 		});
-		if (!matches.length) { return deferred.resolve(0); }
+		if (!matches.length) { return deferred.resolve({coverage:0}); }
 		return deferred.resolve(matches[0]);
 	});
 	return deferred.promise;

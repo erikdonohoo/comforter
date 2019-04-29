@@ -631,8 +631,9 @@ bower-config@^1.3.0:
     untildify "^2.1.0"
 
 bower@^1.7.2:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/bower/-/bower-1.8.0.tgz#55dbebef0ad9155382d9e9d3e497c1372345b44a"
+  version "1.8.8"
+  resolved "https://registry.yarnpkg.com/bower/-/bower-1.8.8.tgz#82544be34a33aeae7efb8bdf9905247b2cffa985"
+  integrity sha512-1SrJnXnkP9soITHptSO+ahx3QKp3cVzn8poI6ujqc5SeOkg5iqM1pK9H+DSc2OQ8SnO0jC/NG4Ur/UIwy7574A==
 
 brace-expansion@^1.0.0, brace-expansion@^1.1.7:
   version "1.1.7"
@@ -3625,6 +3626,7 @@ jade@~1.11.0:
     jstransformer "0.0.2"
     mkdirp "~0.5.0"
     transformers "2.1.0"
+    uglify-js "^2.4.19"
     void-elements "~2.0.1"
     with "~4.0.0"
 
@@ -5020,7 +5022,7 @@ optimist@~0.3.5:
     wordwrap "~0.0.2"
 
 optional@^0.1.0:
-  version v0.1.3
+  version "0.1.3"
   resolved "https://registry.yarnpkg.com/optional/-/optional-0.1.3.tgz#f87537517b59a5e732cfd8f18e4f7eea7ab4761e"
 
 optionator@^0.8.1:

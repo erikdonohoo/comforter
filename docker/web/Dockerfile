@@ -22,4 +22,4 @@ COPY httpd.conf /etc/httpd/conf/
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
-ENTRYPOINT [ "docker-entrypoint.sh", "httpd" ]
+ENTRYPOINT [ "bash", "docker-entrypoint.sh" ]

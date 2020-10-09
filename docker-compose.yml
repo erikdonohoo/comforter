@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  # web:
+  db:
+    image: mysql:5.6
+    hostname: db
+    restart: always
+    volumes:
+      - ./docker/db-data:/var/lib/mysql:cached
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf:delegated
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: comforter
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: comforter
+    ports:
+      - "127.0.0.1:8307:3306"
+  # runner:
+  gitlab:
+    image: "gitlab/gitlab-ee"
+    ports:
+      - "4000:80"

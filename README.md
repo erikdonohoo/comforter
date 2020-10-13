@@ -23,6 +23,18 @@ Once up, gitlab will be running at `http://localhost:4000`. The default username
 The comforter server itself is running at `http://localhost:8010`. To set up the DB in your DB GUI of choice, just take a look
 at the `docker-compose.yml` file to grab the DB info you need.
 
+## Development
+
+Once you have docker-compose up and running, you can start the client
+
+```bash
+cd client/
+yarn start
+```
+
+You can now view the coverage app at `http://localhost:8010/coverage`. You will need to refresh the browser page after
+making changes since this app needs to be served by Laravel.
+
 ### Some other helpful docker commands
 
 1. SSH Into a container

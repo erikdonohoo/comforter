@@ -19,8 +19,8 @@ class AppServiceProvider extends ServiceProvider
             return new Gitlab([
                 'clientId' => config('app.gitlab.clientId'),
                 'clientSecret' => config('app.gitlab.clientSecret'),
-                'redirectUrl' => 'http://localhost:8010/comforter',
-                'domain' => 'http://localhost:4000'
+                'redirectUri' => 'http://localhost:8010/coverage',
+                'domain' => 'https://jump.goreact.com:8802'
             ]);
         });
     }

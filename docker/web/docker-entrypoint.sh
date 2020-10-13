@@ -2,7 +2,7 @@
 
 rm -f /var/run/httpd/httpd.pid
 
-cd /www/api
+cd /www/web
 
 if [ ! -f .env ]; then
   cp .env.example .env

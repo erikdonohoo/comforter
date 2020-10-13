@@ -2,12 +2,13 @@ FROM amazonlinux:2
 
 RUN yum -y upgrade
 
-RUN yum -y install wget httpd24 mod24_ssl git zip
+RUN yum -y install wget httpd24 mod24_ssl git zip gcc glibc glibc-common gd gd-devel make
 
 # PHP 7.4
 RUN amazon-linux-extras enable php7.4
 RUN yum clean metadata
-RUN yum -y install php php-{pear,cgi,common,curl,mbstring,gd,mysqlnd,gettext,bcmath,json,xml,fpm,intl,zip,imap}
+RUN yum -y install php php-{pear,cgi,common,curl,mbstring,gd,mysqlnd,gettext,bcmath,json,xml,fpm,intl,zip,imap,xdebug,devel}
+RUN pecl install xdebug
 
 RUN cd /root && wget https://getcomposer.org/installer && php installer --install-dir=/usr/local/bin --filename=composer && rm -f installer
 RUN mkdir -p /var/run/php/cache && chown apache:apache /var/run/php/cache

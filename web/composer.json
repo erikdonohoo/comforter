@@ -1,14 +1,14 @@
 {
-    "name": "laravel/laravel",
+    "name": "goreact/comforter",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Code coverage tracker",
     "keywords": [
         "framework",
         "laravel"
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.4.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",

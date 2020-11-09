@@ -7,6 +7,8 @@ on your machine as this project uses php 7.4. Follow the instructions and make s
 Make sure you follow the log as it installs and use the `tail` command it gives you.
 If you encounter any errors with missing packages, just install them via `brew`.
 
+Make sure you are using composer > 2.0
+
 You will need `docker` and `docker-compose` installed. To setup:
 
 ```bash

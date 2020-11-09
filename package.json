@@ -4,9 +4,9 @@
   "description": "When code is covered you feel warm and toasty inside",
   "scripts": {
     "docker": "./docker.sh",
-    "setup": "cd web/ && composer setup && cd ../ && yarn docker up && cd client && yarn && yarn build && cd ../ && yarn migrate",
+    "setup": "yarn docker up && cd client && yarn && yarn build && cd ../ && yarn migrate",
     "migrate": "docker-compose exec -T -w /www/web web /usr/bin/php artisan migrate",
-    "clean:hard": "yarn docker rm && git clean -d -e web/.env -X -f && cd web/ && composer reset && cd ../ && yarn docker pull && yarn docker build"
+    "clean:hard": "yarn docker rm && git clean -d -e web/.env -X -f && yarn docker pull && yarn docker build"
   },
   "repository": {
     "type": "git",

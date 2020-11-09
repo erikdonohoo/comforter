@@ -55,8 +55,7 @@
             "@php artisan package:discover --ansi"
         ],
         "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php artisan key:generate --ansi"
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
@@ -66,9 +65,7 @@
             "php -d memory_limit=2G $(which composer) install"
         ],
         "setup": [
-            "php -d memory_limit=2G $(which composer) install",
-            "@php artisan key:generate --ansi",
-            "@php -r \"file_exists('storage/oauth-private.key') || 'artisan passport:keys';\""
+            "php -d memory_limit=2G $(which composer) install"
         ]
     }
 }

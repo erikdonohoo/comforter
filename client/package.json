@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng build --watch --aot --outputPath='../web/public/coverage'",
+    "start": "ng build --watch --aot --outputPath='../web/resources/comforter'",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

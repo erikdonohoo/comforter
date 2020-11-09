@@ -32,6 +32,13 @@ cd client/
 yarn start
 ```
 
+Because of some issues with the OAuth integration, you have to visit your app over a jump tunnel URL, as
+your app needs to be visited both by you in the browser, and have endpoints called by GitLab but you can
+only register one URL. Since one would work with localhost but the other would need to be a docker URL
+JumpTunnel is the only way around this for now.
+
+So in your `.ssh/config` file register port `8010` to one of your available jump tunnel paths and configure that
+
 You can now view the coverage app at `http://localhost:8010/coverage`. You will need to refresh the browser page after
 making changes since this app needs to be served by Laravel.
 

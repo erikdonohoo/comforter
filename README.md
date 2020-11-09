@@ -15,6 +15,14 @@ You will need `docker` and `docker-compose` installed. To setup:
 yarn setup
 ```
 
+Once your DB is up, you can run the following:
+```bash
+yarn migrate
+cd web/
+php artisan key:generate --ansi
+php artisan passport:keys
+```
+
 Once up, gitlab will be running at `http://localhost:4000`. The default username is `root`, feel free to set any password.
 The comforter server itself is running at `http://localhost:8010`. To set up the DB in your DB GUI of choice, just take a look
 at the `docker-compose.yml` file to grab the DB info you need.

@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng build --watch --aot --outputPath='../web/resources/comforter'",
-    "build": "ng build",
+    "build": "ng build --aot --outputPath='../web/resources/comforter'",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

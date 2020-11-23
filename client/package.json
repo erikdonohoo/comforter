@@ -7,10 +7,7 @@
     "build": "ng build --aot --outputPath='../web/resources/comforter'",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "setup": "docker-compose -d",
-    "docker": "docker.sh",
-    "clean:hard": "yarn docker rm && git clean -d -e settings.json -e goreact-api-v2/.env -X -f && composer reset && yarn docker pull && yarn docker build"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {

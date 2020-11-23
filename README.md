@@ -17,7 +17,7 @@ yarn setup
 
 Once your DB is up, you can run the following:
 ```bash
-yarn migrate
+yarn migrate # If this is failing, ssh into the web box and run migrate from there
 cd web/
 php artisan key:generate --ansi
 php artisan passport:keys
@@ -47,11 +47,3 @@ So in your `.ssh/config` file register port `8010` to one of your available jump
 
 You can now view the coverage app at `http://localhost:8010/coverage`. You will need to refresh the browser page after
 making changes since this app needs to be served by Laravel.
-
-### Some other helpful docker commands
-
-1. SSH Into a container
-```shell
-docker ps # get name of container
-docker exec -it <name> /bin/bash
-```

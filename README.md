@@ -32,6 +32,7 @@ Now setup an app for comforter in gitlab, and add keys to .env
 2. Click applications on the left panel
 3. Click New Application. The Name should be `Comforter`, and Redirect URI should be `http://localhost:8010`. Check the box for Trusted and give it the `api` scope.
 4. Take the keys you get, and set them in your `.env` for `GITLAB_OAUTH_ID` and `GITLAB_OAUTH_SECRET`
+5. Create an access_token for your root user, and choose API access, and copy and paste that into `GITLAB_ACCESS_TOKEN`
 
 The comforter server itself is running at `http://localhost:8010`. To set up the DB in your DB GUI of choice, just take a look
 at the `docker-compose.yml` file to grab the DB info you need.

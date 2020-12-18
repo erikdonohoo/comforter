@@ -233,7 +233,8 @@ return [
     'gitlab' => [
         'clientId' => env('GITLAB_OAUTH_ID'),
         'clientSecret' => env('GITLAB_OAUTH_SECRET'),
-        'domain' => env('GITLAB_DOMAIN')
+        'domain' => env('GITLAB_DOMAIN'),
+        'token' => env('GITLAB_ACCESS_TOKEN')
     ]
 
 ];

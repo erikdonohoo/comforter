@@ -23,11 +23,19 @@ php artisan key:generate --ansi
 php artisan passport:keys
 ```
 
-Once up, gitlab will be running at `http://localhost:4000`. The default username is `root`, feel free to set any password.
+It may take a while for it to finish setting up, but wait until `http://localhost:4000` is running and you can get to the login page for GitLab
+
+The default username is `root`, feel free to set any password.
+Now setup an app for comforter in gitlab, and add keys to .env
+
+1. Visit the admin area by clicking the wrench in the toolbar
+2. Click applications on the left panel
+3. Click New Application. The Name should be `Comforter`, and Redirect URI should be `http://localhost:8010`. Check the box for Trusted and give it the `api` scope.
+4. Take the keys you get, and set them in your `.env` for `GITLAB_OAUTH_ID` and `GITLAB_OAUTH_SECRET`
+
 The comforter server itself is running at `http://localhost:8010`. To set up the DB in your DB GUI of choice, just take a look
 at the `docker-compose.yml` file to grab the DB info you need.
 
-Now setup an app for comforter in gitlab, and add keys to .env
 
 ## Development
 
@@ -43,7 +51,8 @@ your GitLab needs to be visited both by you in the browser, and have endpoints c
 only register one URL. Since one would work with localhost but the other would need to be a docker URL
 JumpTunnel is the only way around this for now.
 
-So in your `.ssh/config` file register port `8010` to one of your available jump tunnel paths and configure that
+So in your `.ssh/config` file register port `8010` to one of your available jump tunnel paths and configure that.
+Once configured, set `GITLAB_DOMAIN` in your .env to `https://jump.goreact.com:<port you just chose>`
 
-You can now view the coverage app at `http://localhost:8010/coverage`. You will need to refresh the browser page after
+You can now view the coverage app at `http://localhost:8010`. You will need to refresh the browser page after
 making changes since this app needs to be served by Laravel.

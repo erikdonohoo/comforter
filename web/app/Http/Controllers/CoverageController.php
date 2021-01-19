@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddCommitRequest;
+use App\Jobs\ProcessCoverage;
+use App\Models\Commit;
 use App\Services\CoverageUtil;
 
 /**
@@ -33,6 +35,18 @@ class CoverageController extends Controller
             $coverage = $this->coverage->roundCoverage($request->coverage);
         }
 
-        return $coverage;
+        $commit = Commit::make([
+            'sha' => $request->sha,
+            'coverage' => $coverage,
+            'branch_name' => $request->branch
+        ]);
+
+        // Dispatch job to handle GitLab communication and commit update
+        ProcessCoverage::dispatch($request->file('zip'), $commit, $request->project_id, $request->project_name);
+
+        // Send coverage back to requester
+        return [
+            'coverage' => $coverage
+        ];
     }
 }

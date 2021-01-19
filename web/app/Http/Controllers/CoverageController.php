@@ -27,9 +27,10 @@ class CoverageController extends Controller
     public function addCommit (AddCommitRequest $request)
     {
         // Process LCOV if present
-        $coverage = 0;
         if ($request->hasFile('lcov')) {
             $coverage = $this->coverage->getCoverageFromLCOV($request->file('lcov')->getContent());
+        } else {
+            $coverage = $this->coverage->roundCoverage($request->coverage);
         }
 
         return $coverage;

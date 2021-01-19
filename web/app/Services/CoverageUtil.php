@@ -27,6 +27,11 @@ class CoverageUtil
             'totalCovered' => 0
         ]);
 
-        return round(($result['totalCovered'] / $result['totalLines']) * 100, 4);
+        return $this->roundCoverage(($result['totalCovered'] / $result['totalLines']) * 100);
+    }
+
+    public function roundCoverage (float $coverage)
+    {
+        return round($coverage, 4);
     }
 }

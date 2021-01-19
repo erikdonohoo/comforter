@@ -28,6 +28,7 @@ class AddCommitRequest extends FormRequest
             'branch' => ['required', 'string'],
             'sha' => ['required', 'string'],
             'project_id' => ['required', 'integer'],
+            'project_name' => ['string'],
             'zip' => ['required', 'file'],
             'coverage' => ['required_without:lcov', 'numeric'],
             'lcov' => ['required_without:coverage', 'file']

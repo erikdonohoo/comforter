@@ -39,9 +39,11 @@ class GitlabOauthMiddleware
             // http://localhost:4000 (browser) and http://gitlab:4000 (network)
             $authUrl = $this->gitlab->getAuthorizationUrl();
             session(['oauth2state' => $this->gitlab->getState()]);
+            session(['gitlabToken' => null]);
             return redirect($authUrl);
         } else if (!$request->query('state') || $request->query('state') !== session('oauth2state')) {
             session(['oauth2state' => null]);
+            session(['gitlabToken' => null]);
             throw new UnauthorizedHttpException('Bad');
         } else {
 

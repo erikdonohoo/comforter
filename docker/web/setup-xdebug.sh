@@ -24,11 +24,6 @@ if [ ! -d /usr/local/lib/php/pecl ]; then
 	sudo mkdir /usr/local/lib/php/pecl
 fi
 
-if [ ! -d /usr/local/etc/php/7.4/conf.d ]; then
-	echo 'Making conf directory...'
-	sudo mkdir /usr/local/etc/php/7.4/conf.d
-fi
-
 # Dude, where's my php.ini? https://stackoverflow.com/a/24342463/1248889
 #PHP_LOCATION=$(php -r 'print php_ini_loaded_file();')
 # What go-pear does: how to find php ini configuration https://stackoverflow.com/a/2750615/1248889

@@ -16,21 +16,25 @@ class AddAppTables extends Migration
         Schema::create('apps', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('gitlab_project_id')->index()->unique();
+            $table->integer('gitlab_project_id')->index();
             $table->string('primary_branch_name');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
             $table->dateTime('deleted_at')->nullable();
+
+            $table->unique(['gitlab_project_id', 'name']);
         });
 
         Schema::create('commits', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('app_id');
             $table->string('branch_name')->index();
-            $table->string('sha')->index()->unique();
-            $table->float('coverage');
+            $table->string('sha')->index();
+            $table->decimal('coverage', 8, 4, true);
             $table->dateTime('created_at')->index();
             $table->dateTime('updated_at');
+
+            $table->unique(['sha', 'app_id']);
 
             // Foreign
             $table->foreign('app_id')

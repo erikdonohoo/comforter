@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
             $client = new Client();
             $client->setUrl(config('app.gitlab.domain'));
             $client->authenticate(config('app.gitlab.token'), Client::AUTH_OAUTH_TOKEN);
+            return $client;
         });
     }
 

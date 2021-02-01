@@ -18,6 +18,7 @@ Route::group([
     'middleware' => []
 ], function () {
     Route::post('commits', 'CoverageController@addCommit');
+    Route::get('apps/{app}', 'CoverageController@getApp');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

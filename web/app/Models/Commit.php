@@ -19,7 +19,8 @@ use Illuminate\Support\Carbon;
  */
 class Commit extends Model
 {
-    protected $timestamps = true;
+    public $timestamps = true;
+    protected $guarded = [];
 
     public function app (): BelongsTo
     {

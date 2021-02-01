@@ -30,6 +30,8 @@ class AddCommitRequest extends FormRequest
             'project_id' => ['required', 'integer'],
             'project_name' => ['string'],
             'zip' => ['required', 'file'],
+            'mergeBase' => ['string'],
+            'mergeRequestIID' => ['string'],
             'coverage' => ['required_without:lcov', 'numeric'],
             'lcov' => ['required_without:coverage', 'file']
         ];

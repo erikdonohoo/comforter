@@ -14,29 +14,25 @@ use Illuminate\Queue\InteractsWithQueue;
 /**
  * ProcessCoverage class
  *
- * @property UploadedFile $zip
  * @property Commit $commit
- * @property int $projectId
- * @property string $projectName
+ * @property array $data
  */
 class ProcessCoverage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable;
 
     private $commit;
-    private $projectId;
-    private $projectName;
+    private $data;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct (Commit $commit, int $projectId, string $projectName = null)
+    public function __construct (Commit $commit, array $data)
     {
         $this->commit = $commit;
-        $this->projectId = $projectId;
-        $this->projectName = $projectName;
+        $this->data = $data;
     }
 
     /**
@@ -47,13 +43,15 @@ class ProcessCoverage implements ShouldQueue
     public function handle (Client $gitlabClient)
     {
         // First, create new app if necessary
-        $app = App::whereGitlabProjectId($this->projectId)->first();
+        /** @var App $app */
+        $app = App::whereGitlabProjectId($this->data['project_id'])->first();
 
         if (!$app) {
 
-            $gitlabProject = $gitlabClient->projects()->show($this->projectId);
+            $gitlabProject = $gitlabClient->projects()->show($this->data['project_id']);
+            /** @var App $app */
             $app = App::create([
-                'name' => $this->projectName ?? $gitlabProject['name'],
+                'name' => $this->data['project_name'] ?? $gitlabProject['name'],
                 'gitlab_project_id' => $this->projectId,
                 'primary_branch_name' => $gitlabProject['default_branch']
             ]);
@@ -65,6 +63,7 @@ class ProcessCoverage implements ShouldQueue
         // 3. Updates a commit second time
 
         $this->commit->app()->associate($app);
+        /** @var Commit $commit */
         $this->commit = Commit::updateOrCreate([
             'sha' => $this->commit->sha,
             'app_id' => $this->commit->app_id
@@ -72,5 +71,23 @@ class ProcessCoverage implements ShouldQueue
             'coverage' => $this->commit->coverage,
             'branch_name' => $this->commit->branch_name
         ]);
+
+        // Update commit status
+        $gitlabClient->repositories()->postCommitBuildStatus($this->data['project_id'], $this->commit->sha, 'pending', [
+            'ref' => $this->data['mergeRequestId'] ? "refs/merge-requests/{$this->data['mergeRequestId']}/head" : $this->commit->branch_name,
+            'name' => "comforter/{$app->name}",
+            'description' => 'Comforter is calculating...',
+            'coverage' => $this->commit->coverage
+        ]);
+
+        // Get last known commit info
+        /** @var Commit $lastCommit */
+        $lastCommit = null;
+        if (isset($this->data['merge_base'])) {
+            /** @var Commit $lastCommit */
+            $lastCommit = Commit::whereSha($this->data['merge_base'])->where->first();
+        }
+
+        if (!$lastCommit) {}
     }
 }

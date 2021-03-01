@@ -36,7 +36,7 @@
         - php7 artisan migrate
         - cd ..
 
-php-unit-tests-mr:
+.php-test-template:
     extends: .test-mysql-template-mr
     needs:
         - build-web-mr
@@ -45,6 +45,9 @@ php-unit-tests-mr:
             - web/**/*
             - gitlab-ci/build.yml
             - gitlab-ci/test.yml
+
+php-unit-tests-mr:
+    extends: .php-test-template
     script:
         - cd web/
 
@@ -59,5 +62,24 @@ php-unit-tests-mr:
         # - export TOTAL_COVERED=$(node parse-coverage.js --covered)
         # - if test "${CI_COMMIT_MESSAGE#*Revert \"Merge branch}" == "$CI_COMMIT_MESSAGE";
         #   then yarn comforter:php-unit;
+        #   else echo "Skipping due to revert";
+        #   fi
+
+php-api-tests-mr:
+    extends: .php-test-template
+    script:
+        - cd goreact-api-v2/
+
+        # Enable pcov driver for code coverage
+        # - echo -e "extension=pcov.so\npcov.enabled=1" > /etc/php-7.2.d/01-pcov.ini
+
+        # Run PHP unit tests with code coverage
+        - composer test api -- --coverage --coverage-html --coverage-xml
+
+        # Upload code coverage results to Comforter
+        # - export TOTAL_LINES=$(node parse-coverage.js --lines)
+        # - export TOTAL_COVERED=$(node parse-coverage.js --covered)
+        # - if test "${CI_COMMIT_MESSAGE#*Revert \"Merge branch}" == "$CI_COMMIT_MESSAGE";
+        #   then yarn comforter:php-api;
         #   else echo "Skipping due to revert";
         #   fi

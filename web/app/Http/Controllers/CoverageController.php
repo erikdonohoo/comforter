@@ -75,4 +75,9 @@ class CoverageController extends Controller
 
         return $app;
     }
+
+    public function getApps ()
+    {
+        return App::all();
+    }
 }

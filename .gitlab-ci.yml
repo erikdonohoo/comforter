@@ -1,0 +1,3 @@
+include:
+    - /gitlab-ci/build.yml
+    - /gitlab-ci/test.yml

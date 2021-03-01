@@ -1,0 +1,29 @@
+.build-template-mr:
+    stage: build
+    only:
+        refs:
+            - merge_requests
+    image:  gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-php:latest
+    tags:
+        - docker
+
+build-web-mr:
+    extends: .build-template-mr
+    only:
+        changes:
+            - web/**/*
+            - gitlab-ci/build.yml
+            - docker/web/**/*
+            - docker/db/**/*
+    cache:
+        key: comforter-vendor
+        paths:
+            - web/vendor
+    script:
+        - cd web/
+        - cp .env.example .env
+        - /usr/bin/php7 /usr/local/bin/composer install
+    artifacts:
+        paths:
+            - web/.env
+            - web/vendor/

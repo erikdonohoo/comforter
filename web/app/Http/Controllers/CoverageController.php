@@ -31,24 +31,31 @@ class CoverageController extends Controller
     {
         // Process LCOV if present
         if ($request->hasFile('lcov')) {
-            $coverage = $this->coverage->getCoverageFromLCOV($request->file('lcov')->getContent());
+            $coverageInfo = $this->coverage->getCoverageFromLCOV($request->file('lcov')->getContent());
         } else {
-            $coverage = $this->coverage->roundCoverage($request->coverage);
+            $coverageInfo = $this->coverage->getCoverageFromLines($request->coverage, $request->totalLines, $request->totalCovered);
         }
 
         $commit = Commit::make([
             'sha' => $request->sha,
-            'coverage' => $coverage,
-            'branch_name' => $request->branch
+            'coverage' => $coverageInfo['coverage'],
+            'branch_name' => $request->branch,
+            'total_lines' => $coverageInfo['totalLines'],
+            'total_lines_covered' => $coverageInfo['totalCovered']
         ]);
 
         // TODO: Unzip and put code in correct directory (or S3)
 
         // Dispatch job to handle GitLab communication and commit update
-        ProcessCoverage::dispatch($commit, $request->project_id, $request->project_name);
+        ProcessCoverage::dispatch($commit, [
+            'project_id' => $request->project_id,
+            'project_name' => $request->project_name,
+            'merge_request_id' => $request->mergeRequestIID,
+            'coverageInfo' => $coverageInfo
+        ]);
 
         // Send coverage back to requester
-        return ['coverage' => $coverage];
+        return ['coverage' => $coverageInfo['coverage']];
     }
 
     /**

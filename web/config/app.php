@@ -235,6 +235,9 @@ return [
         'clientSecret' => env('GITLAB_OAUTH_SECRET'),
         'domain' => env('GITLAB_DOMAIN'),
         'token' => env('GITLAB_ACCESS_TOKEN')
-    ]
+    ],
+
+    // Coverage rounded to decimal places
+    'coverageToDecimalPoint' => intval(env('COVERAGE_TO_DECIMAL_POINT'))
 
 ];

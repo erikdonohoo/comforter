@@ -31,10 +31,10 @@ class AddAppTables extends Migration
             $table->string('branch_name')->index();
             $table->string('sha')->index();
             $table->decimal('coverage', 8, 4, true);
+            $table->integer('total_lines')->nullable();
+            $table->integer('total_lines_covered')->nullable();
             $table->dateTime('created_at')->index();
             $table->dateTime('updated_at');
-
-            $table->unique(['sha', 'app_id']);
 
             // Foreign
             $table->foreign('app_id')

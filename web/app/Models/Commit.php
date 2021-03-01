@@ -14,6 +14,8 @@ use Illuminate\Support\Carbon;
  * @property string $branch_name
  * @property string $sha
  * @property float $coverage
+ * @property int $total_lines
+ * @property mixed $total_lines_covered
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */

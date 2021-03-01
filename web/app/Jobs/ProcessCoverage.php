@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\App;
 use App\Models\Commit;
+use App\Services\CoverageUtil;
 use Gitlab\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -24,6 +25,10 @@ class ProcessCoverage implements ShouldQueue
     private $commit;
     private $data;
 
+    const GITLAB_PENDING = 'pending';
+    const GITLAB_SUCCESS = 'success';
+    const GITLAB_FAILED = 'failed';
+
     /**
      * Create a new job instance.
      *
@@ -40,7 +45,7 @@ class ProcessCoverage implements ShouldQueue
      *
      * @return void
      */
-    public function handle (Client $gitlabClient)
+    public function handle (Client $gitlabClient, CoverageUtil $util)
     {
         // First, create new app if necessary
         /** @var App $app */
@@ -52,42 +57,49 @@ class ProcessCoverage implements ShouldQueue
             /** @var App $app */
             $app = App::create([
                 'name' => $this->data['project_name'] ?? $gitlabProject['name'],
-                'gitlab_project_id' => $this->projectId,
+                'gitlab_project_id' => $this->data['project_id'],
                 'primary_branch_name' => $gitlabProject['default_branch']
             ]);
         }
 
-        // Tests.
-        // 1. Creates app first time
-        // 2. Adds a commit first time
-        // 3. Updates a commit second time
-
-        $this->commit->app()->associate($app);
-        /** @var Commit $commit */
-        $this->commit = Commit::updateOrCreate([
-            'sha' => $this->commit->sha,
-            'app_id' => $this->commit->app_id
-        ], [
-            'coverage' => $this->commit->coverage,
-            'branch_name' => $this->commit->branch_name
-        ]);
-
-        // Update commit status
-        $gitlabClient->repositories()->postCommitBuildStatus($this->data['project_id'], $this->commit->sha, 'pending', [
-            'ref' => $this->data['mergeRequestId'] ? "refs/merge-requests/{$this->data['mergeRequestId']}/head" : $this->commit->branch_name,
-            'name' => "comforter/{$app->name}",
-            'description' => 'Comforter is calculating...',
-            'coverage' => $this->commit->coverage
-        ]);
+        // Save commit
+        $this->commit->app()->associate($app)->save();
 
         // Get last known commit info
         /** @var Commit $lastCommit */
         $lastCommit = null;
-        if (isset($this->data['merge_base'])) {
+        if (!empty($this->data['merge_base'])) {
             /** @var Commit $lastCommit */
-            $lastCommit = Commit::whereSha($this->data['merge_base'])->where->first();
+            $lastCommit = Commit::whereSha($this->data['merge_base'])
+                ->whereAppId($app->getKey())
+                ->where('id', '!=', $this->commit->getKey())
+                ->first();
         }
 
-        if (!$lastCommit) {}
+        // Fall back to default branch last coverage
+        if (!$lastCommit) {
+            $lastCommit = $app->getLatestCommit();
+        }
+
+        // Compare coverage
+        $coverageChange = $util->roundCoverage($this->commit->coverage - $lastCommit->coverage);
+        $allowDrop = $util->allowCoverageDrop($this->commit, $lastCommit);
+        $description = "Coverage is increased by {$coverageChange}%";
+        $state = self::GITLAB_SUCCESS;
+
+        // Handle Coverage Drop
+        if ($coverageChange < 0) {
+            $description = "Coverage is decreased by {$coverageChange}%";
+            $state = $allowDrop ? self::GITLAB_SUCCESS : self::GITLAB_FAILED;
+        }
+
+        // Update commit status
+        $gitlabClient->repositories()->postCommitBuildStatus($this->data['project_id'], $this->commit->sha, $state, [
+            'ref' => $this->commit->branch_name,
+            'name' => "comforter/{$app->name}",
+            'description' => $description,
+            'coverage' => $this->commit->coverage,
+            'target_url' => config('app.url')
+        ]);
     }
 }

@@ -12,6 +12,10 @@ use Illuminate\Http\UploadedFile;
  * @property string $sha
  * @property int $project_id
  * @property string $coverage
+ * @property string $mergeBase
+ * @property string $mergeRequestIID
+ * @property int $totalLines
+ * @property int $totalCovered
  * @property UploadedFile $zip
  * @property UploadedFile $lcov
  */
@@ -33,7 +37,9 @@ class AddCommitRequest extends FormRequest
             'mergeBase' => ['string'],
             'mergeRequestIID' => ['string'],
             'coverage' => ['required_without:lcov', 'numeric'],
-            'lcov' => ['required_without:coverage', 'file']
+            'lcov' => ['required_without:coverage', 'file'],
+            'totalLines' => ['required_without:lcov', 'numeric'],
+            'totalCovered' => ['required_without:lcov', 'numeric']
         ];
     }
 }

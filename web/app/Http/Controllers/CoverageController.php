@@ -37,7 +37,7 @@ class CoverageController extends Controller
         }
 
         $commit = Commit::make([
-            'sha' => $request->sha,
+            'sha' => $request->commit,
             'coverage' => $coverageInfo['coverage'],
             'branch_name' => $request->branch,
             'total_lines' => $coverageInfo['totalLines'],
@@ -48,8 +48,8 @@ class CoverageController extends Controller
 
         // Dispatch job to handle GitLab communication and commit update
         ProcessCoverage::dispatch($commit, [
-            'project_id' => $request->project_id,
-            'project_name' => $request->project_name,
+            'project_id' => $request->project,
+            'project_name' => $request->name,
             'merge_request_id' => $request->mergeRequestIID,
             'coverageInfo' => $coverageInfo
         ]);

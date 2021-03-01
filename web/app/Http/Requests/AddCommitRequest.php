@@ -9,9 +9,10 @@ use Illuminate\Http\UploadedFile;
  * AddCommitRequest class
  *
  * @property string $branch
- * @property string $sha
- * @property int $project_id
+ * @property string $commit
+ * @property int $project
  * @property string $coverage
+ * @property string $name
  * @property string $mergeBase
  * @property string $mergeRequestIID
  * @property int $totalLines
@@ -30,9 +31,9 @@ class AddCommitRequest extends FormRequest
     {
         return [
             'branch' => ['required', 'string'],
-            'sha' => ['required', 'string'],
-            'project_id' => ['required', 'integer'],
-            'project_name' => ['string'],
+            'commit' => ['required', 'string'],
+            'project' => ['required', 'integer'],
+            'name' => ['string'],
             'zip' => ['required', 'file'],
             'mergeBase' => ['string'],
             'mergeRequestIID' => ['string'],

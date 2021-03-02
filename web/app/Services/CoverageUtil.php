@@ -7,11 +7,23 @@ use Illuminate\Support\Collection;
 use lcov\Record;
 use lcov\Report;
 
+/**
+ * CoverageUtil class
+ *
+ * @property Report $lcovParser
+ */
 class CoverageUtil
 {
+    private $lcovParser;
+
+    public function __construct (Report $lcovParser)
+    {
+        $this->lcovParser = $lcovParser;
+    }
+
     public function getCoverageFromLCOV (string $lcovString): array
     {
-        $report = Report::fromCoverage($lcovString);
+        $report = $this->lcovParser->fromCoverage($lcovString);
         $result = Collection::make($report->records)->reduce(function ($lastNumbers, Record $next) {
             return [
                 'totalLines' => $lastNumbers['totalLines'] +

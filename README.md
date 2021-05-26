@@ -1,5 +1,7 @@
 # Getting Started
 
+**IMPORTANT NOTE:** Make sure you update your docker resources to increase your available RAM and CPU Cores. A recommended configuration is 6 CPU cores and 6 GB of RAM. If you do not do this, your GitLab container will not work.
+
 I recommend installing (phpbrew)[https://github.com/phpbrew/phpbrew] to help manage different PHP versions
 on your machine as this project uses php 7.4. Follow the instructions and make sure you update your
 `.bashrc` and then `phpbrew install 7.4 +default +mysql +pdo`
@@ -17,7 +19,6 @@ yarn setup
 
 Once your DB is up, you can run the following:
 ```bash
-yarn migrate # If this is failing, ssh into the web box and run migrate from there
 cd web/
 php artisan key:generate --ansi
 php artisan passport:keys
@@ -37,7 +38,6 @@ Now setup an app for comforter in gitlab, and add keys to .env
 The comforter server itself is running at `http://localhost:8010`. To set up the DB in your DB GUI of choice, just take a look
 at the `docker-compose.yml` file to grab the DB info you need.
 
-
 ## Development
 
 Once you have the app setup, start the client.
@@ -52,7 +52,12 @@ your GitLab needs to be visited both by you in the browser, and have endpoints c
 only register one URL. Since one would work with localhost but the other would need to be a docker URL
 JumpTunnel is the only way around this for now.
 
-So in your `.ssh/config` file register port `8010` to one of your available jump tunnel paths and configure that.
+So in your `.ssh/config` file register port `4000` to one of your available jump tunnel paths and configure that. An example is below, where you would replace `{JUMP_PORT}` with one of your available ports.
+
+```
+RemoteForward 1{JUMP_PORT} 127.0.0.1:4000
+```
+
 Once configured, set `GITLAB_DOMAIN` in your .env to `https://jump.goreact.com:<port you just chose>`
 
 You can now view the coverage app at `http://localhost:8010`. You will need to refresh the browser page after

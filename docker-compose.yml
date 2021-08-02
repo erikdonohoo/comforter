@@ -31,6 +31,12 @@ services:
   # runner:
   gitlab:
     image: "gitlab/gitlab-ee"
-    restart: always
     ports:
       - "4000:80"
+
+  runner:
+    image: "gitlab/gitlab-runner:latest"
+    restart: always
+    depends_on:
+      - gitlab
+

@@ -4,6 +4,8 @@ I recommend installing (phpbrew)[https://github.com/phpbrew/phpbrew] to help man
 on your machine as this project uses php 7.4. Follow the instructions and make sure you update your
 `.bashrc` and then `phpbrew install 7.4 +default +mysql +pdo`
 
+Install xdebug with `phpbrew ext install xdebug`
+
 Make sure you follow the log as it installs and use the `tail` command it gives you.
 If you encounter any errors with missing packages, just install them via `brew`.
 
@@ -53,11 +55,6 @@ at the `docker-compose.yml` file to grab the DB info you need.
 
 Once you have the app setup, start the client.
 
-```bash
-cd client/
-yarn start
-```
-
 Because of some issues with the OAuth integration, you have to visit your GitLab over a jump tunnel URL, as
 your GitLab needs to be visited both by you in the browser, and have endpoints called by our backend but you can
 only register one URL. Since one would work with localhost but the other would need to be a docker URL
@@ -68,3 +65,8 @@ Once configured, set `GITLAB_DOMAIN` in your .env to `https://jump.goreact.com:<
 
 You can now view the coverage app at `http://localhost:8010`. You will need to refresh the browser page after
 making changes since this app needs to be served by Laravel.
+
+```bash
+cd client/
+yarn start
+```

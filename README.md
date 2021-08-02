@@ -11,7 +11,7 @@ If you encounter any errors with missing packages, just install them via `brew`.
 
 Make sure you are using composer > 2.0
 
-You will need `docker` and `docker-compose` installed. To setup:
+You will need `docker` installed. To setup:
 
 ```bash
 yarn setup
@@ -47,6 +47,7 @@ Now setup an app for comforter in gitlab, and add keys to .env
 4. Take the keys you get, and set them in your `.env` for `GITLAB_OAUTH_ID` and `GITLAB_OAUTH_SECRET`
 5. Create an access_token for your root user, and choose API access, and copy and paste that into `GITLAB_ACCESS_TOKEN`
 
+
 The comforter server itself is running at `http://localhost:8010`. To set up the DB in your DB GUI of choice, just take a look
 at the `docker-compose.yml` file to grab the DB info you need.
 
@@ -62,6 +63,8 @@ JumpTunnel is the only way around this for now.
 
 So in your `.ssh/config` file register port `8010` to one of your available jump tunnel paths and configure that.
 Once configured, set `GITLAB_DOMAIN` in your .env to `https://jump.goreact.com:<port you just chose>`
+
+Now you can register your runner. Go to the runners page and find the registration token. Then, open a shell in the runner and run `gitlab-runner register` and follow the steps. Make sure you give it your jump tunnel URL for the base.
 
 You can now view the coverage app at `http://localhost:8010`. You will need to refresh the browser page after
 making changes since this app needs to be served by Laravel.

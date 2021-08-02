@@ -31,5 +31,6 @@ services:
   # runner:
   gitlab:
     image: "gitlab/gitlab-ee"
+    restart: always
     ports:
       - "4000:80"

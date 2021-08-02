@@ -26,6 +26,17 @@ php artisan passport:keys
 It may take a while for it to finish setting up, but wait until `http://localhost:4000` is running and you can get to the login page for GitLab
 
 The default username is `root`, feel free to set any password.
+
+If you don't get the page that allows you to set the root password, you can update it manually like so
+
+```bash
+yarn docker shell gitlab
+gitlab-rake "gitlab:password:reset"
+Enter username: root
+```
+
+Choose whatever password you want, and then re-visit `http://localhost:4000` to login
+
 Now setup an app for comforter in gitlab, and add keys to .env
 
 1. Visit the admin area by clicking the wrench in the toolbar

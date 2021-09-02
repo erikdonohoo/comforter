@@ -2,10 +2,8 @@
   "name": "comforter",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng build --watch --configuration='development' --outputPath='../web/resources/comforter'",
-    "build": "ng build --outputPath='../web/resources/comforter'",
-    "watch": "ng build --watch --configuration development",
+    "start": "ng build --configuration='development' --watch",
+    "build:prod": "ng build --configuration='production'",
     "test": "ng test"
   },
   "private": true,

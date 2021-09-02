@@ -33,7 +33,7 @@ The default username is `root`, feel free to set any password.
 If you don't get the page that allows you to set the root password, you can update it manually like so
 
 ```bash
-yarn docker shell gitlab
+docker compose exec gitlab /bin/bash
 gitlab-rake "gitlab:password:reset"
 Enter username: root
 ```

@@ -1,7 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use App\Http\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,16 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{any}', function (Request $request) {
-
-    // See if request is for static asset
-    $path = resource_path() . '/comforter/' . $request->path();
-
-    if (File::isFile($path)) {
-        return response()->file($path);
-    }
-
-    return response()->file(resource_path() . '/comforter/index.html');
-})
-    ->where('any', '.*')
+Route::any('/{any}', [ClientController::class, 'index'])
+    ->where('any', '^(?!api).*$')
     ->middleware('gitlab.auth');

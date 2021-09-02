@@ -3,7 +3,7 @@
 **IMPORTANT NOTE:** Make sure you update your docker resources to increase your available RAM and CPU Cores. A recommended configuration is 6 CPU cores and 6 GB of RAM. If you do not do this, your GitLab container will not work.
 
 I recommend installing (phpbrew)[https://github.com/phpbrew/phpbrew] to help manage different PHP versions
-on your machine as this project uses php 7.4. Follow the instructions and make sure you update your
+on your machine as this project uses php 7.4.*. Follow the instructions and make sure you update your
 `.bashrc` and then `phpbrew install 7.4 +default +mysql +pdo`
 
 Install xdebug with `phpbrew ext install xdebug`

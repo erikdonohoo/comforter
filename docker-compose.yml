@@ -7,7 +7,7 @@ services:
     depends_on:
       - db
     volumes:
-      - ./web:/www/web:delegated
+      - ./web:/www/web:cached
     ports:
       - "127.0.0.1:8010:80"
     environment:
@@ -28,15 +28,8 @@ services:
       MYSQL_ROOT_HOST: '%'
     ports:
       - "127.0.0.1:8307:3306"
-  # runner:
+
   gitlab:
     image: "gitlab/gitlab-ee"
     ports:
       - "4000:80"
-
-  runner:
-    image: "gitlab/gitlab-runner:latest"
-    restart: always
-    depends_on:
-      - gitlab
-

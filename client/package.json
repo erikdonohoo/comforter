@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng build --configuration='development' --watch",
+    "build": "yarn build:prod",
     "build:prod": "ng build --configuration='production'",
     "test": "ng test"
   },

@@ -1,0 +1,16 @@
+<section class="project-card" *ngIf="app">
+  <div class="header">
+    <app-gitlab-icon></app-gitlab-icon>
+    <span>GoREACT</span> <!-- TODO: Actual repo name when Erik returns that -->
+  </div>
+  <div class="content">
+    <h2>{{app.name}}</h2>
+  </div>
+  <div class="footer">
+    <div class="details">
+      <p>{{app.coverage}}%</p>
+      <p>1990 / 2151</p> <!-- TODO: Add actual lines covered when Erik returns latest commit for each app -->
+    </div>
+    <mat-progress-bar mode="determinate" [value]="app.coverage"></mat-progress-bar>
+  </div>
+</section>

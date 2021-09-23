@@ -1,0 +1,23 @@
+:host {
+  display: flex;
+}
+
+.home-page {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 30px;
+  column-gap: 50px;
+  padding: 30px 20px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .home-page {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .home-page {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

@@ -1,0 +1,54 @@
+@use '~@angular/material' as mat;
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 125px;
+  // box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.22);
+  background-color: white;
+  border-radius: 3px;
+  padding: 10px;
+  cursor: pointer;
+  @include mat.elevation-transition;
+  @include mat.elevation(3);
+
+  &:hover {
+    @include mat.elevation(8);
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    & > span {
+      color: rgba(0,0,0,0.5);
+    }
+
+    app-gitlab-icon {
+      margin-right: 10px
+    }
+  }
+  .content {
+    h2 {
+      margin: 15px 0;
+      font-size: 24px;
+    }
+  }
+  .footer {
+    .details {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      p {
+        font-size: 12px;
+        color: rgba(0,0,0,0.6);
+        margin-bottom: 5px;
+      }
+    }
+
+  }
+}

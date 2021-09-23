@@ -1,0 +1,30 @@
+<section class="commit-card" *ngIf="commit">
+  <div class="header">
+    <h2>{{commit.branch_name}}</h2>
+    <p>{{commit.created_at | date:'MMM d, y - h:mm:ss a'}}</p>
+  </div>
+  <div class="content">
+    <div class="coverage-diff">
+      <mat-icon *ngIf="coverageDiff! >= 0" color="primary">trending_up</mat-icon>
+      <mat-icon *ngIf="coverageDiff! < 0" color="warn">trending_down</mat-icon>
+      <p class="diff" [class.negative]="coverageDiff! < 0" [class.positive]="coverageDiff! >= 0">{{coverageDiff}}%</p>
+    </div>
+    <div class="coverage-lines">
+      <mat-icon>code</mat-icon>
+      <p class="lines">
+        {{commit.total_lines_covered}} / {{commit.total_lines}}
+      </p>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="comparison">
+      <a href="">{{commit.sha | sha}}</a> <!-- TODO: Construct href when I get back org and repo names from Erik -->
+      <mat-icon>arrow_forward</mat-icon>
+      <a href="">{{commit.base_commit!.branch_name}}</a> <!-- TODO: Construct href when I get back org and repo names from Erik -->
+      <div class="base-sha">
+        (<a href="">{{commit.base_commit!.sha | sha}}</a>) <!-- TODO: Construct href when I get back org and repo names from Erik -->
+      </div>
+    </div>
+    <a href="">Details</a> <!-- TODO: Construct href when I get endpoint for actual coverage html -->
+  </div>
+</section>

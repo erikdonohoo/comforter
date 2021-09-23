@@ -1,0 +1,12 @@
+<article class="project-page app-width" *ngIf="app">
+  <header>
+    <div class="app-name">
+      <app-gitlab-icon></app-gitlab-icon>
+      <span>GoREACT</span> <!-- TODO: Change this to the actual repo name -->
+    </div>
+    <h1>{{app.name}}</h1>
+  </header>
+  <section class="app-commits">
+    <app-commit *ngFor="let commit of app.commits" [commit]="commit"></app-commit>
+  </section>
+</article>

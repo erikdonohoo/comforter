@@ -31,5 +31,7 @@ services:
 
   gitlab:
     image: "gitlab/gitlab-ee"
+    environment:
+        EXTERNAL_URL: 'http://localhost:4000'
     ports:
       - "4000:80"

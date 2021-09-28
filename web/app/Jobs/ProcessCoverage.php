@@ -50,17 +50,16 @@ class ProcessCoverage implements ShouldQueue
         // First, create new app if necessary
         /** @var App $app */
         $app = App::whereGitlabProjectId($this->data['project_id'])->first();
+        $gitlabProject = $gitlabClient->projects()->show($this->data['project_id']);
 
-        if (!$app) {
-
-            $gitlabProject = $gitlabClient->projects()->show($this->data['project_id']);
-            /** @var App $app */
-            $app = App::create([
-                'name' => $this->data['project_name'] ?? $gitlabProject['name'],
-                'gitlab_project_id' => $this->data['project_id'],
-                'primary_branch_name' => $gitlabProject['default_branch']
-            ]);
-        }
+        /** @var App $app */
+        $app = App::updateOrCreate([
+            'gitlab_project_id' => $this->data['project_id'],
+        ], [
+            'name' => $this->data['project_name'] ?? $gitlabProject['name'],
+            'primary_branch_name' => $gitlabProject['default_branch'],
+            'project_url' => $gitlabProject['web_url']
+        ]);
 
         // Save commit
         $this->commit->app()->associate($app)->save();
@@ -79,6 +78,12 @@ class ProcessCoverage implements ShouldQueue
         // Fall back to default branch last coverage
         if (!$lastCommit) {
             $lastCommit = $app->getLatestCommit();
+        }
+
+        // If we have never received an initial commit on master,
+        // Just default to this commit's details
+        if (!$lastCommit) {
+            $lastCommit = $this->commit;
         }
 
         // Compare coverage

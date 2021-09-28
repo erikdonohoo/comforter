@@ -25,6 +25,6 @@
         (<a href="">{{commit.base_commit!.sha | sha}}</a>) <!-- TODO: Construct href when I get back org and repo names from Erik -->
       </div>
     </div>
-    <a href="">Details</a> <!-- TODO: Construct href when I get endpoint for actual coverage html -->
+    <a href="{{commit.coverage_path}}" target="_blank">Details</a>
   </div>
 </section>

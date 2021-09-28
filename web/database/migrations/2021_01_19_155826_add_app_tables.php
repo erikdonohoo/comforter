@@ -16,6 +16,7 @@ class AddAppTables extends Migration
         Schema::create('apps', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('project_url');
             $table->integer('gitlab_project_id')->index();
             $table->string('primary_branch_name');
             $table->dateTime('created_at');
@@ -34,7 +35,7 @@ class AddAppTables extends Migration
             $table->integer('total_lines')->nullable();
             $table->integer('total_lines_covered')->nullable();
             $table->dateTime('created_at')->index();
-            $table->dateTime('updated_at');
+            $table->dateTime('updated_at')->index();
 
             // Foreign
             $table->foreign('app_id')

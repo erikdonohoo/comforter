@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property string $name
+ * @property string $project_url
  * @property int $gitlab_project_id
  * @property string $primary_branch_name
  * @property float $coverage
@@ -37,11 +38,11 @@ class App extends Model
         return $this->hasMany(Commit::class);
     }
 
-    public function getLatestCommit (): Commit
+    public function getLatestCommit (): ?Commit
     {
         return $this->commits()
             ->whereBranchName($this->primary_branch_name)
-            ->orderByDesc('created_at')
+            ->orderByDesc('updated_at')
             ->first();
     }
 

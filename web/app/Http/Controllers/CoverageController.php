@@ -67,17 +67,27 @@ class CoverageController extends Controller
     public function getApp (App $app)
     {
         $app = $app->load(['commits' => function ($query) {
-            $query->limit(100);
+            $query->limit(50);
             $query->orderByDesc('created_at');
         }]);
 
-        $app->setRelation('latestCommit', $app->getLatestCommit());
+        $latestCommit = $app->getLatestCommit();
+
+        // TODO: In the future, have each base commit be the REAL base
+        $app->commits->each(function (Commit $commit) use ($latestCommit) {
+            $commit->setRelation('baseCommit', $latestCommit);
+        });
+
+        $app->setRelation('latestCommit', $latestCommit);
 
         return $app;
     }
 
     public function getApps ()
     {
-        return App::all();
+        $apps = App::all();
+        return $apps->each(function (App $app) {
+            $app->setRelation('latestCommit', $app->getLatestCommit());
+        });
     }
 }

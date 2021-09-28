@@ -2,14 +2,11 @@
 
 **IMPORTANT NOTE:** Make sure you update your docker resources to increase your available RAM and CPU Cores. A recommended configuration is 6 CPU cores and 6 GB of RAM. If you do not do this, your GitLab container will not work.
 
-I recommend installing (phpbrew)[https://github.com/phpbrew/phpbrew] to help manage different PHP versions
-on your machine as this project uses php 7.4.*. Follow the instructions and make sure you update your
-`.bashrc` and then `phpbrew install 7.4 +default +mysql +pdo`
-
-Install xdebug with `phpbrew ext install xdebug`
-
-Make sure you follow the log as it installs and use the `tail` command it gives you.
-If you encounter any errors with missing packages, just install them via `brew`.
+I recommend installing using homebrew to manage different PHP versions
+```bash
+brew install php@7.4
+brew link php@7.4
+```
 
 Make sure you are using composer > 2.0
 
@@ -68,8 +65,6 @@ RemoteForward 1{JUMP_PORT} 127.0.0.1:4000
 ```
 
 Once configured, set `GITLAB_DOMAIN` in your .env to `https://jump.goreact.com:<port you just chose>`
-
-Now you can register your runner. Go to the runners page and find the registration token. Then, open a shell in the runner and run `gitlab-runner register` and follow the steps. Make sure you give it your jump tunnel URL for the base.
 
 You can now view the coverage app at `http://localhost:8010`. You will need to refresh the browser page after
 making changes since this app needs to be served by Laravel.

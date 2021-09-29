@@ -58,7 +58,8 @@ class ProcessCoverage implements ShouldQueue
         ], [
             'name' => $this->data['project_name'] ?? $gitlabProject['name'],
             'primary_branch_name' => $gitlabProject['default_branch'],
-            'project_url' => $gitlabProject['web_url']
+            'repo_path' => $gitlabProject['path'],
+            'namespace' => $gitlabProject['namespace']['path']
         ]);
 
         // Save commit

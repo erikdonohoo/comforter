@@ -1,2 +1,3 @@
 docker/db-data
 node_modules
+docker/gitlab

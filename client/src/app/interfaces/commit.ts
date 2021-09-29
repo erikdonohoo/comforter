@@ -1,3 +1,5 @@
+import { ComforterApp } from './app';
+
 export interface ComforterCommit {
   app_id: number;
   branch_name: string;
@@ -7,7 +9,8 @@ export interface ComforterCommit {
   total_lines: number;
   total_lines_covered: number;
   coverage_path: string;
-  base_commit?: ComforterCommit;
+  base_commit: ComforterCommit;
   created_at: Date;
   updated_at: Date;
+  app: ComforterApp;
 }

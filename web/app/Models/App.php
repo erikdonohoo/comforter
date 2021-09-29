@@ -14,7 +14,8 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property string $name
- * @property string $project_url
+ * @property string $namespace
+ * @property string $repo_path
  * @property int $gitlab_project_id
  * @property string $primary_branch_name
  * @property float $coverage
@@ -31,11 +32,19 @@ class App extends Model
 
     public $timestamps = true;
     protected $guarded = [];
-    protected $appends = ['coverage'];
+    protected $appends = [
+        'coverage',
+        'app_domain'
+    ];
 
     public function commits (): HasMany
     {
         return $this->hasMany(Commit::class);
+    }
+
+    public function getAppDomainAttribute ()
+    {
+        return config('app.gitlab.domain');
     }
 
     public function getLatestCommit (): ?Commit

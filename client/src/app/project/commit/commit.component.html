@@ -18,11 +18,11 @@
   </div>
   <div class="footer">
     <div class="comparison">
-      <a href="">{{commit.sha | sha}}</a> <!-- TODO: Construct href when I get back org and repo names from Erik -->
+      <a href="{{commit.app.app_domain}}/{{commit.app.namespace}}/{{commit.app.repo_path}}/-/commit/{{commit.sha}}">{{commit.sha | sha}}</a> <!-- TODO: Construct href when I get back org and repo names from Erik -->
       <mat-icon>arrow_forward</mat-icon>
-      <a href="">{{commit.base_commit!.branch_name}}</a> <!-- TODO: Construct href when I get back org and repo names from Erik -->
+      <a href="{{commit.app.app_domain}}/{{commit.app.namespace}}/{{commit.app.repo_path}}/-/branches/{{commit.base_commit.branch_name}}">{{commit.base_commit.branch_name}}</a> <!-- TODO: Construct href when I get back org and repo names from Erik -->
       <div class="base-sha">
-        (<a href="">{{commit.base_commit!.sha | sha}}</a>) <!-- TODO: Construct href when I get back org and repo names from Erik -->
+        (<a href="{{commit.app.app_domain}}/{{commit.app.namespace}}/{{commit.app.repo_path}}/-/commit/{{commit.sha}}">{{commit.base_commit!.sha | sha}}</a>) <!-- TODO: Construct href when I get back org and repo names from Erik -->
       </div>
     </div>
     <a href="{{commit.coverage_path}}" target="_blank">Details</a>

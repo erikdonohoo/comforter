@@ -16,7 +16,8 @@ class AddAppTables extends Migration
         Schema::create('apps', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('project_url');
+            $table->string('namespace');
+            $table->string('repo_path');
             $table->integer('gitlab_project_id')->index();
             $table->string('primary_branch_name');
             $table->dateTime('created_at');

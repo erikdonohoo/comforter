@@ -30,8 +30,18 @@ services:
       - "127.0.0.1:8307:3306"
 
   gitlab:
-    image: "gitlab/gitlab-ee"
+    image: "gitlab/gitlab-ce"
+    restart: always
+    hostname: 'localhost'
     environment:
+        GITLAB_ROOT_PASSWORD: password
         EXTERNAL_URL: 'http://localhost:4000'
     ports:
-      - "4000:80"
+        - "4000:80"
+        - "4443:443"
+        - "4422:22"
+    volumes:
+        - './docker/gitlab/config:/etc/gitlab'
+        - './docker/gitlab/logs:/var/log/gitlab'
+        - './docker/gitlab/data:/var/opt/gitlab'
+

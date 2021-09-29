@@ -21,21 +21,14 @@ Once your DB is up, you can run the following:
 cd web/
 php artisan key:generate --ansi
 php artisan passport:keys
+php artisan storage:link
 ```
 
 It may take a while for it to finish setting up, but wait until `http://localhost:4000` is running and you can get to the login page for GitLab
 
-The default username is `root`, feel free to set any password.
+The default username is `root`, password is `password`
 
-If you don't get the page that allows you to set the root password, you can update it manually like so
-
-```bash
-docker compose exec gitlab /bin/bash
-gitlab-rake "gitlab:password:reset"
-Enter username: root
-```
-
-Choose whatever password you want, and then re-visit `http://localhost:4000` to login
+Visit `http://localhost:4000` to login (May take a few minutes to be fully up and ready)
 
 Now setup an app for comforter in gitlab, and add keys to .env
 

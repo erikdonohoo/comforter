@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Omines\OAuth2\Client\Provider\Gitlab;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 /**

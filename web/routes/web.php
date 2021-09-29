@@ -15,5 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::any('/{any}', [ClientController::class, 'index'])
-    ->where('any', '^(?!api).*$')
-    ->middleware('gitlab.auth');
+    ->where('any', '^(?!api).*$');

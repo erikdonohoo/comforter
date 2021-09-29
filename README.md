@@ -21,7 +21,6 @@ Once your DB is up, you can run the following:
 cd web/
 php artisan key:generate --ansi
 php artisan passport:keys
-php artisan storage:link
 ```
 
 It may take a while for it to finish setting up, but wait until `http://localhost:4000` is running and you can get to the login page for GitLab

@@ -1,5 +1,6 @@
 /node_modules
 /public/hot
+/public/coverage
 /public/storage
 /public/client
 /storage/*.key

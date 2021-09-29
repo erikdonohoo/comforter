@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Alchemy\Zippy\Zippy;
 use App\Http\Requests\AddCommitRequest;
 use App\Jobs\ProcessCoverage;
 use App\Models\App;
@@ -12,10 +11,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-// use PhpZip\Exception\ZipException;
-// use PhpZip\ZipFile;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-// use ZipArchive;
+use ZipArchive;
 
 /**
  * CoverageController class
@@ -57,43 +54,26 @@ class CoverageController extends Controller
             'total_lines_covered' => $coverageInfo['totalCovered']
         ]);
 
-        // if ($request->zip) {
-        //     $zippy = Zippy::load();
-        //     $zippy->open($request->zip->path())
-        //         ->extract(config('filesystems.disks.public.root') . "/coverage/{$request->name}/{$request->branch}");
-        // }
-
-        // if ($request->zip) {
-        //     $zipFile = new ZipFile();
-        //     try {
-        //         $zipFile = $zipFile->openFile($request->zip);
-        //         Storage::disk('public')->makeDirectory("/coverage/{$request->name}/{$request->branch}");
-        //         $zipFile->extractTo(config('filesystems.disks.public.root') . "/coverage/{$request->name}/{$request->branch}", true);
-        //     } catch (ZipException $e) {
-        //         return response([
-        //             'error' => $e->getMessage(),
-        //             'request' => $request->all()
-        //         ], Response::HTTP_FAILED_DEPENDENCY);
-        //     } finally {
-        //         $zipFile->close();
-        //     }
-        // }
-
-        // if ($request->zip) {
-        //     $zip = new ZipArchive();
-        //     if ($zip->open($request->zip)) {
-        //         $uuid = Str::uuid();
-        //         $zip->extractTo(public_path() . "/coverage/{$uuid}/");
-        //         $zip->close();
-        //         shell_exec("mv " . public_path() . "/coverage/{$uuid}/*/* " . public_path() . "/coverage/{$request->name}/{$request->branch} && rm -R " . public_path() . "/coverage/{$uuid}/");
-        //     } else {
-        //         Log::critical('Failed to extract zip archive', [
-        //             'request' => $request->all()
-        //         ]);
-
-        //         throw new HttpException(Response::HTTP_FAILED_DEPENDENCY, 'Could not unzip coverage archive');
-        //     }
-        // }
+        if ($request->zip) {
+            $zip = new ZipArchive();
+            if ($zip->open($request->zip)) {
+                // First item is always a folder we want to remove
+                $initialFolderName = $zip->getNameIndex(0);
+                $uuid = Str::uuid();
+                $root = config('filesystems.disks.public.root');
+                $tmpPath = "{$root}/coverage/{$uuid}";
+                $newPath = "coverage/{$request->name}/{$request->branch}";
+                Storage::disk('public')->makeDirectory($newPath);
+                $zip->extractTo($tmpPath);
+                shell_exec("mv -v {$tmpPath}/{$initialFolderName}/* {$root}/{$newPath} && rm -R {$tmpPath}/");
+                $zip->close();
+            } else {
+                Log::critical('Failed to extract zip archive', [
+                    'request' => $request->all()
+                ]);
+                throw new HttpException(Response::HTTP_FAILED_DEPENDENCY, 'Could not unzip coverage archive');
+            }
+        }
 
         // Dispatch job to handle GitLab communication and commit update
         ProcessCoverage::dispatch($commit, [

@@ -18,6 +18,5 @@ export class HomeComponent implements OnInit {
 
   async getApps() {
     this.apps = await this.comforter.getApps();
-    this.apps = [...this.apps, ...this.apps, ...this.apps, ...this.apps];
   }
 }

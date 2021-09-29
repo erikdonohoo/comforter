@@ -3,7 +3,7 @@
     only:
         refs:
             - merge_requests
-    image:  gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-php:php74-test
+    image:  gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-php:latest
     tags:
         - docker
 

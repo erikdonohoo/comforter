@@ -8,13 +8,15 @@
 
 .test-mysql-template-mr:
     extends: .test-template-mr
-    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-php:php74-test
+    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-php:latest
     services:
         - mysql:5.7
         - redis:latest
     variables:
         MYSQL_DATABASE: comforter
+        MYSQL_USER: comforter
         MYSQL_ROOT_PASSWORD: password
+        MYSQL_PASSWORD: password
         MYSQL_OPTIONS: "-u root -h mysql -ppassword"
         DB_HOST: mysql
         DB_PORT: 3306

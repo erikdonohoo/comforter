@@ -23,9 +23,5 @@ export class ProjectComponent implements OnInit {
 
   async getApp(projectId: number) {
     this.app = await this.comforter.getApp(projectId);
-    this.app.commits = this.app.commits?.map((commit) => {
-      // TODO: Currently make latest commit the "base", but Erik will make this be the actual base
-      return {...commit, base_commit: this.app!.latest_commit};
-    });
   }
 }

@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'middleware' => []
 ], function () {
+    // TODO: Remove this old redundant route after rebuilding comforter-cli
+    Route::post('apps/{app}/coverage', 'CoverageController@addCommit');
+
     Route::post('commits', 'CoverageController@addCommit');
     Route::get('apps/{app}', 'CoverageController@getApp');
     Route::get('apps', 'CoverageController@getApps');

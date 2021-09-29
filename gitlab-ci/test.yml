@@ -8,9 +8,9 @@
 
 .test-mysql-template-mr:
     extends: .test-template-mr
-    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-php:latest
+    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-php:php74-test
     services:
-        - mysql:5.6
+        - mysql:5.7
         - redis:latest
     variables:
         MYSQL_DATABASE: comforter
@@ -33,7 +33,7 @@
         - source ./.env
 
         # Run migration
-        - php7 artisan migrate
+        - php artisan migrate
         - cd ..
 
 .php-test-template:
@@ -52,7 +52,7 @@ php-unit-tests-mr:
         - cd web/
 
         # Enable pcov driver for code coverage
-        # - echo -e "extension=pcov.so\npcov.enabled=1" > /etc/php-7.2.d/01-pcov.ini
+        - echo -e "extension=pcov.so\npcov.enabled=1" > /etc/php.d/01-pcov.ini
 
         # Run PHP unit tests with code coverage
         - composer test unit -- --coverage --coverage-html --coverage-xml
@@ -71,7 +71,7 @@ php-api-tests-mr:
         - cd goreact-api-v2/
 
         # Enable pcov driver for code coverage
-        # - echo -e "extension=pcov.so\npcov.enabled=1" > /etc/php-7.2.d/01-pcov.ini
+        - echo -e "extension=pcov.so\npcov.enabled=1" > /etc/php.d/01-pcov.ini
 
         # Run PHP unit tests with code coverage
         - composer test api -- --coverage --coverage-html --coverage-xml

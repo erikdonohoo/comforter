@@ -13,8 +13,10 @@ export class CommitComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    const commitCoverage = parseFloat(this.commit!.coverage);
-    const baseCoverage = parseFloat(this.commit!.base_commit!.coverage);
-    this.coverageDiff = commitCoverage - baseCoverage;
+    if (this.commit) {
+      const commitCoverage = parseFloat(this.commit.coverage);
+      const baseCoverage = parseFloat(this.commit.base_commit!.coverage);
+      this.coverageDiff = commitCoverage - baseCoverage;
+    }
   }
 }

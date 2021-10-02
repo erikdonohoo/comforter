@@ -70,7 +70,7 @@ php-unit-tests-mr:
 php-api-tests-mr:
     extends: .php-test-template
     script:
-        - cd goreact-api-v2/
+        - cd web/
 
         # Enable pcov driver for code coverage
         - echo -e "extension=pcov.so\npcov.enabled=1" > /etc/php.d/01-pcov.ini
@@ -85,3 +85,23 @@ php-api-tests-mr:
         #   then yarn comforter:php-api;
         #   else echo "Skipping due to revert";
         #   fi
+
+.client-test-template:
+    extends: .test-mysql-template-mr
+    needs:
+        - build-client-mr
+    only:
+        changes:
+            - client/**/*
+            - gitlab-ci/build.yml
+            - gitlab-ci/test.yml
+
+client-unit-tests-mr:
+    extends: .client-test-template
+    script:
+        - cd client/
+
+        # Run
+        - yarn test:ci
+
+        # TODO: Upload code coverage results to Comforter

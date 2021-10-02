@@ -5,7 +5,8 @@
     "start": "ng build --configuration='development' --watch",
     "build": "yarn build:prod",
     "build:prod": "ng build --configuration='production'",
-    "test": "ng test"
+    "test": "ng test",
+    "test:ci": "ng test --no-watch --code-coverage"
   },
   "private": true,
   "dependencies": {

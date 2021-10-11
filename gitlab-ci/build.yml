@@ -28,7 +28,6 @@ build-web-mr:
         key: comforter-vendor
         paths:
             - web/vendor
-            - web/node_modules
     script:
         - cd web/
         - cp .env.example .env
@@ -37,6 +36,7 @@ build-web-mr:
         paths:
             - web/.env
             - web/vendor/
+            - web/node_modules/
 
 build-client-mr:
     extends: .build-client-chrome-template

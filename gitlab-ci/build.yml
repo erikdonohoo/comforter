@@ -28,10 +28,12 @@ build-web-mr:
         key: comforter-vendor
         paths:
             - web/vendor
+            - web/node_modules
     script:
         - cd web/
         - cp .env.example .env
         - /usr/bin/php7 /usr/local/bin/composer install
+        - yarn install
     artifacts:
         paths:
             - web/.env

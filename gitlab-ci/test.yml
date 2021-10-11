@@ -60,12 +60,12 @@ php-unit-tests-mr:
         - composer test unit -- --coverage --coverage-html --coverage-xml
 
         # Upload code coverage results to Comforter
-        # - export TOTAL_LINES=$(node parse-coverage.js --lines)
-        # - export TOTAL_COVERED=$(node parse-coverage.js --covered)
-        # - if test "${CI_COMMIT_MESSAGE#*Revert \"Merge branch}" == "$CI_COMMIT_MESSAGE";
-        #   then yarn comforter:php-unit;
-        #   else echo "Skipping due to revert";
-        #   fi
+        - export TOTAL_LINES=$(node parse-coverage.js --lines)
+        - export TOTAL_COVERED=$(node parse-coverage.js --covered)
+        - if test "${CI_COMMIT_MESSAGE#*Revert \"Merge branch}" == "$CI_COMMIT_MESSAGE";
+          then yarn comforter:unit;
+          else echo "Skipping due to revert";
+          fi
 
 php-api-tests-mr:
     extends: .php-test-template
@@ -79,12 +79,12 @@ php-api-tests-mr:
         - composer test api -- --coverage --coverage-html --coverage-xml
 
         # Upload code coverage results to Comforter
-        # - export TOTAL_LINES=$(node parse-coverage.js --lines)
-        # - export TOTAL_COVERED=$(node parse-coverage.js --covered)
-        # - if test "${CI_COMMIT_MESSAGE#*Revert \"Merge branch}" == "$CI_COMMIT_MESSAGE";
-        #   then yarn comforter:php-api;
-        #   else echo "Skipping due to revert";
-        #   fi
+        - export TOTAL_LINES=$(node parse-coverage.js --lines)
+        - export TOTAL_COVERED=$(node parse-coverage.js --covered)
+        - if test "${CI_COMMIT_MESSAGE#*Revert \"Merge branch}" == "$CI_COMMIT_MESSAGE";
+          then yarn comforter:api;
+          else echo "Skipping due to revert";
+          fi
 
 .client-test-template:
     extends: .test-mysql-template-mr

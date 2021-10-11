@@ -5,11 +5,11 @@
 # Include one of framework modules (Symfony2, Yii2, Laravel5, Phalcon4) to use it
 # Remove this suite if you don't use frameworks
 
-actor: FunctionalTester
+actor: ApiTester
 modules:
     enabled:
         # add a framework module here
-        - \Helper\Functional
+        - \Helper\Api
         - REST:
             depends: Laravel
         - Asserts

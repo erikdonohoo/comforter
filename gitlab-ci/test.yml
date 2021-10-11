@@ -38,6 +38,10 @@
         - php artisan migrate
         - cd ..
 
+.test-client-template-mr:
+    extends: .test-template-mr
+    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-chrome:latest
+
 .php-test-template:
     extends: .test-mysql-template-mr
     needs:
@@ -87,7 +91,7 @@ php-api-tests-mr:
           fi
 
 .client-test-template:
-    extends: .test-mysql-template-mr
+    extends: .test-client-template-mr
     needs:
         - build-client-mr
     only:

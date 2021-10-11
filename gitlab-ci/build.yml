@@ -7,6 +7,15 @@
     tags:
         - docker
 
+.build-client-chrome-template:
+    stage: build
+    only:
+        refs:
+            - merge_requests
+    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-chrome:latest
+    tags:
+        - docker
+
 build-web-mr:
     extends: .build-template-mr
     only:
@@ -29,13 +38,11 @@ build-web-mr:
             - web/vendor/
 
 build-client-mr:
-    extends: .build-template-mr
+    extends: .build-client-chrome-template
     only:
         changes:
             - client/**/*
             - gitlab-ci/build.yml
-            - docker/web/**/*
-            - docker/db/**/*
     script:
         - cd client/
         - yarn install

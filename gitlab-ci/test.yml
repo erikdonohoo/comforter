@@ -104,8 +104,5 @@ client-unit-tests-mr:
     extends: .client-test-template
     script:
         - cd client/
-
-        # Run
-        - yarn test:ci
-
-        # TODO: Upload code coverage results to Comforter
+        - yarn test:ci --browsers=ChromeHeadlessArgs
+        - yarn report-coverage

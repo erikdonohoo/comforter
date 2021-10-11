@@ -28,8 +28,8 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage/client'),
       subdir: '.',
       reporters: [
-        { type: 'html' },
-        { type: 'text-summary' }
+        { type: 'lcov', subdir: '.' },
+        { type: 'text-summary', subdir: '.', file: 'text-summary.txt' },
       ]
     },
     reporters: ['progress', 'kjhtml'],
@@ -39,6 +39,14 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    customLaunchers: {
+			ChromeHeadlessArgs: {
+				base: 'ChromeHeadless',
+				flags: [
+					'--no-sandbox'
+				]
+			}
+		}
   });
 };

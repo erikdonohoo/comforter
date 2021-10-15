@@ -11,7 +11,7 @@ modules:
         # add a framework module here
         - \Helper\Api
         - REST:
-            depends: Laravel
+            depends: Laravel5
         - Asserts
     step_decorators: ~
 coverage:

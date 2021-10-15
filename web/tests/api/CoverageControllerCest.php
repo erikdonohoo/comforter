@@ -19,8 +19,8 @@ class CoverageControllerCest
 {
     public function _before ()
     {
-        Storage::fake();
         Bus::fake([ProcessCoverage::class]);
+        Storage::fake();
         $this->coverageMock = Mockery::mock(CoverageUtil::class);
         App::instance(CoverageUtil::class, $this->coverageMock);
     }
@@ -29,7 +29,8 @@ class CoverageControllerCest
     {
         $this->coverageMock->shouldReceive('getCoverageFromLCOV')->andReturn([
             'totalLines' => 100,
-            'totalCovered' => 99
+            'totalCovered' => 99,
+            'coverage' => '99.999'
         ]);
         $I->haveHttpHeader('Accept', 'application/json');
         $I->haveHttpHeader('Content-Type', 'multipart/form-data');
@@ -44,10 +45,8 @@ class CoverageControllerCest
             'zip' => UploadedFile::fake()->create('zip.zip', 1024),
             'lcov' => UploadedFile::fake()->create('lcov.info', 1024)
         ]);
-        $I->seeResponseCodeIs(HttpCode::CREATED);
 
-        Bus::assertDispatched(ProcessCoverage::class, function (Commit $commit, array $data) {
-
-        });
+        $I->seeResponseCodeIs(HttpCode::OK);
+        Bus::assertDispatched(ProcessCoverage::class);
     }
 }

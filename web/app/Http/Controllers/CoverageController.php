@@ -65,7 +65,8 @@ class CoverageController extends Controller
                 $newPath = "coverage/{$request->name}/{$request->branch}";
                 Storage::disk('public')->makeDirectory($newPath);
                 $zip->extractTo($tmpPath);
-                shell_exec("mv -v {$tmpPath}/{$initialFolderName}/* {$root}/{$newPath} && rm -R {$tmpPath}/");
+                Storage::disk('public')->move("{$tmpPath}/{$initialFolderName}/*", "{$root}/{$newPath}");
+                Storage::disk('public')->deleteDirectory($tmpPath);
                 $zip->close();
             } else {
                 Log::critical('Failed to extract zip archive', [

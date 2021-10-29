@@ -4,11 +4,11 @@ namespace Services;
 use App\Services\CoverageUtil;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use lcov\BranchCoverage;
-use lcov\FunctionCoverage;
-use lcov\LineCoverage;
-use lcov\Record;
-use lcov\Report;
+use Lcov\BranchCoverage;
+use Lcov\FunctionCoverage;
+use Lcov\LineCoverage;
+use Lcov\Record;
+use Lcov\Report;
 use Mockery;
 use Mockery\MockInterface;
 
@@ -34,15 +34,11 @@ class CoverageUtilTest extends \Codeception\Test\Unit
 
     private function makeFakeReport (): Report
     {
-        $report = new Report();
-        $record = new Record('someFile.php');
         $branch = new BranchCoverage(5, 4);
         $fn = new FunctionCoverage(5, 4);
         $line = new LineCoverage(5, 5);
-        $record->branches = $branch;
-        $record->functions = $fn;
-        $record->lines = $line;
-        $report->records = new Collection([$record]);
+        $record = new Record('someFile.php', $fn, $branch, $line);
+        $report = new Report('test', [$record]);
         return $report;
     }
 

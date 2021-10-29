@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Models\Commit;
 use Illuminate\Support\Collection;
-use lcov\Record;
-use lcov\Report;
+use Lcov\Record;
+use Lcov\Report;
 
 /**
  * CoverageUtil class
@@ -24,16 +24,16 @@ class CoverageUtil
     public function getCoverageFromLCOV (string $lcovString): array
     {
         $report = $this->lcovParser->fromCoverage($lcovString);
-        $result = Collection::make($report->records)->reduce(function ($lastNumbers, Record $next) {
+        $result = Collection::make($report->getRecords())->reduce(function ($lastNumbers, Record $next) {
             return [
                 'totalLines' => $lastNumbers['totalLines'] +
-                    $next->branches->found +
-                    $next->functions->found +
-                    $next->lines->found,
+                    $next->getBranches()->getFound() +
+                    $next->getFunctions()->getFound() +
+                    $next->getLines()->getFound(),
                 'totalCovered' => $lastNumbers['totalCovered'] +
-                    $next->branches->hit +
-                    $next->functions->hit +
-                    $next->lines->hit
+                    $next->getBranches()->getHit() +
+                    $next->getFunctions()->getHit() +
+                    $next->getLines()->getHit()
             ];
         }, [
             'totalLines' => 0,

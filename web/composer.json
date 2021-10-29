@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4.0",
-        "cedx/lcov.hx": "^1.0",
+        "cedx/lcov": "^8.3",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "graham-campbell/gitlab": "^4.3",

@@ -8,6 +8,7 @@ use App\Models\App;
 use App\Models\Commit;
 use App\Services\CoverageUtil;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -65,8 +66,8 @@ class CoverageController extends Controller
                 $newPath = "coverage/{$request->name}/{$request->branch}";
                 Storage::disk('public')->makeDirectory($newPath);
                 $zip->extractTo($tmpPath);
-                Storage::move("{$tmpPath}/{$initialFolderName}/*", "{$root}/{$newPath}");
-                Storage::deleteDirectory($tmpPath);
+                File::moveDirectory("{$tmpPath}/{$initialFolderName}", "{$root}/{$newPath}", true);
+                File::deleteDirectory($tmpPath);
                 $zip->close();
             } else {
                 Log::critical('Failed to extract zip archive', [

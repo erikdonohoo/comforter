@@ -1,7 +1,6 @@
 <?php
 
 use App\Jobs\ProcessCoverage;
-use App\Models\Commit;
 use App\Services\CoverageUtil;
 use Codeception\Util\HttpCode;
 use Illuminate\Http\UploadedFile;

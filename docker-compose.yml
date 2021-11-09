@@ -41,7 +41,7 @@ services:
         - "4443:443"
         - "4422:22"
     volumes:
-        - './docker/gitlab/config:/etc/gitlab'
-        - './docker/gitlab/logs:/var/log/gitlab'
-        - './docker/gitlab/data:/var/opt/gitlab'
+        - '$GITLAB_HOME/config:/etc/gitlab'
+        - '$GITLAB_HOME/logs:/var/log/gitlab'
+        - '$GITLAB_HOME/data:/var/opt/gitlab'
 

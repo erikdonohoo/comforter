@@ -10,6 +10,8 @@ brew link php@7.4
 
 Make sure you are using composer > 2.0
 
+Follow instructions [here](https://docs.gitlab.com/ee/install/docker.html) to setup the `$GITLAB_HOME` directory where gitlab will store files
+
 You will need `docker` installed. To setup:
 
 ```bash

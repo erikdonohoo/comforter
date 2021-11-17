@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  web:
+    build: docker/web
+    hostname: web
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - ./web:/www/web:cached
+    ports:
+      - "127.0.0.1:8010:80"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+  db:
+    image: mysql:5.7.33
+    hostname: db
+    restart: always
+    volumes:
+      - ./docker/db-data:/var/lib/mysql:cached
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf:delegated
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: comforter
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: comforter
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "127.0.0.1:8307:3306"
+

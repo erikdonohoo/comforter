@@ -1,0 +1,24 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "comforter:unit": "comforter-cli --totalLines $TOTAL_LINES --totalCovered $TOTAL_COVERED --name comforter-php-unit --branch $CI_COMMIT_REF_NAME --commit $CI_COMMIT_SHA ${CI_MERGE_REQUEST_IID:+--merge-request-iid $CI_MERGE_REQUEST_IID} ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME:+--target-branch $CI_MERGE_REQUEST_TARGET_BRANCH_NAME} --project $CI_PROJECT_ID --apiKey $GITLAB_API_KEY --zip tests/_output/coverage/ --host https://comforter.goreact.com",
+        "comforter:api": "comforter-cli --totalLines $TOTAL_LINES --totalCovered $TOTAL_COVERED --name comforter-php-api --branch $CI_COMMIT_REF_NAME --commit $CI_COMMIT_SHA ${CI_MERGE_REQUEST_IID:+--merge-request-iid $CI_MERGE_REQUEST_IID} ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME:+--target-branch $CI_MERGE_REQUEST_TARGET_BRANCH_NAME} --project $CI_PROJECT_ID --apiKey $GITLAB_API_KEY --zip tests/_output/coverage/ --host https://comforter.goreact.com"
+    },
+    "devDependencies": {
+        "comforter-cli": "^0.4.8",
+        "axios": "^0.19",
+        "cross-env": "^7.0",
+        "laravel-mix": "^5.0.1",
+        "lodash": "^4.17.19",
+        "resolve-url-loader": "^3.1.0",
+        "sass": "^1.15.2",
+        "sass-loader": "^8.0.0"
+    }
+}

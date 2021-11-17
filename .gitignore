@@ -1,11 +1,3 @@
+docker/db-data
 node_modules
-/dist/
-.DS_Store
-npm-debug.log
-app/main.css
-coverage/
-app/bower_components/
-.generated
-.vagrant
-app-coverage-data/
-.tmp
+docker/gitlab

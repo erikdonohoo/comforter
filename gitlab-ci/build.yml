@@ -1,0 +1,92 @@
+.build-template:
+    stage: build
+    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-php:latest
+    tags:
+        - docker
+
+.build-client-chrome-template:
+    stage: build
+    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-chrome:latest
+    tags:
+        - docker
+
+build-web-mr:
+    extends: .build-template
+    only:
+        refs:
+            - merge_requests
+        changes:
+            - web/**/*
+            - gitlab-ci/build.yml
+            - docker/web/**/*
+            - docker/db/**/*
+    cache:
+        key: comforter-vendor
+        paths:
+            - web/vendor
+            - web/node_modules
+    script:
+        - cd web/
+        - cp .env.example .env
+        - /usr/bin/php7 /usr/local/bin/composer install
+        - yarn install
+    artifacts:
+        paths:
+            - web/.env
+            - web/vendor/
+            - web/node_modules/
+
+build-web:
+    extends: .build-template
+    only:
+        - master
+    cache:
+        key: comforter-vendor
+        policy: pull-push
+        paths:
+            - web/vendor
+            - web/node_modules
+    script:
+        - cd web/
+        - /usr/bin/php7 /usr/local/bin/composer install
+    artifacts:
+        paths:
+            - web/vendor/
+
+build-client-mr:
+    extends: .build-client-chrome-template
+    only:
+        refs:
+            - merge_requests
+        changes:
+            - client/**/*
+            - gitlab-ci/build.yml
+    cache:
+        key: comforter-vendor
+        policy: pull-push
+        paths:
+            - client/node_modules
+    script:
+        - cd client/
+        - yarn install
+    artifacts:
+        paths:
+            - client
+
+build-client:
+    extends: .build-client-chrome-template
+    only:
+        - master
+    cache:
+        key: comforter-vendor
+        policy: pull-push
+        paths:
+            - client/node_modules
+    script:
+        - cd client/
+        - yarn install
+        - yarn build:prod
+    artifacts:
+        paths:
+            - client
+            - web/public/client/

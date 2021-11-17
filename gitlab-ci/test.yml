@@ -1,0 +1,108 @@
+.test-template-mr:
+    stage: test
+    only:
+        refs:
+            - merge_requests
+    tags:
+        - docker
+
+.test-mysql-template-mr:
+    extends: .test-template-mr
+    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-php:latest
+    services:
+        - mysql:5.7
+        - redis:latest
+    variables:
+        MYSQL_DATABASE: comforter
+        MYSQL_USER: comforter
+        MYSQL_ROOT_PASSWORD: password
+        MYSQL_PASSWORD: password
+        MYSQL_OPTIONS: "-u root -h mysql -ppassword"
+        DB_HOST: mysql
+        DB_PORT: 3306
+        DB_DATABASE: comforter
+        DB_USERNAME: comforter
+        DB_PASSWORD: password
+    before_script:
+        # Modify .env configuration file
+        - cd web/
+        - cp .env.example .env
+        - sed -ri 's/^DB_HOST=.*$/DB_HOST=mysql/g' .env
+        - sed -ri 's/^DB_PORT=.*$/DB_PORT=3306/g' .env
+        - sed -ri 's/^DB_REPLICA=.*$/DB_REPLICA=mysql/g' .env
+        - sed -ri 's/^REDIS_HOST=.*$/REDIS_HOST=redis/g' .env
+        - sed -ri 's/^REDIS_PORT=.*$/REDIS_PORT=6379/g' .env
+        - source ./.env
+
+        # Run migration
+        - php artisan migrate
+        - cd ..
+
+.test-client-template-mr:
+    extends: .test-template-mr
+    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-tests-chrome:latest
+
+.php-test-template:
+    extends: .test-mysql-template-mr
+    needs:
+        - build-web-mr
+    only:
+        changes:
+            - web/**/*
+            - gitlab-ci/build.yml
+            - gitlab-ci/test.yml
+
+php-unit-tests-mr:
+    extends: .php-test-template
+    script:
+        - cd web/
+
+        # Enable pcov driver for code coverage
+        - echo -e "extension=pcov.so\npcov.enabled=1" > /etc/php.d/01-pcov.ini
+
+        # Run PHP unit tests with code coverage
+        - composer test unit -- --coverage --coverage-html --coverage-xml
+
+        # Upload code coverage results to Comforter
+        - export TOTAL_LINES=$(node parse-coverage.js --lines)
+        - export TOTAL_COVERED=$(node parse-coverage.js --covered)
+        - if test "${CI_COMMIT_MESSAGE#*Revert \"Merge branch}" == "$CI_COMMIT_MESSAGE";
+          then yarn comforter:unit;
+          else echo "Skipping due to revert";
+          fi
+
+php-api-tests-mr:
+    extends: .php-test-template
+    script:
+        - cd web/
+
+        # Enable pcov driver for code coverage
+        - echo -e "extension=pcov.so\npcov.enabled=1" > /etc/php.d/01-pcov.ini
+
+        # Run PHP unit tests with code coverage
+        - composer test api -- --coverage --coverage-html --coverage-xml
+
+        # Upload code coverage results to Comforter
+        - export TOTAL_LINES=$(node parse-coverage.js --lines)
+        - export TOTAL_COVERED=$(node parse-coverage.js --covered)
+        - if test "${CI_COMMIT_MESSAGE#*Revert \"Merge branch}" == "$CI_COMMIT_MESSAGE";
+          then yarn comforter:api;
+          else echo "Skipping due to revert";
+          fi
+
+.client-test-template:
+    extends: .test-client-template-mr
+    needs:
+        - build-client-mr
+    only:
+        changes:
+            - client/**/*
+            - gitlab-ci/build.yml
+            - gitlab-ci/test.yml
+
+client-unit-tests-mr:
+    extends: .client-test-template
+    script:
+        - cd client/
+        - yarn test:ci --browsers=ChromeHeadlessArgs
+        - yarn report-coverage

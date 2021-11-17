@@ -1,0 +1,15 @@
+/node_modules
+/public/hot
+/public/coverage
+/public/storage
+/public/client
+/storage/*.key
+/vendor
+/resources/views/client.blade.php
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log

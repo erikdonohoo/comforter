@@ -1,0 +1,3 @@
+<article class="home-page app-width">
+  <app-project-card *ngFor="let app of apps" [app]="app" [routerLink]="['/project', app.id]"></app-project-card>
+</article>

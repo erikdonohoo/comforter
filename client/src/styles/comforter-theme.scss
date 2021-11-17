@@ -1,0 +1,91 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '~@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$black-87-opacity: rgba(black, 0.87);
+$white-87-opacity: rgba(white, 0.87);
+$black-12-opacity: rgba(black, 0.12);
+$white-12-opacity: rgba(white, 0.12);
+$black-6-opacity: rgba(black, 0.06);
+$white-6-opacity: rgba(white, 0.06);
+
+$comforter-palette-primary: (
+	50: #dff2f1,
+	100: #afdedc,
+	200: #7ac9c5,
+	300: #41b3ad,
+	400: #00a39b,
+	500: #009388,
+	600: #00867b,
+	700: #00766b,
+	800: #00665c,
+	900: #004a3f,
+	contrast: (
+		50: rgba(black, 0.87),
+		100: rgba(black, 0.87),
+		200: rgba(black, 0.87),
+		400: rgba(black, 0.87),
+		500: white,
+		700: white,
+		900: white
+	)
+);
+$comforter-palette-accent: (
+	50: #fef2e1,
+	100: #fddfb4,
+	200: #fcca84,
+	300: #fbb455,
+	400: #faa434,
+	500: #f9951f,
+	600: #f48a1d,
+	700: #ee7b1b,
+	800: #e76b19,
+	900: #dd5215,
+	contrast: (
+		50: rgba(black, 0.87),
+		100: rgba(black, 0.87),
+		200: rgba(black, 0.87),
+		400: rgba(black, 0.87),
+		500: white,
+		700: white,
+		900: white
+	)
+);
+
+$comforter-primary: mat.define-palette($comforter-palette-primary);
+$comforter-accent: mat.define-palette($comforter-palette-accent);
+
+// The warn palette is optional (defaults to red).
+$comforter-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$comforter-theme: mat.define-light-theme((
+  color: (
+    primary: $comforter-primary,
+    accent: $comforter-accent,
+    warn: $comforter-warn,
+  )
+));
+
+$custom-typography: mat.define-typography-config(
+	$font-family: "'Fira Code', monospace"
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($comforter-theme);
+
+@include mat.core($custom-typography);

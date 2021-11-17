@@ -1,0 +1,30 @@
+<section class="commit-card" *ngIf="commit">
+  <div class="header">
+    <h2>{{commit.branch_name}}</h2>
+    <p>{{commit.created_at | date:'MMM d, y - h:mm:ss a'}}</p>
+  </div>
+  <div class="content">
+    <div class="coverage-diff">
+      <mat-icon *ngIf="coverageDiff! >= 0" color="primary">trending_up</mat-icon>
+      <mat-icon *ngIf="coverageDiff! < 0" color="warn">trending_down</mat-icon>
+      <p class="diff" [class.negative]="coverageDiff! < 0" [class.positive]="coverageDiff! >= 0">{{coverageDiff}}%</p>
+    </div>
+    <div class="coverage-lines">
+      <mat-icon>code</mat-icon>
+      <p class="lines">
+        {{commit.total_lines_covered}} / {{commit.total_lines}}
+      </p>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="comparison">
+      <a target="_blank" href="{{commit.app.app_domain}}/{{commit.app.namespace}}/{{commit.app.repo_path}}/-/commit/{{commit.sha}}">{{commit.sha | sha}}</a>
+      <mat-icon>arrow_forward</mat-icon>
+      <a target="_blank" href="{{commit.app.app_domain}}/{{commit.app.namespace}}/{{commit.app.repo_path}}/-/branches/{{commit.base_commit.branch_name}}">{{commit.base_commit.branch_name}}</a>
+      <div class="base-sha">
+        (<a target="_blank" href="{{commit.app.app_domain}}/{{commit.app.namespace}}/{{commit.app.repo_path}}/-/commit/{{commit.sha}}">{{commit.base_commit!.sha | sha}}</a>)
+      </div>
+    </div>
+    <a href="{{commit.coverage_path}}" target="_blank">Details</a>
+  </div>
+</section>

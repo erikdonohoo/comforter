@@ -1,80 +1,48 @@
-# Comforter
-When your code is covered, you feel warm and cozy inside
+# Getting Started
 
-### Purpose
-Comforter helps you feel good that the changes you made to a project didn't cause anyone any pain.  It makes sure that any change you make is a positive one, which gives everyone the warm fuzzies.
-
-### Setup Dev Environment
-Make sure you have `npm` and `node` installed, as well as `vagrant` and virtual box.
-
-```shell
-vagrant up
-vagrant ssh gitlab
-sudo nano /etc/gitlab/gitlab.rb
+I recommend installing using homebrew to manage different PHP versions
+```bash
+brew install php@7.4
+brew link php@7.4
 ```
 
-Modify `external_url` to be `http://192.168.33.52` and then
+Make sure you are using composer > 2.0
 
-```shell
-sudo gitlab-ctl reconfigure
-exit
+You will need `docker` installed. To setup:
+
+```bash
+yarn setup
 ```
 
-### Visit GitLab and update admin password
-Visit `http://192.168.33.52` and you will be prompted to modify password.  Choose anything.  Then signin as username `root` and your password.
-
-### Register the runner
-
-`vagrant ssh runner` and then follow [these](https://docs.gitlab.com/runner/register/index.html) steps.
-
-Choose shell as executor and use `http://192.168.33.52` as the coordinator URL.  To get a token,
-visit `http://192.168.33.52/admin/runners` and grab the registration token off the page.
-
-Add nvm to runner
-```
-sudo su gitlab-runner
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+Once your DB is up, you can run the following:
+```bash
+cd web/
+php artisan key:generate --ansi
+php artisan passport:keys
 ```
 
-### Setup Comforter In Gitlab as an App
-* Go [here](http://192.168.33.52/admin/applications/new)
-* Name = Comforter
-* Redirect URI https://comforterdev.localtunnel.me
-* Use **api** and **read_user** scopes
-* Grab App ID and Secret and put into `settings.json` file as token and secret respectively
+You need your own personal `https://gitlab.com` account. You will use this environment to test Comforter.
 
-### Update your URLs in settings.json and app.js for app
-* Update `https://gitlab.goreact.com` to `http://192.168.33.52` in settings.json on both gitlab.host and gitlab.api.
-* Update gitlabHost constant in `app/app.js` to be `http://192.168.33.52` as well.
-* Update `app/app.js` and set `clientId` to be the same ID you put in as token in settins.json and update the `gitlabHost` constant to `http://192.168.33.52`.  DO NOT commit these changes.  Eventually this will be better.
+Now setup an app for comforter in gitlab, and add keys to .env
 
-### Add the test project to gitlab
-The folder in this repo called `test-project` can be moved out, git inited, and then added to your local gitlab instance.  It has a test job that runs and generates coverage and sends it to gitlab.
+1. Click applications on your user preferences
+2. Click New Application. The Name should be `Comforter`, and Redirect URI should be `http://localhost:8010`. Check the box for Trusted and give it the `api` scope.
+3. Take the keys you get, and set them in your `.env` for `GITLAB_OAUTH_ID` and `GITLAB_OAUTH_SECRET`
+4. Create an access_token for your user for comforter, and choose API access, and copy and paste that into `GITLAB_ACCESS_TOKEN`
 
-Generate a token to use for your project by visiting your admin users profile page, and then click access tokens.  Generate one with `api` and `read_user` scope and then go back to your project and visit `settings/ci_cd` off your projects main url.  Add a secret variable called `GITLAB_API_KEY` and use the token you just made.
 
-## IMPORTANT NOTE
-* **DO NOT** commit changes to the strings you changed to `http://192.168.33.52`.  Until we have this slightly better, just be sure not to commit that.
+The comforter server itself is running at `http://localhost:8010`. To set up the DB in your DB GUI of choice, just take a look
+at the `docker-compose.yml` file to grab the DB info you need.
 
-Now you can start the app
-```
-yarn && yarn start
+## Development
+
+Start the angular app with
+
+```bash
+cd client/
+yarn start
 ```
 
-Then you can spin up the site with `yarn serve`
+You can now view the coverage app at `http://localhost:8010`. You will need to refresh the browser page after
+making changes since this app needs to be served by Laravel.
 
-Start deving away.
-
-Follow the documentation for [generator-ng-gulp](https://github.com/erikdonohoo/generator-ng-gulp) to add front-end components.
-
-You can add a project to your new gitlab instance and attach comforter to it.
-It should run
-
-### TODOs
-
-* [x] handle uploading lcov and zipped html coverage
-* [x] npm tool for sending lcov and zipped html after tests run
-* [x] connect to gitlab api and update commit statuses through process
-* [ ] save unzipped html coverage to folder for a repo on branch basis
-* [x] add endpoints and collection in mongo for branch coverage
-* [ ] delete uploaded zip/lcov after processing

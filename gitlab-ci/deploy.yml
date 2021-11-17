@@ -1,0 +1,27 @@
+.deploy-template:
+    image: gitlab.goreact.com:4567/goreact/docker-containers/gr-awscli:latest
+    tags:
+        - docker
+    before_script:
+        - set -e -o pipefail
+    stage: deploy
+
+deploy-prod:
+    extends: .deploy-template
+    only:
+        - master
+    before_script:
+        - mkdir ~/.ssh
+        - echo "$SSH_HOST_KEY" >> ~/.ssh/known_hosts
+        # - ssh-keyscan comforter2.gr.priv >> ~/.ssh/known_hosts
+        - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        - chmod 0700 ~/.ssh
+        - chmod 0600 ~/.ssh/*
+    dependencies:
+        - build-web
+        - build-client
+    script:
+        - echo "Pushing code ..."
+        - rsync -Wlzrpvc web client jenkins-deployer@comforter2.gr.priv:/var/www/comforter/
+        - echo "Running migrations ..."
+        - ssh jenkins-deployer@comforter2.gr.priv "cd /var/www/comforter/web && php artisan migrate --force --database=reactor"

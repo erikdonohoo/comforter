@@ -1,0 +1,19 @@
+@import "./styles/comforter-theme.scss";
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: 'Fira Code', monospace;
+  background-color: #FAFAFA;
+}
+
+.app-width {
+  max-width: 990px;
+  width: 100%;
+  margin: 0 auto;
+}

@@ -1,0 +1,109 @@
+@use '~@angular/material' as mat;
+
+.commit-card {
+  background-color: #FFFFFF;
+  border-radius: 3px;
+  @include mat.elevation(3);
+
+  .header {
+    padding: 20px 20px 0 20px;
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    p {
+      color: rgba(0,0,0,0.6);
+      margin: 10px 0 0 0;
+      font-size: 16px;
+    }
+  }
+
+  .content {
+    padding: 15px 20px 20px 20px;
+
+    .coverage-diff {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+
+      .mat-icon {
+        height: 32px;
+        width: 32px;
+        font-size: 32px;
+        margin-right: 10px;
+      }
+
+      .diff {
+        font-size: 18px;
+        margin: 0;
+
+        &.positive {
+          color: #009388;
+        }
+
+        &.negative {
+          color: #f44336;
+        }
+      }
+    }
+
+    .coverage-lines {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      color: rgba(0,0,0,0.4);
+
+      .mat-icon {
+        height: 16px;
+        width: 16px;
+        font-size: 16px;
+        margin-right: 5px;
+      }
+
+      .lines {
+        margin: 0;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px;
+    background-color: #F4F4F4;
+    border-top: 1px solid #E7E7E7;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+
+    a {
+      font-size: 18px;
+      color: #2260FF;
+      text-decoration: none;
+    }
+    .mat-icon {
+      font-size: 20px;
+      height: 20px;
+      width: 20px;
+      margin: 0 10px;
+    }
+
+    .comparison {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+
+      .base-sha {
+        font-size: 18px;
+        margin-left: 5px;
+      }
+    }
+  }
+}

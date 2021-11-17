@@ -1,0 +1,50 @@
+.mat-toolbar {
+  background-color: white;
+
+  .app-width {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .brand > span {
+    margin-left: 20px;
+  }
+
+  .logo {
+    height: 42px;
+  }
+
+  .slogan {
+    font-size: 12px;
+    color: rgba(0,0,0,0.2);
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .slogan {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .mat-toolbar {
+    .brand {
+      img {
+        display: none;
+      }
+      span {
+        margin: 0;
+      }
+    }
+  }
+}

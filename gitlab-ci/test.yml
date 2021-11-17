@@ -2,6 +2,7 @@
     stage: test
     only:
         refs:
+            - master
             - merge_requests
     tags:
         - docker

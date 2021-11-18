@@ -93,6 +93,9 @@ class ProcessCoverage implements ShouldQueue
             $lastCommit = $this->commit;
         }
 
+        $this->commit->comparison_sha = $lastCommit->sha;
+        $this->commit->save();
+
         // Compare coverage
         Log::info('Comparing Commits', [
             'currentCommit' => $this->commit,

@@ -61,5 +61,7 @@ class ProcessCoverageJobTest extends \Codeception\Test\Unit
 
 
         ProcessCoverage::dispatchNow($this->commit, $this->data);
+        $this->commit = Commit::whereSha($this->commit->sha)->first();
+        static::assertSame($this->commit->comparison_sha, $this->commit->sha);
     }
 }

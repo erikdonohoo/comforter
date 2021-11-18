@@ -100,14 +100,11 @@ class CoverageController extends Controller
             $query->orderByDesc('updated_at');
         }]);
 
-        $latestCommit = $app->getLatestCommit();
-
-        // TODO: In the future, have each base commit be the REAL base
-        $app->commits->each(function (Commit $commit) use ($latestCommit) {
-            $commit->setRelation('baseCommit', $latestCommit);
+        $app->commits->each(function (Commit $commit) {
+            $commit->setRelation('baseCommit', $commit->getBaseCommit());
         });
 
-        $app->setRelation('latestCommit', $latestCommit);
+        $app->setRelation('latestCommit', $app->getLatestCommit());
 
         return $app;
     }

@@ -19,7 +19,7 @@
             "name": "XDebug tests",
             "type": "php",
             "request": "launch",
-            "port": 9000,
+            "port": 9003,
             "xdebugSettings": {
                 "max_children": 128,
                 "max_depth": 5,

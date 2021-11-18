@@ -54,7 +54,7 @@ class AppTest extends \Codeception\Test\Unit
 
         $newCommit = factory(Commit::class)->make([
             'branch_name' => 'master',
-            'created_at' => Carbon::now()->addHour()
+            'updated_at' => Carbon::now()->addHour()
         ]);
         $newCommit->app()->associate($this->app)->save();
         $latestCommit = $this->app->getLatestCommit();

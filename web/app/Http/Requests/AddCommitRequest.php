@@ -11,7 +11,6 @@ use Illuminate\Http\UploadedFile;
  * @property string $branch
  * @property string $commit
  * @property int $project
- * @property string $coverage
  * @property string $name
  * @property string $mergeBase
  * @property string $mergeRequestIID
@@ -37,8 +36,7 @@ class AddCommitRequest extends FormRequest
             'zip' => ['required', 'file'],
             'mergeBase' => ['string'],
             'mergeRequestIID' => ['string'],
-            'coverage' => ['required_without:lcov', 'numeric'],
-            'lcov' => ['required_without:coverage', 'file'],
+            'lcov' => ['required_without:totalLines', 'file'],
             'totalLines' => ['required_without:lcov', 'numeric'],
             'totalCovered' => ['required_without:lcov', 'numeric']
         ];

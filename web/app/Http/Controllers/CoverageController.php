@@ -8,10 +8,8 @@ use App\Models\App;
 use App\Models\Commit;
 use App\Services\CoverageUtil;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use ZipArchive;
 
@@ -57,24 +55,24 @@ class CoverageController extends Controller
 
         if ($request->zip) {
             $zip = new ZipArchive();
-            if ($zip->open($request->zip)) {
-                // First item is always a folder we want to remove
-                $initialFolderName = $zip->getNameIndex(0);
-                $uuid = Str::uuid();
-                $root = config('filesystems.disks.public.root');
-                $tmpPath = "{$root}/coverage/{$uuid}";
-                $newPath = "coverage/{$request->name}/{$request->branch}";
-                Storage::disk('public')->makeDirectory($newPath);
-                $zip->extractTo($tmpPath);
-                File::moveDirectory("{$tmpPath}/{$initialFolderName}", "{$root}/{$newPath}", true);
-                File::deleteDirectory($tmpPath);
-                $zip->close();
-            } else {
+            $result = $zip->open($request->zip);
+
+            if ($result !== true) {
                 Log::critical('Failed to extract zip archive', [
-                    'request' => $request->all()
+                    'request' => $request->all(),
+                    'error' => $result
                 ]);
-                throw new HttpException(Response::HTTP_FAILED_DEPENDENCY, 'Could not unzip coverage archive');
+                throw new HttpException(Response::HTTP_FAILED_DEPENDENCY, 'Could not unzip coverage archive: ' . json_encode([
+                    'request' => $request->all(),
+                    'error' => $result
+                ]));
             }
+
+            // First item is always a folder we want to remove
+            $newPath = "coverage/{$request->name}/{$request->branch}";
+            Storage::disk('public')->makeDirectory($newPath);
+            $zip->extractTo($newPath);
+            $zip->close();
         }
 
         // Dispatch job to handle GitLab communication and commit update

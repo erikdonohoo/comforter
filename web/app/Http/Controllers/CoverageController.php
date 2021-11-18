@@ -78,9 +78,9 @@ class CoverageController extends Controller
         ProcessCoverage::dispatch($commit, [
             'project_id' => $request->project,
             'project_name' => $request->name,
-            'mergeRequestId' => $request->mergeRequestIID,
+            'mergeRequestId' => $request->input('merge-request-iid'),
             'coverageInfo' => $coverageInfo,
-            'mergeBase' => $request->mergeBase
+            'mergeBase' => $request->input('merge-base')
         ]);
 
         // Send coverage back to requester

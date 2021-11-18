@@ -22,8 +22,8 @@ class ProcessCoverage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable;
 
-    private $commit;
-    private $data;
+    public $commit;
+    public $data;
 
     const GITLAB_PENDING = 'pending';
     const GITLAB_SUCCESS = 'success';

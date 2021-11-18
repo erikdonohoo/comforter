@@ -47,7 +47,7 @@ class CoverageUtil
 
     public function getCoverageFromLines (string $totalLines, string $totalCovered): array
     {
-        $coverage = intval($totalCovered) / intval($totalLines);
+        $coverage = (intval($totalCovered) / intval($totalLines)) * 100;
         return [
             'coverage' => $this->roundCoverage(floatval($coverage)),
             'totalLines' => intval($totalLines),

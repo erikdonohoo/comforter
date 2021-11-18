@@ -39,8 +39,9 @@ class Commit extends Model
         return "coverage/{$this->app->name}/{$this->branch_name}";
     }
 
-    public function getBaseCommit (): ?Commit
+    public function getBaseCommit (): Commit
     {
-        return static::whereSha($this->comparison_sha)->whereAppId($this->app_id)->first();
+        $base = static::whereSha($this->comparison_sha)->whereAppId($this->app_id)->first();
+        return $base ?? $this->app->getLatestCommit();
     }
 }

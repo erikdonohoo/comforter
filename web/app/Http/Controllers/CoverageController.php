@@ -38,7 +38,7 @@ class CoverageController extends Controller
         if ($request->hasFile('lcov')) {
             $coverageInfo = $this->coverage->getCoverageFromLCOV($request->file('lcov')->getContent());
         } else {
-            $coverageInfo = $this->coverage->getCoverageFromLines($request->coverage, $request->totalLines, $request->totalCovered);
+            $coverageInfo = $this->coverage->getCoverageFromLines($request->totalLines, $request->totalCovered);
         }
 
         // Find or make new commit

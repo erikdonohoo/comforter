@@ -9,7 +9,6 @@ use Gitlab\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Queue\InteractsWithQueue;
 
 /**
@@ -49,14 +48,17 @@ class ProcessCoverage implements ShouldQueue
     {
         // First, create new app if necessary
         /** @var App $app */
-        $app = App::whereGitlabProjectId($this->data['project_id'])->first();
         $gitlabProject = $gitlabClient->projects()->show($this->data['project_id']);
+        $app = App::where([
+            'gitlab_project_id' => $this->data['project_id'],
+            'name' => $this->data['project_name'] ?? $gitlabProject['name']
+        ])->first();
 
         /** @var App $app */
         $app = App::updateOrCreate([
             'gitlab_project_id' => $this->data['project_id'],
-        ], [
             'name' => $this->data['project_name'] ?? $gitlabProject['name'],
+        ], [
             'primary_branch_name' => $gitlabProject['default_branch'],
             'repo_path' => $gitlabProject['path'],
             'namespace' => $gitlabProject['namespace']['path']

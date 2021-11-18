@@ -1,9 +1,12 @@
 <?php
 
 use App\Jobs\ProcessCoverage;
+use App\Models\App as ModelsApp;
+use App\Models\Commit;
 use App\Services\CoverageUtil;
 use Codeception\Util\HttpCode;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Storage;
@@ -47,5 +50,24 @@ class CoverageControllerCest
 
         $I->seeResponseCodeIs(HttpCode::OK);
         Bus::assertDispatched(ProcessCoverage::class);
+    }
+
+    public function testGetAppHappyPath (ApiTester $I)
+    {
+        $app = factory(ModelsApp::class)->create();
+        $commits = factory(Commit::class, 2)->create(['app_id' => $app->getKey()]);
+        $baseCommit = $commits[0];
+        $otherCommit = $commits[1];
+        $otherCommit->comparison_sha = $baseCommit->sha;
+        $otherCommit->save();
+
+        $I->haveHttpHeader('Accept', 'application/json');
+        $I->haveHttpHeader('Content-Type', 'multipart/form-data');
+        $I->sendGET("api/apps/{$app->getKey()}");
+        $I->seeResponseCodeIs(HttpCode::OK);
+
+        $result = new ModelsApp(json_decode($I->grabResponse(), true));
+        $commit = Collection::make($result->commits)->firstWhere('id', $otherCommit->getKey());
+        $I->assertSame($commit['base_commit']['id'], $baseCommit->id);
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 /**
  * ProcessCoverage class
@@ -93,7 +94,12 @@ class ProcessCoverage implements ShouldQueue
         }
 
         // Compare coverage
-        $coverageChange = $util->roundCoverage($this->commit->coverage - $lastCommit->coverage);
+        Log::info('Comparing Commits', [
+            'currentCommit' => $this->commit,
+            'compareCommit' => $lastCommit
+        ]);
+
+        $coverageChange = $util->roundCoverage(floatval($this->commit->coverage) - floatval($lastCommit->coverage));
         $allowDrop = $util->allowCoverageDrop($this->commit, $lastCommit);
         $description = "Coverage is increased by {$coverageChange}%";
         $state = self::GITLAB_SUCCESS;

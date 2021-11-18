@@ -60,7 +60,11 @@ class ProcessCoverage implements ShouldQueue
         ]);
 
         // Save commit
-        $this->commit->app()->associate($app)->save();
+        $this->commit = Commit::updateOrCreate([
+            'app_id' => $app->getKey(),
+            'branch_name' => $this->commit->branch_name,
+            'sha' => $this->commit->sha
+        ], $this->commit->toArray());
 
         // Get last known commit info
         /** @var Commit $lastCommit */
@@ -101,7 +105,6 @@ class ProcessCoverage implements ShouldQueue
             'ref' => $this->commit->branch_name,
             'name' => "comforter/{$app->name}",
             'description' => $description,
-            'coverage' => $this->commit->coverage,
             'target_url' => config('app.url')
         ]);
     }

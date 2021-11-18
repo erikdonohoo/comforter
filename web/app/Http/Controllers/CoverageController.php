@@ -42,12 +42,9 @@ class CoverageController extends Controller
         }
 
         // Find or make new commit
-        $commit = Commit::firstOrNew([
+        $commit = new Commit([
             'sha' => $request->commit,
             'branch_name' => $request->branch,
-        ]);
-
-        $commit->fill([
             'coverage' => $coverageInfo['coverage'],
             'total_lines' => $coverageInfo['totalLines'],
             'total_lines_covered' => $coverageInfo['totalCovered']

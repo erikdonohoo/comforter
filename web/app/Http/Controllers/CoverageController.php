@@ -34,6 +34,8 @@ class CoverageController extends Controller
      */
     public function addCommit (AddCommitRequest $request)
     {
+        Log::info('Coverage Request', $request->all());
+
         // Process LCOV if present
         if ($request->hasFile('lcov')) {
             $coverageInfo = $this->coverage->getCoverageFromLCOV($request->file('lcov')->getContent());

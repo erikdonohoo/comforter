@@ -12,7 +12,7 @@
         "comforter:api": "comforter-cli --totalLines $TOTAL_LINES --totalCovered $TOTAL_COVERED --name comforter-php-api --branch $CI_COMMIT_REF_NAME --commit $CI_COMMIT_SHA ${CI_MERGE_REQUEST_IID:+--merge-request-iid $CI_MERGE_REQUEST_IID} ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME:+--target-branch $CI_MERGE_REQUEST_TARGET_BRANCH_NAME} --project $CI_PROJECT_ID --apiKey $GITLAB_API_KEY --zip tests/_output/coverage/ --host https://comforter.goreact.com"
     },
     "devDependencies": {
-        "comforter-cli": "^0.4.8",
+        "comforter-cli": "^1.0.0",
         "axios": "^0.19",
         "cross-env": "^7.0",
         "laravel-mix": "^5.0.1",

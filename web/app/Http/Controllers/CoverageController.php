@@ -80,7 +80,8 @@ class CoverageController extends Controller
             'project_id' => $request->project,
             'project_name' => $request->name,
             'merge_request_id' => $request->mergeRequestIID,
-            'coverageInfo' => $coverageInfo
+            'coverageInfo' => $coverageInfo,
+            'mergeBase' => $request->mergeBase
         ]);
 
         // Send coverage back to requester

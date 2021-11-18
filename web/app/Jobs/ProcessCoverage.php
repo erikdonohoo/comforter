@@ -46,15 +46,10 @@ class ProcessCoverage implements ShouldQueue
      */
     public function handle (Client $gitlabClient, CoverageUtil $util)
     {
-        // First, create new app if necessary
-        /** @var App $app */
         $gitlabProject = $gitlabClient->projects()->show($this->data['project_id']);
-        $app = App::where([
-            'gitlab_project_id' => $this->data['project_id'],
-            'name' => $this->data['project_name'] ?? $gitlabProject['name']
-        ])->first();
 
         /** @var App $app */
+        // Create new app if necessary
         $app = App::updateOrCreate([
             'gitlab_project_id' => $this->data['project_id'],
             'name' => $this->data['project_name'] ?? $gitlabProject['name'],
@@ -70,9 +65,9 @@ class ProcessCoverage implements ShouldQueue
         // Get last known commit info
         /** @var Commit $lastCommit */
         $lastCommit = null;
-        if (!empty($this->data['merge_base'])) {
+        if (!empty($this->data['mergeBase'])) {
             /** @var Commit $lastCommit */
-            $lastCommit = Commit::whereSha($this->data['merge_base'])
+            $lastCommit = Commit::whereSha($this->data['mergeBase'])
                 ->whereAppId($app->getKey())
                 ->where('id', '!=', $this->commit->getKey())
                 ->first();

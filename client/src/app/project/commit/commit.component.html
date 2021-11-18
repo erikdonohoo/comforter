@@ -5,6 +5,7 @@
   </div>
   <div class="content">
     <div class="coverage-diff">
+      <p class="coverage">{{commit.coverage}}%</p>
       <mat-icon *ngIf="coverageDiff! >= 0" color="primary">trending_up</mat-icon>
       <mat-icon *ngIf="coverageDiff! < 0" color="warn">trending_down</mat-icon>
       <p class="diff" [class.negative]="coverageDiff! < 0" [class.positive]="coverageDiff! >= 0">{{coverageDiff}}%</p>

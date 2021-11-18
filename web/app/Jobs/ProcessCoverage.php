@@ -118,7 +118,7 @@ class ProcessCoverage implements ShouldQueue
             'ref' => isset($this->data['mergeRequestId']) ? "refs/merge-requests/{$this->data['mergeRequestId']}/head" : $this->commit->branch_name,
             'name' => "comforter/{$app->name}",
             'description' => $description,
-            'target_url' => config('app.url')
+            'target_url' => config('app.url') . "/projects/{$this->commit->app_id}"
         ]);
     }
 }

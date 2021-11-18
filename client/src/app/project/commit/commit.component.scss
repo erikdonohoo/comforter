@@ -23,6 +23,12 @@
   .content {
     padding: 15px 20px 20px 20px;
 
+    .coverage {
+      font-size: 18px;
+      display: inline-block;
+      margin: 0 10px 0 0;
+    }
+
     .coverage-diff {
       display: flex;
       flex-direction: row;

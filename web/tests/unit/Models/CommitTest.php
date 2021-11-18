@@ -31,4 +31,12 @@ class CommitTest extends \Codeception\Test\Unit
         $commit->save();
         static::assertSame($otherCommit->getKey(), $commit->getBaseCommit()->getKey());
     }
+
+    public function testBaseCommitMissingComparisonSha()
+    {
+        $app = factory(App::class)->create();
+        /** @var Commit $commit */
+        $commit = factory(Commit::class)->create(['app_id' => $app->getKey()]);
+        static::assertNotNull($commit->getBaseCommit());
+    }
 }

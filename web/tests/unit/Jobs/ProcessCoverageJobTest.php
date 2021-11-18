@@ -64,4 +64,31 @@ class ProcessCoverageJobTest extends \Codeception\Test\Unit
         $this->commit = Commit::whereSha($this->commit->sha)->first();
         static::assertSame($this->commit->comparison_sha, $this->commit->sha);
     }
+
+    public function testMergeRequestRef ()
+    {
+        $this->data['mergeRequestId'] = '1';
+        $this->gitlabMock->shouldReceive('projects->show')->once()->andReturn([
+            'default_branch' => 'master',
+            'path' => 'project/prjoect',
+            'namespace' => [
+                'path' => 'path'
+            ]
+        ]);
+
+        $this->gitlabMock->shouldReceive('repositories->postCommitBuildStatus')->withArgs([
+            $this->data['project_id'],
+            $this->commit->sha,
+            ProcessCoverage::GITLAB_SUCCESS,
+            [
+                'ref' => 'refs/merge-requests/1/head',
+                'name' => "comforter/Test",
+                'description' => 'Coverage is increased by 0%',
+                'target_url' => config('app.url')
+            ]
+        ])->once();
+
+
+        ProcessCoverage::dispatchNow($this->commit, $this->data);
+    }
 }

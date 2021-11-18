@@ -41,15 +41,20 @@ class CoverageControllerCest
             'commit' => 'hash',
             'project' => 1,
             'name' => 'test',
-            'mergeBase' => 'base',
-            'mergeRequestIID' => 'iid',
+            'merge-base' => 'base',
+            'merge-request-iid' => 'iid',
         ], [
             'zip' => UploadedFile::fake()->create('zip.zip', 1024),
             'lcov' => UploadedFile::fake()->create('lcov.info', 1024)
         ]);
 
         $I->seeResponseCodeIs(HttpCode::OK);
-        Bus::assertDispatched(ProcessCoverage::class);
+        Bus::assertDispatched(function (ProcessCoverage $job) {
+            return $job->data['project_id'] === '1' &&
+                $job->data['project_name'] === 'test' &&
+                $job->data['mergeRequestId'] === 'iid' &&
+                $job->data['mergeBase'] === 'base';
+        });
     }
 
     public function testGetAppHappyPath (ApiTester $I)

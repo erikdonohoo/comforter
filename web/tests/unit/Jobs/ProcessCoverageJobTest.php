@@ -3,6 +3,7 @@
 namespace Jobs;
 
 use App\Jobs\ProcessCoverage;
+use App\Models\App as ModelsApp;
 use App\Models\Commit;
 use Gitlab\Client;
 use Illuminate\Support\Facades\App;
@@ -25,10 +26,15 @@ class ProcessCoverageJobTest extends \Codeception\Test\Unit
     protected function _before ()
     {
         $this->gitlabMock = Mockery::mock(Client::class);
+        $app = factory(ModelsApp::class)->create([
+            'gitlab_project_id' => 1,
+            'name' => 'Test'
+        ]);
         $this->commit = factory(Commit::class)->make([
             'total_lines' => 10,
             'total_lines_covered' => 5,
-            'coverage' => '50.000'
+            'coverage' => '50.000',
+            'app_id' => $app->getKey()
         ]);
         $this->data = [
             'project_id' => 1,
@@ -55,7 +61,7 @@ class ProcessCoverageJobTest extends \Codeception\Test\Unit
                 'ref' => $this->commit->branch_name,
                 'name' => "comforter/Test",
                 'description' => 'Coverage is increased by 0%',
-                'target_url' => config('app.url')
+                'target_url' => config('app.url') . "/projects/{$this->commit->app_id}"
             ]
         ])->once();
 
@@ -84,7 +90,7 @@ class ProcessCoverageJobTest extends \Codeception\Test\Unit
                 'ref' => 'refs/merge-requests/1/head',
                 'name' => "comforter/Test",
                 'description' => 'Coverage is increased by 0%',
-                'target_url' => config('app.url')
+                'target_url' => config('app.url') . "/projects/{$this->commit->app_id}"
             ]
         ])->once();
 

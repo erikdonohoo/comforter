@@ -64,7 +64,11 @@ class ProcessCoverage implements ShouldQueue
             'app_id' => $app->getKey(),
             'branch_name' => $this->commit->branch_name,
             'sha' => $this->commit->sha
-        ], $this->commit->toArray());
+        ], [
+            'coverage' => $this->commit->coverage,
+            'total_lines' => $this->commit->total_lines,
+            'total_lines_covered' => $this->commit->total_lines_covered
+        ]);
 
         // Get last known commit info
         /** @var Commit $lastCommit */
@@ -102,7 +106,7 @@ class ProcessCoverage implements ShouldQueue
 
         // Update commit status
         $gitlabClient->repositories()->postCommitBuildStatus($this->data['project_id'], $this->commit->sha, $state, [
-            'ref' => $this->commit->branch_name,
+            'ref' => isset($this->data['mergeRequestId']) ? "refs/merge-requests/{$this->data['mergeRequestId']}/head" : $this->commit->branch_name,
             'name' => "comforter/{$app->name}",
             'description' => $description,
             'target_url' => config('app.url')

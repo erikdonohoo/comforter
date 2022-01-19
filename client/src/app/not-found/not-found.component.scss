@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+}
+
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px 20px;
+
+  app-not-found-icon {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    font-size: 40px;
+    font-weight: 500;
+    margin-bottom: 40px;
+  }
+
+  p {
+    max-width: 600px;
+  }
+}

@@ -1,5 +1,5 @@
 <?php
-namespace Services;
+namespace Tests\Feature\Models;
 
 use App\Services\CoverageUtil;
 use Illuminate\Support\Facades\App;
@@ -10,22 +10,19 @@ use App\Services\LcovParsing\Record;
 use App\Services\LcovParsing\Report;
 use Mockery;
 use Mockery\MockInterface;
+use Tests\TestCase;
 
 /**
  * CoverageUtilTest class
- *
- * @property CoverageUtil $util
- * @property MockInterface $mockReport
  */
-class CoverageUtilTest extends \Codeception\Test\Unit
+class CoverageUtilTest extends TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+    private CoverageUtil $util;
+    private MockInterface $mockReport;
 
-    protected function _before()
+    protected function setUp (): void
     {
+        parent::setUp();
         $this->mockReport = Mockery::mock(Report::class);
         App::instance(Report::class, $this->mockReport);
         $this->util = App::make(CoverageUtil::class);

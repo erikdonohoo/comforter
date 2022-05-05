@@ -1,32 +1,33 @@
 <?php
 
-namespace Jobs;
+namespace Tests\Feature\Jobs;
 
 use App\Jobs\ProcessCoverage;
-use App\Models\App as ModelsApp;
+use App\Models\App;
 use App\Models\Commit;
 use Gitlab\Client;
-use Illuminate\Support\Facades\App;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\App as FacadesApp;
 use Mockery;
 use Mockery\MockInterface;
+use Tests\TestCase;
 
 /**
  * ProcessCoverageJobTest class
- *
- * @property Commit $commit
- * @property array $data
- * @property MockInterface $gitlabMock
  */
-class ProcessCoverageJobTest extends \Codeception\Test\Unit
+class ProcessCoverageJobTest extends TestCase
 {
-    private $commit;
-    private $data;
-    private $gitlabMock;
+    use RefreshDatabase;
 
-    protected function _before ()
+    private Commit $commit;
+    private array $data;
+    private MockInterface $gitlabMock;
+
+    protected function setUp (): void
     {
+        parent::setUp();
         $this->gitlabMock = Mockery::mock(Client::class);
-        $app = factory(ModelsApp::class)->create([
+        $app = factory(App::class)->create([
             'gitlab_project_id' => 1,
             'name' => 'Test'
         ]);
@@ -40,7 +41,7 @@ class ProcessCoverageJobTest extends \Codeception\Test\Unit
             'project_id' => 1,
             'project_name' => 'Test'
         ];
-        App::instance(Client::class, $this->gitlabMock);
+        FacadesApp::instance(Client::class, $this->gitlabMock);
     }
 
     public function testSimplePath ()

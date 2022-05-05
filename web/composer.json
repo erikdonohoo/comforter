@@ -79,7 +79,10 @@
             "php -d memory_limit=2G $(which composer) install"
         ],
         "test": [
-            "php vendor/bin/codecept run"
+            "php vendor/bin/phpunit"
+        ],
+        "test:ci": [
+            "php vendor/bin/phpunit --coverage --coverage-html --coverage-xml"
         ]
     }
 }

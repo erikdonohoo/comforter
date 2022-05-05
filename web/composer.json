@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.4.0",
+        "php": "^8.0.13",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "graham-campbell/gitlab": "^4.3",
@@ -35,7 +35,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "platform": {
-            "php": "7.4.11"
+            "php": "8.0.13"
         }
     },
     "extra": {

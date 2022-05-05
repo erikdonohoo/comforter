@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Unit\Models;
 
 use App\Models\App;
 use App\Models\Commit;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class AppTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     private App $appModel;
     private Carbon $now;

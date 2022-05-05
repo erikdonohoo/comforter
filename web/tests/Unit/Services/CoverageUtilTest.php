@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Feature\Models;
+namespace Tests\Unit\Services;
 
 use App\Services\CoverageUtil;
 use Illuminate\Support\Facades\App;

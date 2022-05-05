@@ -1,9 +1,9 @@
 const fs = require('fs');
 
-const statements = /<metrics files="[0-9]+" [^/]+ statements="([0-9]+)/g;
-const coveredstatements = /<metrics files="[0-9]+" [^/]+ coveredstatements="([0-9]+)/g;
+const statements = /<directory name="\/">\W+<totals>\W+<lines .*executable="([0-9]+)/g;
+const coveredstatements = /<directory name="\/">\W+<totals>\W+<lines .*executed="([0-9]+)/g;
 
-const fileStr = fs.readFileSync('tests/_output/coverage.xml');
+const fileStr = fs.readFileSync('tests/output/xml/index.xml');
 
 let regex = null;
 

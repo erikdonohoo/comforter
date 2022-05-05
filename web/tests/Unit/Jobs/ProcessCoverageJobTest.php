@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Jobs;
+namespace Tests\Unit\Jobs;
 
 use App\Jobs\ProcessCoverage;
 use App\Models\App;
 use App\Models\Commit;
 use Gitlab\Client;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\App as FacadesApp;
 use Mockery;
 use Mockery\MockInterface;
@@ -17,7 +17,7 @@ use Tests\TestCase;
  */
 class ProcessCoverageJobTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     private Commit $commit;
     private array $data;

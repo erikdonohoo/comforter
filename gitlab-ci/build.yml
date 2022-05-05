@@ -63,6 +63,7 @@ build-client-mr:
         changes:
             - client/**/*
             - gitlab-ci/build.yml
+            - gitlab-ci/test.yml
     cache:
         key: comforter-vendor
         policy: pull-push

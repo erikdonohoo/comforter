@@ -54,7 +54,7 @@ class CoverageController extends Controller
 
         if ($request->zip) {
             $zip = new ZipArchive();
-            $result = $zip->open($request->zip);
+            $result = $zip->open($request->zip, ZipArchive::OVERWRITE);
 
             if ($result !== true) {
                 Log::critical('Failed to extract zip archive', [

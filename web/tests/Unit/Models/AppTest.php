@@ -1,35 +1,33 @@
 <?php
 
-namespace Models;
+namespace Tests\Unit\Models;
 
 use App\Models\App;
 use App\Models\Commit;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Carbon;
+use Tests\TestCase;
 
-/**
- * AppTest class
- *
- * @property App $app
- * @property Carbon $now
- */
-class AppTest extends \Codeception\Test\Unit
+class AppTest extends TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+    use DatabaseTransactions;
 
-    protected function _before()
+    private App $appModel;
+    private Carbon $now;
+
+    protected function setUp (): void
     {
+        parent::setUp();
         $this->now = Carbon::now();
-        $this->app = factory(App::class)->create([
+        $this->appModel = factory(App::class)->create([
             'primary_branch_name' => 'master'
         ]);
         Carbon::setTestNow($this->now);
     }
 
-    protected function _after()
+    protected function tearDown (): void
     {
+        parent::tearDown();
         Carbon::setTestNow();
     }
 
@@ -37,8 +35,8 @@ class AppTest extends \Codeception\Test\Unit
     {
         /** @var Commit $commit */
         $commit = factory(Commit::class)->make();
-        $commit->app()->associate($this->app)->save();
-        $commitList = $this->app->commits;
+        $commit->app()->associate($this->appModel)->save();
+        $commitList = $this->appModel->commits;
         $this->assertCount(1, $commitList);
         $listCommit = $commitList->first();
         $this->assertTrue($commit->is($listCommit));
@@ -48,16 +46,16 @@ class AppTest extends \Codeception\Test\Unit
     {
         /** @var Commit $commit */
         $commit = factory(Commit::class)->make(['branch_name' => 'master']);
-        $commit->app()->associate($this->app)->save();
-        $latestCommit = $this->app->getLatestCommit();
+        $commit->app()->associate($this->appModel)->save();
+        $latestCommit = $this->appModel->getLatestCommit();
         $this->assertTrue($commit->is($latestCommit));
 
         $newCommit = factory(Commit::class)->make([
             'branch_name' => 'master',
             'updated_at' => Carbon::now()->addHour()
         ]);
-        $newCommit->app()->associate($this->app)->save();
-        $latestCommit = $this->app->getLatestCommit();
+        $newCommit->app()->associate($this->appModel)->save();
+        $latestCommit = $this->appModel->getLatestCommit();
         $this->assertFalse($commit->is($latestCommit));
         $this->assertTrue($newCommit->is($latestCommit));
     }
@@ -66,7 +64,7 @@ class AppTest extends \Codeception\Test\Unit
     {
         /** @var Commit $commit */
         $commit = factory(Commit::class)->make(['branch_name' => 'master']);
-        $commit->app()->associate($this->app)->save();
-        $this->assertEquals($commit->coverage, $this->app->coverage);
+        $commit->app()->associate($this->appModel)->save();
+        $this->assertEquals($commit->coverage, $this->appModel->coverage);
     }
 }

@@ -4,25 +4,23 @@
     <include>
       <directory suffix=".php">./app</directory>
     </include>
+    <exclude>
+      <directory suffix=".php">./app/Http/Controllers</directory>
+    </exclude>
     <report>
-      <html outputDirectory="./tests/coverage/html"/>
-      <xml outputDirectory="./tests/coverage/xml" />
+      <html outputDirectory="./tests/output/html"/>
+      <xml outputDirectory="./tests/output/xml" />
     </report>
   </coverage>
   <testsuites>
     <testsuite name="Unit">
       <directory suffix="Test.php">./tests/Unit</directory>
     </testsuite>
-    <testsuite name="Endpoint">
-      <directory suffix="Test.php">./tests/Endpoint</directory>
-    </testsuite>
   </testsuites>
   <php>
     <server name="APP_ENV" value="testing"/>
     <server name="BCRYPT_ROUNDS" value="4"/>
     <server name="CACHE_DRIVER" value="array"/>
-    <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
-    <!-- <server name="DB_DATABASE" value=":memory:"/> -->
     <server name="MAIL_MAILER" value="array"/>
     <server name="QUEUE_CONNECTION" value="sync"/>
     <server name="SESSION_DRIVER" value="array"/>

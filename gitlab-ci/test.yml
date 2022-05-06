@@ -62,7 +62,7 @@ php-unit-tests-mr:
         - echo -e "extension=pcov.so\npcov.enabled=1" > /etc/php.d/01-pcov.ini
 
         # Run PHP unit tests with code coverage
-        - composer test unit -- --coverage --coverage-html --coverage-xml
+        - php artisan test -c phpunit-unit.xml --testsuite Unit
 
         # Upload code coverage results to Comforter
         - export TOTAL_LINES=$(node parse-coverage.js --lines)
@@ -81,7 +81,7 @@ php-api-tests-mr:
         - echo -e "extension=pcov.so\npcov.enabled=1" > /etc/php.d/01-pcov.ini
 
         # Run PHP unit tests with code coverage
-        - composer test api -- --coverage --coverage-html --coverage-xml
+        - php artisan test -c phpunit-api.xml --testsuite Endpoint
 
         # Upload code coverage results to Comforter
         - export TOTAL_LINES=$(node parse-coverage.js --lines)

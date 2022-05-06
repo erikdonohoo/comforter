@@ -1,15 +1,15 @@
 <?php
-namespace Models;
+
+namespace Tests\Unit\Models;
 
 use App\Models\App;
 use App\Models\Commit;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
-class CommitTest extends \Codeception\Test\Unit
+class CommitTest extends TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+    use DatabaseTransactions;
 
     public function testCommitRelation()
     {

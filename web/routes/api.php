@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CoverageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,11 +19,11 @@ Route::group([
     'middleware' => []
 ], function () {
     // TODO: Remove this old redundant route after rebuilding comforter-cli
-    Route::post('apps/{app}/coverage', 'CoverageController@addCommit');
+    Route::post('apps/{app}/coverage', [CoverageController::class, 'addCommit']);
 
-    Route::post('commits', 'CoverageController@addCommit');
-    Route::get('apps/{app}', 'CoverageController@getApp');
-    Route::get('apps', 'CoverageController@getApps');
+    Route::post('commits', [CoverageController::class, 'addCommit']);
+    Route::get('apps/{app}', [CoverageController::class, 'getApp']);
+    Route::get('apps', [CoverageController::class, 'getApps']);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

@@ -19,7 +19,7 @@ class AppTest extends TestCase
     {
         parent::setUp();
         $this->now = Carbon::now();
-        $this->appModel = App::factory()->create([
+        $this->appModel = factory(App::class)->create([
             'primary_branch_name' => 'master'
         ]);
         Carbon::setTestNow($this->now);
@@ -34,7 +34,7 @@ class AppTest extends TestCase
     public function testCommitsRelation ()
     {
         /** @var Commit $commit */
-        $commit = Commit::factory()->make();
+        $commit = factory(Commit::class)->make();
         $commit->app()->associate($this->appModel)->save();
         $commitList = $this->appModel->commits;
         $this->assertCount(1, $commitList);
@@ -45,12 +45,12 @@ class AppTest extends TestCase
     public function testGetLatestCommit ()
     {
         /** @var Commit $commit */
-        $commit = Commit::factory()->make(['branch_name' => 'master']);
+        $commit = factory(Commit::class)->make(['branch_name' => 'master']);
         $commit->app()->associate($this->appModel)->save();
         $latestCommit = $this->appModel->getLatestCommit();
         $this->assertTrue($commit->is($latestCommit));
 
-        $newCommit = Commit::factory()->make([
+        $newCommit = factory(Commit::class)->make([
             'branch_name' => 'master',
             'updated_at' => Carbon::now()->addHour()
         ]);
@@ -63,7 +63,7 @@ class AppTest extends TestCase
     public function testGetCoverageAttribute ()
     {
         /** @var Commit $commit */
-        $commit = Commit::factory()->make(['branch_name' => 'master']);
+        $commit = factory(Commit::class)->make(['branch_name' => 'master']);
         $commit->app()->associate($this->appModel)->save();
         $this->assertEquals($commit->coverage, $this->appModel->coverage);
     }

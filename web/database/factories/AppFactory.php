@@ -1,19 +1,16 @@
 <?php
 
-namespace Database\Factories;
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\App;
+use Faker\Generator as Faker;
 
-class AppFactory extends Factory
-{
-    public function definition ()
-    {
-        return [
-            'name' => $this->faker->name,
-            'gitlab_project_id' => $this->faker->numberBetween(1, 1000000),
-            'primary_branch_name' => 'master',
-            'namespace' => 'code',
-            'repo_path' => "code/{$this->faker->name}"
-        ];
-    }
-}
+$factory->define(App::class, function (Faker $faker) {
+    return [
+        'name' => $faker->name,
+        'gitlab_project_id' => $faker->numberBetween(1, 1000000),
+        'primary_branch_name' => 'master',
+        'namespace' => 'code',
+        'repo_path' => "code/$faker->name"
+    ];
+});

@@ -13,9 +13,9 @@ class CommitTest extends TestCase
 
     public function testCommitRelation()
     {
-        $app = factory(App::class)->create();
+        $app = App::factory()->create();
         /** @var Commit $commit */
-        $commit = factory(Commit::class)->make();
+        $commit = Commit::factory()->make();
         $commit->app()->associate($app)->save();
         $commit->refresh();
         $this->assertTrue($app->is($commit->app));
@@ -23,10 +23,10 @@ class CommitTest extends TestCase
 
     public function testBaseCommitRelation()
     {
-        $app = factory(App::class)->create();
+        $app = App::factory()->create();
         /** @var Commit $commit */
-        $commit = factory(Commit::class)->create(['app_id' => $app->getKey()]);
-        $otherCommit = factory(Commit::class)->create(['app_id' => $app->getKey()]);
+        $commit = Commit::factory()->create(['app_id' => $app->getKey()]);
+        $otherCommit = Commit::factory()->create(['app_id' => $app->getKey()]);
         $commit->comparison_sha = $otherCommit->sha;
         $commit->save();
         static::assertSame($otherCommit->getKey(), $commit->getBaseCommit()->getKey());
@@ -34,9 +34,9 @@ class CommitTest extends TestCase
 
     public function testBaseCommitMissingComparisonSha()
     {
-        $app = factory(App::class)->create();
+        $app = App::factory()->create();
         /** @var Commit $commit */
-        $commit = factory(Commit::class)->create(['app_id' => $app->getKey()]);
+        $commit = Commit::factory()->create(['app_id' => $app->getKey()]);
         static::assertNotNull($commit->getBaseCommit());
     }
 }

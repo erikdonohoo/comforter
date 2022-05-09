@@ -66,8 +66,8 @@ class CoverageControllerTest extends TestCase
 
     public function testGetAppHappyPath ()
     {
-        $app = factory(ModelsApp::class)->create();
-        $commits = factory(Commit::class, 2)->create(['app_id' => $app->getKey()]);
+        $app = ModelsApp::factory()->create();
+        $commits = Commit::factory()->count(2)->create(['app_id' => $app->getKey()]);
         $baseCommit = $commits[0];
         $otherCommit = $commits[1];
         $otherCommit->comparison_sha = $baseCommit->sha;

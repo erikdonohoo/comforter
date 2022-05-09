@@ -27,11 +27,11 @@ class ProcessCoverageJobTest extends TestCase
     {
         parent::setUp();
         $this->gitlabMock = Mockery::mock(Client::class);
-        $app = factory(App::class)->create([
+        $app = App::factory()->create([
             'gitlab_project_id' => 1,
             'name' => 'Test'
         ]);
-        $this->commit = factory(Commit::class)->make([
+        $this->commit = Commit::factory()->make([
             'total_lines' => 10,
             'total_lines_covered' => 5,
             'coverage' => '50.000',

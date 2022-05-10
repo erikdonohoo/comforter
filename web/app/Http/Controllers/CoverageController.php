@@ -8,8 +8,10 @@ use App\Models\App;
 use App\Models\Commit;
 use App\Services\CoverageUtil;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use ZipArchive;
 
@@ -54,7 +56,7 @@ class CoverageController extends Controller
 
         if ($request->zip) {
             $zip = new ZipArchive();
-            $result = $zip->open($request->zip, ZipArchive::OVERWRITE);
+            $result = $zip->open($request->zip, ZipArchive::CREATE);
 
             if ($result !== true) {
                 Log::critical('Failed to extract zip archive', [
@@ -68,10 +70,15 @@ class CoverageController extends Controller
             }
 
             // First item is always a folder we want to remove
+            $uuid = Str::uuid();
+            $tmpPath = "/tmp/{$uuid}";
             $newPath = "coverage/{$request->name}/{$request->branch}";
             Storage::disk('public')->makeDirectory($newPath);
-            $zip->extractTo($newPath);
+            $dirName = trim($zip->getNameIndex(0), '/');
+            $zip->extractTo($tmpPath);
             $zip->close();
+            File::copyDirectory("{$tmpPath}/{$dirName}", public_path("{$newPath}"));
+            File::deleteDirectory("{$newPath}/{$dirName}");
         }
 
         // Dispatch job to handle GitLab communication and commit update

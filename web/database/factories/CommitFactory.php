@@ -1,19 +1,23 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Models\Commit;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Commit::class, function (Faker $faker) {
-    $totalLines = $faker->numberBetween(1000, 2000);
-    $totalCovered = $faker->numberBetween(999, $totalLines);
-    $coverage = number_format($totalCovered / $totalLines, 4);
-    return [
-        'branch_name' => 'master',
-        'sha' => $faker->sha256,
-        'coverage' => $coverage,
-        'total_lines' => $totalLines,
-        'total_lines_covered' => $totalCovered
-    ];
-});
+class CommitFactory extends Factory
+{
+    public function definition()
+    {
+        $totalLines = $this->faker->numberBetween(1000, 2000);
+        $totalCovered = $this->faker->numberBetween(999, $totalLines);
+        $coverage = number_format($totalCovered / $totalLines, 4);
+
+        return [
+            'branch_name' => 'master',
+            'sha' => $this->faker->sha256,
+            'coverage' => $coverage,
+            'total_lines' => $totalLines,
+            'total_lines_covered' => $totalCovered
+        ];
+    }
+}

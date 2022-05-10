@@ -52,7 +52,7 @@ build-web:
         - php -d memory_limit=2G /usr/local/bin/composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
     artifacts:
         paths:
-            - web/vendor/
+            - web
 
 build-client-mr:
     extends: .build-client-chrome-template

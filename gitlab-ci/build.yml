@@ -14,7 +14,6 @@ build-web-mr:
     extends: .build-template
     only:
         refs:
-            - master
             - merge_requests
         changes:
             - web/**/*
@@ -29,7 +28,7 @@ build-web-mr:
     script:
         - cd web/
         - cp .env.example .env
-        - /usr/bin/php7 /usr/local/bin/composer install
+        - php /usr/local/bin/composer install
         - yarn install
     artifacts:
         paths:
@@ -49,7 +48,7 @@ build-web:
             - web/node_modules
     script:
         - cd web/
-        - /usr/bin/php7 /usr/local/bin/composer install
+        - php -d memory_limit=2G /usr/local/bin/composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
     artifacts:
         paths:
             - web/vendor/

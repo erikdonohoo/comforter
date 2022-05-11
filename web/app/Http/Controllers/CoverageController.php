@@ -70,15 +70,15 @@ class CoverageController extends Controller
             }
 
             // First item is always a folder we want to remove
-            $uuid = Str::uuid();
-            $tmpPath = "/tmp/{$uuid}";
+            // $uuid = Str::uuid();
+            // $tmpPath = "/tmp/{$uuid}";
             $newPath = "coverage/{$request->name}/{$request->branch}";
             Storage::disk('public')->makeDirectory($newPath);
-            $dirName = trim($zip->getNameIndex(0), '/');
-            $zip->extractTo($tmpPath);
+            // $dirName = trim($zip->getNameIndex(0), '/');
+            $zip->extractTo($newPath);
             $zip->close();
-            File::copyDirectory("{$tmpPath}/{$dirName}", public_path("{$newPath}"));
-            File::deleteDirectory("{$newPath}/{$dirName}");
+            // File::copyDirectory("{$tmpPath}/{$dirName}", public_path("{$newPath}"));
+            // File::deleteDirectory("{$newPath}/{$dirName}");
         }
 
         // Dispatch job to handle GitLab communication and commit update

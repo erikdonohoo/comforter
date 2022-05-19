@@ -4,8 +4,8 @@
     </IfModule>
 
     # Update upload limit
-    php_value upload_max_filesize 10M
-    php_value post_max_size 10M
+    php_value upload_max_filesize 20M
+    php_value post_max_size 20M
     LimitRequestBody 10485760
 
     RewriteEngine On

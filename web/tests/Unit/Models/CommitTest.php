@@ -36,7 +36,7 @@ class CommitTest extends TestCase
     {
         $app = App::factory()->create();
         /** @var Commit $commit */
-        $commit = Commit::factory()->create(['app_id' => $app->getKey()]);
+        $commit = Commit::factory()->create(['app_id' => $app->getKey(), 'branch_name' => 'master']);
         static::assertNotNull($commit->getBaseCommit());
     }
 }

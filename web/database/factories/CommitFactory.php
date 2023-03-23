@@ -13,7 +13,7 @@ class CommitFactory extends Factory
         $coverage = number_format($totalCovered / $totalLines, 4);
 
         return [
-            'branch_name' => 'master',
+            'branch_name' => $this->faker->word,
             'sha' => $this->faker->sha256,
             'coverage' => $coverage,
             'total_lines' => $totalLines,

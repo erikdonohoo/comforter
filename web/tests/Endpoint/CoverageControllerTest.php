@@ -44,7 +44,7 @@ class CoverageControllerTest extends TestCase
         ]);
         $this->withHeader('Accept', 'application/json');
         $this->withHeader('Content-Type', 'multipart/form-data');
-        $response = $this->post('api/commits', [
+        $response = $this->postJson('api/commits', [
             'branch' => 'master',
             'commit' => 'hash',
             'project' => 1,
@@ -65,22 +65,75 @@ class CoverageControllerTest extends TestCase
         });
     }
 
+    public function testAddNewCoverageFromLines ()
+    {
+        $this->coverageMock->shouldReceive('getCoverageFromLines')->andReturn([
+            'totalLines' => 100,
+            'totalCovered' => 90,
+            'coverage' => '90'
+        ]);
+        $this->withHeader('Accept', 'application/json');
+        $this->withHeader('Content-Type', 'multipart/form-data');
+        $response = $this->postJson('api/commits', [
+            'branch' => 'master',
+            'commit' => 'hash',
+            'project' => 1,
+            'name' => 'test',
+            'totalLines' => 100,
+            'totalCovered' => 90,
+            'merge-base' => 'base',
+            'merge-request-iid' => 'iid',
+            'zip' => UploadedFile::fake()->create('zip.zip', 1024)
+        ]);
+
+        $response->assertOk();
+        $response->assertJsonFragment(['coverage' => '90']);
+
+        Bus::assertDispatched(function (ProcessCoverage $job) {
+            return $job->data['project_id'] === 1 &&
+                $job->data['project_name'] === 'test' &&
+                $job->data['mergeRequestId'] === 'iid' &&
+                $job->data['mergeBase'] === 'base';
+        });
+    }
+
     public function testGetAppHappyPath ()
     {
         $app = ModelsApp::factory()->create();
         $commits = Commit::factory()->count(2)->create(['app_id' => $app->getKey()]);
         $baseCommit = $commits[0];
+        $baseCommit->branch_name = 'master';
+        $baseCommit->save();
         $otherCommit = $commits[1];
         $otherCommit->comparison_sha = $baseCommit->sha;
         $otherCommit->save();
 
         $this->withHeader('Accept', 'application/json');
         $this->withHeader('Content-Type', 'multipart/form-data');
-        $response = $this->get("api/apps/{$app->getKey()}");
+        $response = $this->getJson("api/apps/{$app->getKey()}");
         $response->assertOk();
 
         $result = new ModelsApp(json_decode($response->baseResponse->content(), true));
         $commit = Collection::make($result->commits)->firstWhere('id', $otherCommit->getKey());
         static::assertSame($commit['base_commit']['id'], $baseCommit->id);
+    }
+
+    public function testGetAppsHappyPath ()
+    {
+        $apps = ModelsApp::factory()->count(3)->create();
+        $apps->each(fn ($app) =>
+            Commit::factory()->create([
+                'branch_name' => 'master',
+                'app_id' => $app->getKey()
+            ])
+        );
+
+        $response = $this->getJson('api/apps');
+        $response->assertOk();
+        $json = $response->json();
+        $compareApp = $apps->first();
+        $responseApp = new ModelsApp(collect($json)->firstWhere('id', $compareApp->getKey()));
+        static::assertNotNull($responseApp);
+        static::assertArrayHasKey('latest_commit', $responseApp);
     }
 }

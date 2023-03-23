@@ -48,4 +48,21 @@ class CoverageUtilTest extends TestCase
         $this->assertEquals($result['totalLines'], 15);
         $this->assertEquals($result['totalCovered'], 13);
     }
+
+    public function testGetCoverageFromLines()
+    {
+        $result = $this->util->getCoverageFromLines('100', '90');
+        static::assertSame([
+            'coverage' => 90.0,
+            'totalLines' => 100,
+            'totalCovered' => 90
+        ], $result);
+
+        $result = $this->util->getCoverageFromLines('56', '43');
+        static::assertSame([
+            'coverage' => 76.7857,
+            'totalLines' => 56,
+            'totalCovered' => 43
+        ], $result);
+    }
 }

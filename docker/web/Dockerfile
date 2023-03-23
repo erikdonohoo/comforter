@@ -4,8 +4,8 @@ RUN yum -y upgrade
 
 RUN yum -y install wget httpd24 mod24_ssl git zip gcc glibc glibc-common gd gd-devel make
 
-# PHP 8.0
-RUN amazon-linux-extras enable php8.0
+# PHP 8.1
+RUN amazon-linux-extras enable php8.1
 RUN yum clean metadata
 RUN yum -y install php php-{pear,pecel-xdebug,process,cgi,common,curl,mbstring,gd,mysqlnd,gettext,bcmath,json,xml,fpm,intl,zip,imap,xdebug,devel,pdo}
 RUN pecl install xdebug

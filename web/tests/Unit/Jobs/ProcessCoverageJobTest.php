@@ -67,7 +67,7 @@ class ProcessCoverageJobTest extends TestCase
         ])->once();
 
 
-        ProcessCoverage::dispatchNow($this->commit, $this->data);
+        ProcessCoverage::dispatchSync($this->commit, $this->data);
         $this->commit = Commit::whereSha($this->commit->sha)->first();
         static::assertSame($this->commit->comparison_sha, $this->commit->sha);
     }
@@ -96,6 +96,6 @@ class ProcessCoverageJobTest extends TestCase
         ])->once();
 
 
-        ProcessCoverage::dispatchNow($this->commit, $this->data);
+        ProcessCoverage::dispatchSync($this->commit, $this->data);
     }
 }
